@@ -1,0 +1,28 @@
+$padding:0.8em;
+$margin:1em;
+$font_size:16px;
+$font_weight:100;
+$border_radius:7px;
+
+$colors:(
+    "dark":#0b0e11,
+    'component':#181a20,
+    'primary':#32dbc6,
+    'warning':#fcd535,
+    'white':#fff,
+    'disabled':#333,
+    'light':#c4c4c4,
+    'grey':#939596,
+    'none':none
+);
+$break_points:(
+    'lg':1024px,
+    'md':800px,
+    'sm':578px,
+);
+
+$text_align:(
+    'center':center,
+    'start':right,
+    'end':left
+)

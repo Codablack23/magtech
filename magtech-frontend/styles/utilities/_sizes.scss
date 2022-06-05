@@ -1,0 +1,68 @@
+@for $x from 1 through 20 {
+    $selector:$x * 5;
+    $width :$selector * 1%;
+    $height : $selector * 1vh;
+    
+    .mg-w-#{$selector}{
+      width: $width;
+    }
+    .mg-min-w-#{$selector}{
+     min-width: $width;
+    }
+    .mg-max-w-#{$selector}{
+     max-width: $width;
+    }
+    .mg-vh-#{$selector}{
+     height: $height;
+   }
+   .mg-min-vh-#{$selector}{
+     min-height: $height;
+    }
+    .mg-max-vh-#{$selector}{
+     max-height: $height;
+    }
+ 
+   @include md{
+       
+    .mg-w-md-#{$selector}{
+     width: $width;
+   }
+   .mg-min-w-md-#{$selector}{
+    min-width: $width;
+   }
+   .mg-max-w-md-#{$selector}{
+    max-width: $width;
+   }
+   .mg-vh-md-#{$selector}{
+    height: $height;
+  }
+  .mg-min-vh-md-#{$selector}{
+    min-height: $height;
+   }
+   .mg-max-vh-md-#{$selector}{
+    max-height: $height;
+   }
+   }
+      
+   @include sm{
+       
+     .mg-w-sm-#{$selector}{
+      width: $width;
+    }
+    .mg-min-w-sm-#{$selector}{
+     min-width: $width;
+    }
+    .mg-max-w-sm-#{$selector}{
+     max-width: $width;
+    }
+    .mg-vh-sm-#{$selector}{
+     height: $height;
+   }
+   .mg-min-vh-sm-#{$selector}{
+     min-height: $height;
+    }
+    .mg-max-vh-sm-#{$selector}{
+     max-height: $height;
+    }
+    }
+  }

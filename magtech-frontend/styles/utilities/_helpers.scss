@@ -1,0 +1,11 @@
+@each $key,$var in $colors {
+  .mg-border-#{$key}{
+      border-color: $var !important;
+  }
+  .mg-outline-#{$key}{
+    outline-color: $var !important;
+  }
+}
+.mg-outline-transparent{
+    outline: none;
+}

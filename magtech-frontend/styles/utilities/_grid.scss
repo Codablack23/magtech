@@ -1,0 +1,29 @@
+.row{
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    gap: 30px;
+    
+    @for $i from 1 through 12{
+      .col-#{$i}{
+        grid-column: span $i;
+        padding: $padding;
+      }
+    }
+    @include md{
+   
+      @for $i from 1 through 12{
+        .col-md-#{$i}{
+          grid-column: span $i;
+          padding: $padding;
+        }
+      }
+    }
+    @include sm{
+      @for $i from 1 through 12{
+        .col-sm-#{$i}{
+          grid-column: span $i;
+          padding: $padding;
+        }
+      }
+    }
+  }

@@ -1,0 +1,10 @@
+@mixin md {
+    @media screen and (max-width:map-get($break_points,"md")) {
+        @content;
+    }
+};
+@mixin  sm {
+    @media screen and (max-width:map-get($break_points,"sm")) {
+        @content;
+    }
+};

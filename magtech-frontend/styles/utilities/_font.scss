@@ -1,0 +1,25 @@
+@for $i from 12 through 40 {
+    .mg-small-#{$i}{
+      font-size: $i * 1px;
+    }
+    @include md{
+     .mg-small-md-#{$i}{
+       font-size: $i * 1px;
+     }
+    }
+    
+    @include sm{
+     .mg-small-sm-#{$i}{
+       font-size: $i * 1px;
+     }
+     }
+}
+.mg-font-bold{
+   font-weight: 600;
+}
+.mg-font-regular{
+  font-weight: 400
+}
+.mg-font-light{
+  font-weight: 300;
+}
