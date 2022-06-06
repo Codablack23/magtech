@@ -9,10 +9,14 @@ export default function NavBar({pageType}){
             navbar.style.maxHeight = "70vh"
         }
     }
-    const scrollToSection=(sectionName)=>{
-        const section = document.querySelector(`#${sectionName}`)
-        console.log(section.scrollTop)
-        // window.scrollTo(section.scrollTop)
+    const closeNav=()=>{
+        const navbar = document.querySelector('#navbar')
+        navbar.style.maxHeight = null;
+    }
+    const scrollToSection=(e,sectionName)=>{
+        const section = document.querySelector(`#${sectionName}`)  
+       section.scrollIntoView(true)
+       closeNav()
     }
     return(
         <nav className="mg-nav mg-container mg-bg-component">
@@ -27,12 +31,14 @@ export default function NavBar({pageType}){
             <div className="mg-navbar mg-navbar-right" id='navbar'>
             {pageType !== "account"?
                 <p className="mg-nav-links mg-text-primary"
-                onClick={()=>scrollToSection('pricing')}
+                onClick={(e)=>scrollToSection(e,'pricing')}
                 > Pricing</p>
                 :null
             }
             {pageType!=="account"?
-                <p className="mg-nav-links mg-text-primary"> How it works</p>
+                <p className="mg-nav-links mg-text-primary"
+                onClick={(e)=>scrollToSection(e,'how-it-works')}
+                > How it works</p>
                 :null
             }
             {pageType !== "account"?

@@ -26,7 +26,7 @@ export default function PricingContainer(){
            <div className="mg-w-90" style={{
                margin:"1em auto"
            }}>
-            <div className="row">
+            <div className="row align-center w-100">
              {bots.map(bot=>(
                <PriceBot bot={bot}/>
              ))}
