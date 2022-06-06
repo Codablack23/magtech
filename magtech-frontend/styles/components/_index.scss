@@ -27,6 +27,7 @@
         align-items: center;
         flex-wrap: wrap;
         .mg-nav-links{
+        cursor: pointer;
          display:flex;
          align-items: center;
          justify-content: center;
@@ -83,6 +84,7 @@
               @extend .mg-text-warning;
               padding-left: $padding;
               font-size: $font_size;
+              width: 70%;
           }
           .mg-subscribe-btn{
               border-radius: 0 7px 7px 0;
@@ -125,6 +127,11 @@
       }
       .mg-all-footer-links{
         display: block;
+    }
+  }
+  @include sm{
+    .mg-news-letter{
+        margin: 1em 0;
     }
   }
 }
@@ -196,4 +203,16 @@
     text-align: center;
     margin: 1em auto;
     transition: all ease-in 0.2s;
+}
+
+.mg-how-it-works{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    .mg-description{
+        max-width: 900px;
+        margin: 1em auto;
+    }
 }

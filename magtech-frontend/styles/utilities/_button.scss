@@ -1,0 +1,22 @@
+@each $key,$var in $colors{
+  .mg-btn-#{$key}{
+      @include button;
+      background-color: $var;
+      border: none;
+      @if $var != none{
+       color:lighten($var,50)
+      }
+
+  }
+  
+  @if $var != none{
+    .mg-btn-outline-#{$key}{
+        @include button;
+        border: 1px solid $var;
+        color: $var;
+        background: none;
+       
+    }
+  }
+
+}

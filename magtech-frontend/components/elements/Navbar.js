@@ -9,6 +9,11 @@ export default function NavBar({pageType}){
             navbar.style.maxHeight = "70vh"
         }
     }
+    const scrollToSection=(sectionName)=>{
+        const section = document.querySelector(`#${sectionName}`)
+        console.log(section.scrollTop)
+        // window.scrollTo(section.scrollTop)
+    }
     return(
         <nav className="mg-nav mg-container mg-bg-component">
             <div className="mg-navbrand-container mg-w-md-100 mg-d-flex mg-align-center mg-justify-between">
@@ -21,19 +26,18 @@ export default function NavBar({pageType}){
             </div>
             <div className="mg-navbar mg-navbar-right" id='navbar'>
             {pageType !== "account"?
-                <Link href={"/"}>
-                <a className="mg-nav-links mg-text-primary"> Pricing</a>
-               </Link>:null
+                <p className="mg-nav-links mg-text-primary"
+                onClick={()=>scrollToSection('pricing')}
+                > Pricing</p>
+                :null
             }
             {pageType!=="account"?
-                <Link href={"/"}>
-                <a className="mg-nav-links mg-text-primary"> How it works</a>
-               </Link>:null
+                <p className="mg-nav-links mg-text-primary"> How it works</p>
+                :null
             }
             {pageType !== "account"?
-              <Link href={"/"}>
-              <a className="mg-nav-links mg-text-primary"> Contact us</a>
-             </Link>:null
+              <p className="mg-nav-links mg-text-primary"> Contact us</p>
+              :null
 
             }
              <Link href={"/account/"}>

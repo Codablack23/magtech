@@ -21,9 +21,9 @@ export default function PricingContainer(){
 
     ]
     return(
-        <div>
+        <div id="pricing">
             <p className="mg-text-disabled mg-text-center mg-small-30">Investment Bots and Pricing</p>
-           <div className="mg-w-80" style={{
+           <div className="mg-w-90" style={{
                margin:"1em auto"
            }}>
             <div className="row">

@@ -4,13 +4,13 @@
     }
     @include md{
      .mg-small-md-#{$i}{
-       font-size: $i * 1px;
+       font-size: $i * 1px !important;
      }
     }
     
     @include sm{
      .mg-small-sm-#{$i}{
-       font-size: $i * 1px;
+       font-size: $i * 1px !important;
      }
      }
 }

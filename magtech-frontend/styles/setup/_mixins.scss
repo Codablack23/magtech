@@ -8,8 +8,12 @@
         @content;
     }
 };
-@mixin  button {
-    height: 50px;
+@mixin  button() {
+    outline: none;
+    height: 42px;
     padding: $padding;
     border-radius:$border_radius;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
 }

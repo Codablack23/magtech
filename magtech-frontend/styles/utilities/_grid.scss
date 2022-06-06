@@ -1,8 +1,12 @@
 .row{
     display: grid;
+    max-width: 100%;
     grid-template-columns: repeat(12,1fr);
     gap: 30px;
     
+    @include sm{
+      gap: 10px;
+    }
     @for $i from 1 through 12{
       .col-#{$i}{
         grid-column: span $i;

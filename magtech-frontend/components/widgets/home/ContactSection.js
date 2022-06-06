@@ -1,6 +1,6 @@
 export default function Contact(){
     return(
-        <section className="">
+        <section id="contact">
              <div className="mg-contact-form-container mg-bg-component mg-min-vh-70">
                <p className="mg-text-primary mg-text-center mg-small-30">Contact Us</p>
                <form action="" className="mg-account-form">

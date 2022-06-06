@@ -4,10 +4,10 @@ export default function Footer(){
     return(
      <div className="mg-footer-container">
        <footer className="mg-footer mg-container mg-bg-component">
-        <div className="mg-news-letter mg-w-35 mg-w-md-85 mg-w-sm-sm-95">
+        <div className="mg-news-letter mg-w-35 mg-w-md-90 mg-w-sm-100">
             <p className="mg-footer-logo mg-text-warning">Magtech</p>
             <p className="mg-text-grey mg-news-letter-text">Sign up for our newsletter</p>
-            <div className="mg-subscribe-container">
+            <div className="mg-subscribe-container mg-w-100">
                 <input type="email" placeholder="Email Address" />
                 <button className="mg-subscribe-btn">Subscribe</button>
             </div>
