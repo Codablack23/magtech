@@ -42,7 +42,10 @@ export default function NavBar({pageType}){
                 :null
             }
             {pageType !== "account"?
-              <p className="mg-nav-links mg-text-primary"> Contact us</p>
+            
+              <p className="mg-nav-links mg-text-primary"
+              onClick={(e)=>scrollToSection(e,'contact')}
+              > Contact us</p>
               :null
 
             }
