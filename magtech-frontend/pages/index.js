@@ -13,7 +13,7 @@ export default function Home() {
     <div className='mg-contain mg-home-container'>
       <div className="row mg-min-vh-90 align-center">
         <div className="col-6 col-md-12 mg-text-md-center">
-           <p className="mg-text-white mg-small-sm-28 mg-small-32 ">Lets Get You Started With Your investment</p><br />
+           <p className="mg-text-white mg-small-sm-26 mg-small-32 ">Lets Get You Started With Your investment</p><br />
            <p className='mg-text-white mg-small-sm-16 mg-small-20 mg-small-sm-16'>The Metric Dashboard brings all of your business insights under one roof. Revenue metrics, social, integrations - everything.</p>
            <br />
            <div className="">
