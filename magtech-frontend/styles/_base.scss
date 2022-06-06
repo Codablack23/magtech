@@ -74,6 +74,31 @@ a {
    object-fit: cover;
  }
 
+ @each $key,$var in $display {
+   .mg-d-#{$key}{
+     display: $var;
+   }
+   @include md{
+    .mg-d-md-#{$key}{
+      display: $var !important;
+    }
+   }
+   @include sm{
+    .mg-d-sm-#{$key}{
+      display: $var;
+    }
+   }
+ }
+
+ @each $key,$var in list {
+   .mg-d-flex.mg-justify-#{$key}{
+     justify-content: $var;
+   }
+   .mg-d-flex.mg-align-#{$key}{
+    align-items: $var;
+  }
+ }
+
  @import './utilities/grid';
  @import './utilities/font';
  @import './utilities/sizes';

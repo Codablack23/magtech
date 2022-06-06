@@ -4,7 +4,7 @@ export default function Footer(){
     return(
      <div className="mg-footer-container">
        <footer className="mg-footer mg-container mg-bg-component">
-        <div className="mg-news-letter">
+        <div className="mg-news-letter mg-w-35 mg-w-md-85 mg-w-sm-sm-95">
             <p className="mg-footer-logo mg-text-warning">Magtech</p>
             <p className="mg-text-grey mg-news-letter-text">Sign up for our newsletter</p>
             <div className="mg-subscribe-container">
@@ -12,7 +12,7 @@ export default function Footer(){
                 <button className="mg-subscribe-btn">Subscribe</button>
             </div>
         </div>
-        <div className="mg-all-footer-links">
+        <div className="mg-all-footer-links mg-text-md-center">
           <div className="mg-footer-links">
               <p className="mg-footer-link-heading mg-text-warning">Company</p>
               <Link href={"/"}>

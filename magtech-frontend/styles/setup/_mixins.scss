@@ -8,3 +8,8 @@
         @content;
     }
 };
+@mixin  button {
+    height: 50px;
+    padding: $padding;
+    border-radius:$border_radius;
+}

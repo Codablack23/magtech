@@ -20,6 +20,20 @@ $break_points:(
     'md':800px,
     'sm':578px,
 );
+$justify:(
+    "center":center,
+    "start":flex-start,
+    "end":flex-start,
+    "between":space-between,
+    "around":space-around,
+);
+$display:(
+    "flex":flex,
+    "block":block,
+    "inline":inline,
+    'inline-b':inline-block,
+    "none":none
+);
 
 $text_align:(
     'center':center,

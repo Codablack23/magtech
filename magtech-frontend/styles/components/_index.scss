@@ -5,9 +5,22 @@
     display: flex;
     align-items: center;
     flex-wrap:wrap;
+    transition: all ease-in 0.7s;
     .mg-nav-brand{
         font-size: $font_size * 1.5;
         font-weight: 600;
+    }
+    .mg-open-nav{
+        display: none;
+        cursor: pointer;
+        i{
+            font-size: 24px;
+            font-weight: 600;
+        }
+        @include md{
+            display: block;
+            margin-left: auto;
+        }
     }
     .mg-navbar{
         display: flex;
@@ -22,11 +35,23 @@
          margin-left: 2px;
          font-size: $font_size;
         }
+        @include md{
+            max-height: 0;
+            overflow: hidden;
+            display: block;
+            margin-left: auto;
+            width: 70%;
+            transition: all ease-in 0.7s;
+        }
     }
     .mg-navbar-right{
      margin-left: auto;
+     @include md{
+        margin-right: auto;
+      }
     }
 }
+
 .mg-footer-container{
     margin-top: $margin * 2;
 }
@@ -36,7 +61,6 @@
   align-items: flex-start;
   justify-content: space-between;
   .mg-news-letter{
-      width: 30%;
       .mg-news-letter-text{
           font-family: 'Roboto',sans-serif;
           margin: $margin 0;
@@ -77,7 +101,6 @@
   .mg-all-footer-links{
       display: flex;
       align-items: flex-start;
-      width: 55%;
   }
   .mg-footer-links{
       margin-left: $margin * 2.5;
@@ -94,6 +117,15 @@
          letter-spacing: 0;
 
       }
+  }
+  @include md{
+      display: block;
+      .mg-news-letter{
+          margin: 1.5em auto;
+      }
+      .mg-all-footer-links{
+        display: block;
+    }
   }
 }
 .mg-account-container{

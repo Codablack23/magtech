@@ -1,11 +1,25 @@
 import Link from 'next/link'
 export default function NavBar({pageType}){
+    const openNav=()=>{
+        const navbar = document.querySelector('#navbar')
+        if(navbar.style.maxHeight){
+            navbar.style.maxHeight = null
+        }
+        else{
+            navbar.style.maxHeight = "70vh"
+        }
+    }
     return(
         <nav className="mg-nav mg-container mg-bg-component">
+            <div className="mg-navbrand-container mg-w-md-100 mg-d-flex mg-align-center mg-justify-between">
             <Link href={'/'}>
             <a className="mg-nav-brand mg-text-primary">MAGTECH</a>
             </Link>
-            <div className="mg-navbar mg-navbar-right">
+            <p className='mg-open-nav' onClick={openNav}>
+                <i className="bi bi-justify mg-font-25 mg-text-primary"></i>
+            </p>
+            </div>
+            <div className="mg-navbar mg-navbar-right" id='navbar'>
             {pageType !== "account"?
                 <Link href={"/"}>
                 <a className="mg-nav-links mg-text-primary"> Pricing</a>
