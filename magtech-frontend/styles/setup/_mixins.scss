@@ -17,3 +17,8 @@
     font-size: 16px;
     cursor: pointer;
 }
+@mixin layout() {
+    @extend .mg-bg-dark;
+    width: 100%;
+    min-height: 100vh;
+}

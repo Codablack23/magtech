@@ -1,5 +1,5 @@
 import '../styles/style.scss'
-import LayoutDefault from '../components/layouts/LayoutDefault'
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function MyApp({ Component, pageProps }) {
   return (

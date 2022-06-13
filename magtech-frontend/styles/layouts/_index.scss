@@ -1,4 +1,6 @@
 .mg-layout{
-  width: 100%;
-  min-height: 100vh;
+  @include layout;
+}
+.mg__dashboard-layout{
+  @include layout;
 }
