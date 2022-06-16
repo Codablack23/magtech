@@ -1,7 +1,36 @@
 import Link from "next/link"
 import {toggleSideMenu} from '~/helpers'
 
-export default function SideMenu({isMobile}){
+const links = [
+  {
+    name:"Analytics",
+    url:"/dashboard",
+    icon:"bi bi-grid-fill",
+  },
+  {
+    name:"Bots",
+    url:"/dashboard/bots",
+    icon:"bi bi-robot",
+  },
+  {
+    name:"Withdrawals",
+    url:"/dashboard/withdrawals",
+    icon:"bi bi-arrow-repeat",
+  },
+  {
+    name:"Charts",
+    url:"/dashboard/charts",
+    icon:"bi bi-graph-up-arrow",
+  },
+  {
+    name:"Refferrals",
+    url:"/dashboard/referrals",
+    icon:"bi bi-gear",
+  },
+
+]
+
+export default function SideMenu({isMobile,title}){
     return(
         <div className={`mg__dashboard-menu mg-card ${isMobile?"mobile":""}`} id={isMobile?"side-menu":""}>
             <div className="brand mg-bg-dark">
@@ -12,43 +41,23 @@ export default function SideMenu({isMobile}){
                  ></p>
             </div>
            <div className="mg__dashboard-links">
-             <Link href={"/dashboard"}>
-               <a className="mg__dashboard-link">
-                <i className="bi bi-grid-fill"></i>
-                <span>Analytics</span>
-               </a>
-             </Link>
-             <Link href={"/dashboard"}>
-               <a className="mg__dashboard-link active">
-                <i className="bi bi-robot"></i>
-                <span>Bots</span>
-               </a>
-             </Link>
-             <Link href={"/dashboard"}>
-               <a className="mg__dashboard-link">
-                <i className="bi bi-arrow-repeat"></i>
-                <span>Withdrawals</span>
-               </a>
-             </Link>
-             <Link href={"/dashboard"}>
-               <a className="mg__dashboard-link">
-                <i className="bi bi-graph-up-arrow"></i>
-                <span>Charts</span>
-               </a>
-             </Link>
-             <Link href={"/dashboard"}>
-               <a className="mg__dashboard-link">
-                <i className="bi bi-arrow-left-right"></i>
-                <span>Refferrals</span>
-               </a>
-             </Link>
+            {links.map(link=>(
+                <Link href={link.url}>
+                <a className={`mg__dashboard-link ${title===link.name?"active":null}`}>
+                <i className={link.icon}></i>
+                <span>{link.name}</span>
+                </a>
+              </Link>
+            ))}
            </div>
-           <Link href={"/dashboard"}>
+           <div>
+           <Link href={"/dashboard/settings"}>
                <a className="mg__dashboard-settings-link">
                 <i className="bi bi-gear"></i>
                 <span>Settings</span>
                </a>
              </Link>
+           </div>
         </div>
     )
 }

@@ -224,6 +224,7 @@
     width: 280px;
     top: 0;
     left: 0;
+    z-index: 1000;
     transition: max-width ease 0.3s;
     max-width: 100%;
     background-color: map-get($map: $colors, $key:"component" );
@@ -250,6 +251,9 @@
       .mg__dashboard-link{
         i{
             margin-right: 20px;
+        }
+        &:hover{
+            @extend .mg-text-warning;
         }
         display: block;
         width: 100%;
@@ -305,6 +309,9 @@
         justify-content: space-between;
         align-items: center;
         font-weight: 600;
+        position: sticky;
+        top: 0;
+        padding: 10px 0;
         .mg__dashboard-actions{
             display: flex;
         }
