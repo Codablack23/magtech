@@ -21,12 +21,12 @@ function MyApp({ Component, pageProps }) {
   //     }
   //   )
   return (
-     <>
+     <div className='mg-bg-dark'>
       <Head>
         <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
       </Head>
       <Component {...pageProps} />
-     </>
+     </div>
   )
 }
 

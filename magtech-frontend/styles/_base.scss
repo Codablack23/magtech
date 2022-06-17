@@ -43,6 +43,9 @@ a {
   max-width: 1200px;
   margin: auto;
 }
+.mg-pointer{
+  cursor: pointer;
+}
 @each $key,$val in $colors{
     .mg-text-#{$key}{
         color:$val !important;

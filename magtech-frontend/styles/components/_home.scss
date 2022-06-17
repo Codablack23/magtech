@@ -1,0 +1,218 @@
+.mg-nav{
+    position: sticky;
+    top:0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap;
+    transition: all ease-in 0.7s;
+    .mg-nav-brand{
+        font-size: $font_size * 1.5;
+        font-weight: 600;
+    }
+    .mg-open-nav{
+        display: none;
+        cursor: pointer;
+        i{
+            font-size: 24px;
+            font-weight: 600;
+        }
+        @include md{
+            display: block;
+            margin-left: auto;
+        }
+    }
+    .mg-navbar{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        .mg-nav-links{
+        cursor: pointer;
+         display:flex;
+         align-items: center;
+         justify-content: center;
+         min-width:100px;
+         min-height: 40px;
+         margin-left: 2px;
+         font-size: $font_size;
+        }
+        @include md{
+            max-height: 0;
+            overflow: hidden;
+            display: block;
+            margin-left: auto;
+            width: 70%;
+            transition: all ease-in 0.5s;
+        }
+    }
+    .mg-navbar-right{
+     margin-left: auto;
+     @include md{
+        margin-right: auto;
+      }
+    }
+}
+
+.mg-footer-container{
+    margin-top: $margin * 2;
+}
+.mg-footer{
+  display: flex;
+  max-width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  .mg-news-letter{
+      .mg-news-letter-text{
+          font-family: 'Roboto',sans-serif;
+          margin: $margin 0;
+          font-family: 600;
+          font-size: $font_size;
+      }
+      .mg-subscribe-container{
+          display: flex;
+          min-height: 40px;
+          border-radius: $border_radius;
+          justify-content: space-between;
+          border: 1px solid map-get($map: $colors, $key:'warning' );
+          input{
+              &::placeholder{
+                  @extend .mg-text-grey
+              }
+              outline: none;
+              border: none;
+              background: none;
+              @extend .mg-text-warning;
+              padding-left: $padding;
+              font-size: $font_size;
+              width: 70%;
+          }
+          .mg-subscribe-btn{
+              border-radius: 0 7px 7px 0;
+              border: none;
+              @extend .mg-bg-warning;
+              width: 35%;
+              font-size: $font_size;
+          }
+      }
+  }
+  .mg-footer-logo{
+      font-size: $font_size * 1.25;
+      line-height: 15px;
+      font-weight: 400;
+  }
+  .mg-all-footer-links{
+      display: flex;
+      align-items: flex-start;
+  }
+  .mg-footer-links{
+      margin-left: $margin * 2.5;
+      p{
+          margin: 0.3em 0;
+          font-weight: 600;
+          font-family: "Roboto",sans-serif;
+      }
+      .mg-footer-link-heading{
+          font-size:$font_size * 1.2;
+          margin-bottom: $margin;
+         text-transform: uppercase;
+         font-family: 'Roboto', sans-serif;
+         letter-spacing: 0;
+
+      }
+  }
+  @include md{
+      display: block;
+      .mg-news-letter{
+          margin: 1.5em auto;
+      }
+      .mg-all-footer-links{
+        display: block;
+    }
+  }
+  @include sm{
+    .mg-news-letter{
+        margin: 1em 0;
+    }
+  }
+}
+.mg-account-container{
+    max-width:400px;
+    margin:$margin * 2 auto;
+    min-height: 30vh;
+    padding: $padding $padding * 2.5;
+}
+.mg-account-form{
+  width: 95%;
+  margin: $margin * 0.5 auto;
+  .mg-input-container{
+      margin:$margin*0.7 0;
+  }
+  .mg-input-label{
+      font-size: $font_size * 1.2;
+      display: block;
+      font-weight: 600;
+  }
+  .mg-input-field{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding:0 $padding ;
+      height: 40px;
+      border: 1px solid map-get($map: $colors, $key:'warning' );
+      border-radius: 7px;
+      margin: $margin * 0.5 0;
+      input{
+        width: 90%;
+      }
+      input,button{
+        outline: none;
+        border: none;
+        background: none;
+        font-size: $font_size * 1.2;
+      }
+      .mg-input-action{
+          font-size: $font_size * 1.2;
+          margin-left: auto;
+          cursor: pointer;
+      }
+    }
+    .mg-submit-btn{
+        width: 100%;
+        height: 40px;
+        text-align: center;
+        border: none;
+        border-radius: $border_radius;
+        font-size: $font_size * 1.2;
+        cursor: pointer;
+    }
+}
+.mg-contact-form-container{
+    max-width: 500px;
+    @extend .mg-rounded;
+    margin:$margin * 2 auto;
+    padding: $padding;
+}
+
+.mg-bot-btn{
+    &:hover{
+        transform: scale(1.1);
+    }
+    padding: $padding;
+    display:block;
+    text-align: center;
+    margin: 1em auto;
+    transition: all ease-in 0.2s;
+}
+
+.mg-how-it-works{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    .mg-description{
+        max-width: 900px;
+        margin: 1em auto;
+    }
+}

@@ -1,0 +1,123 @@
+.mg__admin-form{
+    max-width: 450px;
+    min-height: 40vh;
+    position: relative;
+    margin: auto;
+    top: 10em;
+    border-radius: 7px;
+    padding: 1em;
+    label{
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        color:map-get($map: $colors, $key:"grey" ) ;
+        margin-bottom: 0.5em;
+    }
+    input{
+        display: block;
+        width: 100%;
+        background: none;
+        border-radius: 7px;
+        padding: 0.5em;
+        height: 35px;
+        border: 1px solid map-get($map: $colors, $key:"grey" );
+        color:map-get($map: $colors, $key:"primary" );
+        outline:none;
+
+    }
+    .input-field{
+        width: 100%;
+        border: 1px solid map-get($map: $colors, $key:"grey" );
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        input{  
+            border: none;
+            width: 80%;
+        }
+    }
+}
+.mg__admin-sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 100%;
+    z-index: 1000;
+    header{
+        padding: 1em;
+        text-align: center;
+        font-weight: 600;
+        position: relative;
+        .mg-close{
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 22px;
+        }
+    }
+    .mg-admin-links{
+        position: relative;
+        top: 1em;
+    }
+    .mg-admin-link{
+        &:hover{
+            color:  map-get($map:$colors, $key:"primary");
+        }
+        display: block;
+        font-size: 18px;
+        font-weight:600;
+        margin: 0.7em;
+        padding: 0.7em;
+        color: map-get($map:$colors, $key:"grey");
+        background-color: map-get($map:$colors, $key:"dark");
+        border-radius: 7px;
+    }
+    .mg-admin-link.active{
+        color:  map-get($map:$colors, $key:"primary");
+    }
+    transition: all ease 0.4s;
+    @include md{
+        width: 50%;
+        left: -100%;
+    }
+    @include sm{
+        width: 75%;
+        .mg-admin-link{
+            font-size: 15px;
+        }
+    }
+
+}
+.mg__admin-content{
+    margin-left: 320px;
+    .mg__admin-header{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 50px;
+        position: sticky;
+        top: 0;
+    }
+    .mg__admin-header-actions{
+        display: flex;
+        p{
+            margin-right: 10px;
+            sup{
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                @extend .mg-bg-primary;
+                margin-left: -10px;
+                margin-top: -10px;
+            }
+        }
+    }
+    @extend .mg-container-small;
+    @include md{
+        margin-left: 0px;
+    }
+}

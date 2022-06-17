@@ -28,8 +28,21 @@ export default function DashboardLayout({children,title}){
                 <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
             </Head>
           <div className="mg-contain">
-             <SideMenu title={title}/>
-             <SideMenu isMobile={true} title={title}/>
+             <SideMenu title={title}>
+                <p><i className="bi bi-bar-chart mg-small-22 mg-text-grey"></i></p>
+                <p className="mg-small-22 mg-text-white">Magtech <span className="mg-text-grey mg-small-18">Dashboard</span></p>
+                 <p className="bi bi-x-lg mg__close-side-menu mg-text-warning"
+                 onClick={()=>{toggleSideMenu(-100)}}
+                 >
+                 </p>
+             </SideMenu>
+             <SideMenu isMobile={true} title={title}>
+               <p><i className="bi bi-bar-chart mg-small-22 mg-text-grey"></i></p>
+                <p className="mg-small-22 mg-text-white">Magtech <span className="mg-text-grey mg-small-18">Dashboard</span></p>
+                 <p className="bi bi-x-lg mg__close-side-menu mg-text-warning"
+                 onClick={()=>{toggleSideMenu(-100)}}
+                 ></p>
+             </SideMenu>
              <div className="mg__dashboard-content mg-container-small">
                 <header className="mg-text-white mg-bg-dark">
                     <p className="mg-small-18">Goodluck Edih</p>
@@ -51,5 +64,6 @@ export default function DashboardLayout({children,title}){
              </div>
           </div>
         </div>
+      
     )
 }

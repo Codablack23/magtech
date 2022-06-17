@@ -9,3 +9,16 @@
 .mg-outline-transparent{
     outline: none;
 }
+
+.mg-show-md{
+  display: none;
+}
+.mg-show-sm{
+  display: none;
+}
+
+@include md{
+.mg-show-md{
+  display: block;
+}
+}

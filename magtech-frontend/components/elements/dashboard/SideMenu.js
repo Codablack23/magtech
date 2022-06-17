@@ -30,15 +30,11 @@ const links = [
 
 ]
 
-export default function SideMenu({isMobile,title}){
+export default function SideMenu({isMobile,title,children}){
     return(
         <div className={`mg__dashboard-menu mg-card ${isMobile?"mobile":""}`} id={isMobile?"side-menu":""}>
             <div className="brand mg-bg-dark">
-                 <p><i className="bi bi-bar-chart mg-small-22 mg-text-grey"></i></p>
-                <p className="mg-small-22 mg-text-white">Magtech <span className="mg-text-grey mg-small-18">Dashboard</span></p>
-                 <p className="bi bi-x-lg mg__close-side-menu mg-text-warning"
-                 onClick={()=>{toggleSideMenu(-100)}}
-                 ></p>
+                {children}
             </div>
            <div className="mg__dashboard-links">
             {links.map(link=>(
