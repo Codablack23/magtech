@@ -1,0 +1,126 @@
+.mg__support-sidebar{
+    width: 320px;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    transition: all ease 0.2s;
+    height: 100%;
+    >header{
+      text-align: center;
+      position: relative;
+      padding: 1em;
+      font-weight: 600;
+      .mg-close{
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 22px;
+        cursor: pointer;
+      }
+    }
+    .mg-support-links{
+        position: relative;
+        top: 1em;
+    }
+    .mg-support-link{
+        &:hover{
+            color:  map-get($map:$colors, $key:"primary");
+        }
+        display: block;
+        font-size: 18px;
+        font-weight:600;
+        margin: 0.7em;
+        padding: 0.7em;
+        color: map-get($map:$colors, $key:"grey");
+        background-color: map-get($map:$colors, $key:"dark");
+        border-radius: 7px;
+    }
+    .mg-support-link.active{
+        color:  map-get($map:$colors, $key:"primary");
+    }
+    transition: all ease 0.4s;
+    .mg-support-logout-link{
+        i{
+            margin-right: 10px;
+        }
+        display: block;
+        font-size: 18px;
+        font-weight:600;
+        margin: 0.7em;
+        padding: 0.7em;
+        border-radius: 7px;
+        position: absolute;
+        bottom: 10px;
+    }
+    @include md{
+        width: 50%;
+        right: -100%;
+    }
+    @include sm{
+        width: 75%;
+        .mg-support-logout-link, .mg-support-link{
+            font-size: 15px;
+        }
+        
+    }
+}
+
+.mg__support-content{
+    margin-right: 320px;
+    transition: all ease 0.2s;
+    .mg-support-header{
+        width: 100%;
+        position: sticky;
+        top: 0;
+        display: flex;
+        height: 55px;
+        align-items: center;
+        justify-content: space-between;
+    }
+    @include md{
+        margin-right: 0px;
+    }
+}
+
+.mg__chat-layout{   
+    position: relative;
+    min-height: 90vh;
+    max-height: 90vh;
+    .mg__chat-users{
+        height: 100px;
+        width: 100%;
+        z-index: 10;
+    }
+    .mg__chatbox{
+        position: relative;
+        min-height: 70vh;
+        margin:1em auto ;
+    }
+    .mg__chat-actions{
+        border-top: 1px solid map-get($map: $colors, $key:"disabled" );
+        position: absolute;
+        bottom:10px;
+        width: 100%;
+        z-index: 10;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        input{
+        &::placeholder{
+            font-style: italic;
+        }
+        width: 80%;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        }
+        button{
+            border-radius: 50%
+        }
+    }
+    @include md{
+       
+    }
+}
