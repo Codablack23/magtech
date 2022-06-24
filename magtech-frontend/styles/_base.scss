@@ -86,6 +86,12 @@ a {
         @if $val != none {
           color: lighten($color: $val, $amount: 50) !important;
         }
+        @if $val == #fff {
+          color: #181a20 !important;
+        }
+        @if $val == #181a20 or $val == #0b0e11{
+          color: white !important;
+        }
       }
       transition: all ease 0.2s;
     }

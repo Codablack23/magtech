@@ -20,7 +20,7 @@ export default function Home() {
            <p className="mg-text-white title">Your Profit <br/> Your Investment</p>
            <br />
            <div className="mg__hero-action">
-             <button className="mg-btn-primary mg-text-white mg-card mg-rounded-pill mg-case-upper mg-font-bold mg-small-25 mg-bg-hover-primary"
+             <button className="mg-btn-danger mg-text-white mg-card mg-rounded-pill mg-case-upper mg-font-bold mg-small-25 mg-bg-hover-white"
              onClick={()=>goTo('/account/register')}
              style={{
                height:'55px',
