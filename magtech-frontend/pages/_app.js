@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import 'antd/dist/antd.css'
 import '../styles/style.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 

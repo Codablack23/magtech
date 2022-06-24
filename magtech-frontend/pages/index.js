@@ -2,6 +2,7 @@ import Contact from '~/components/widgets/home/ContactSection'
 import PricingContainer from '~/components/widgets/home/PricingContainer'
 import LayoutDefault from '~/components/layouts/LayoutDefault'
 import {useRouter} from 'next/router'
+import { FullChart, TickerTapeWidget } from '~/components/widgets/charts/chart'
 
 export default function Home() {
   const Router = useRouter()
@@ -10,28 +11,28 @@ export default function Home() {
   }
   return (
   <LayoutDefault title={"Home"} pageType={"home"}>
-    <div className='mg-contain mg-home-container'>
-      <div className="row mg-min-vh-90 align-center">
-        <div className="col-6 col-md-12 mg-text-md-center">
-           <p className="mg-text-white mg-small-sm-26 mg-small-32 ">Lets Get You Started With Your investment</p><br />
-           <p className='mg-text-white mg-small-sm-16 mg-small-20 mg-small-sm-16'>The Metric Dashboard brings all of your business insights under one roof. Revenue metrics, social, integrations - everything.</p>
+    <div className=''>
+      <div className="mg__hero mg-vh-95 mg-vh-sm-60">
+        <div className="mg__ticker-time mg-bg-component">
+       <TickerTapeWidget/>
+       </div>
+        <div className="mg__hero-content mg-container mg-text-sm-center">
+           <p className="mg-text-white title">Your Profit <br/> Your Investment</p>
            <br />
-           <div className="">
-             <button className="mg-btn-outline-primary"
+           <div className="mg__hero-action">
+             <button className="mg-btn-danger mg-text-white mg-card mg-rounded-pill mg-case-upper mg-font-bold mg-small-25 mg-bg-hover-primary"
              onClick={()=>goTo('/account/register')}
              style={{
-               height:'50px',
-               minWidth:'220px'
+               height:'55px',
+               minWidth:'220px',
               }}
              >Get Started</button>
            </div>
         </div>
-        <div className="col-6 col-md-12">
-         <div className="mg-w-100 mg-vh-50 mg-rounded">
-           <img src="/images/hero.png" alt="" className="mg-img-fluid mg-vh-50 mg-rounded" />
-         </div>
-        </div>
       </div><br />
+     <div className="mg-text-center">
+     <FullChart/>
+     </div>
       <PricingContainer/><br />
       <div className="mg-how-it-works mg-min-vh-60" id='how-it-works'>
         <p className="mg-text-warning mg-small-30 mg-text-center"> How it Works </p>

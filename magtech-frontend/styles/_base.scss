@@ -1,6 +1,19 @@
-@fontface{
+@font-face{
   font-family:"Raleway";
-  src:url("/fonts/Raleway-Medium.ttf")
+  src:url("/fonts/Raleway-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Euclid-Light";
+  src: url("/fonts/EuclidCircularA-Light.ttf");
+}
+@font-face {
+  font-family: "Euclid-Regular";
+  src: url("/fonts/EuclidCircularA-Regular.ttf");
+}
+@font-face {
+  font-family: "Euclid-Bold";
+  src: url("/fonts/EuclidCircularA-Bold.ttf");
 }
 
 html,
@@ -21,6 +34,13 @@ body {
   padding:0;
   font-family: 'Raleway', sans-serif;
   resize: none;
+  font-size: 16px;
+  @include md{
+    font-size: 16px;
+  }
+}
+p{
+  margin-bottom: 0;
 }
 
 a {
@@ -39,6 +59,12 @@ a {
 }
 .mg-container-small{
   padding:$padding $padding * 2.5;  
+  @include md{
+    padding:$padding $padding * 1.5;  
+  }
+  @include sm{
+    padding:$padding $padding * 0.7;  
+  }
 }
 .mg-contain{
   max-width: 1200px;
@@ -53,6 +79,15 @@ a {
     }
     .mg-bg-#{$key}{
         background:$val !important;
+    }
+    .mg-bg-hover-#{$key}{
+      &:hover{
+        background:$val !important;
+        @if $val != none {
+          color: lighten($color: $val, $amount: 50) !important;
+        }
+      }
+      transition: all ease 0.2s;
     }
 }
 @each $key,$val in $text_align{
@@ -104,7 +139,7 @@ a {
    }
  }
 
- @each $key,$var in list {
+ @each $key,$var in $justify {
    .mg-d-flex.mg-justify-#{$key}{
      justify-content: $var;
    }
@@ -112,7 +147,50 @@ a {
     align-items: $var;
   }
  }
+ .mg-font-euclid-light{
+  font-family: "Euclid-Light",sans-serif;
+ }
+ .mg-font-euclid{
+  font-family: "Euclid-Light",sans-serif;
+ }
+ .mg-font-bold{
+  font-weight: 600;
+ }
+ .mg-font-euclid-bold{
+  font-family: "Euclid-Bold",sans-serif;
+ }
+ .mg-input-group{
+  label{
+   display: block;
+   font-weight: 600;
+   margin-bottom: 0.3em;
+  }
+ }
 
+ .mg-input-field{
+  display: flex;
+  border-radius: 7px;
+  justify-content: space-between;
+  padding: 0.3em;
+  margin-bottom: 0.3em;
+  input,select{
+    border: none;
+    background:none;
+    outline:none;
+  }
+
+}
+@each $k,$v in $colors {
+  .mg-input-field.mg-input-field-#{$k}{
+    border: 0.7px solid $v;
+  }
+}
+.mg-center{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
  @import './utilities/grid';
  @import './utilities/font';
  @import './utilities/sizes';

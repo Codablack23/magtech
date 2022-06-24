@@ -95,6 +95,7 @@
         position: sticky;
         top: 0;
         padding: 10px 0;
+        z-index: 100;
         .mg__dashboard-actions{
             display: flex;
         }
@@ -121,4 +122,111 @@
             cursor: pointer;
         }
     }
+}
+.mg__pending-investments,.mg__bot-list{
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 5px;
+    &::-webkit-scrollbar{
+        width: 5px;
+        @extend .mg-bg-dark;
+        border-radius: 7px;
+    }
+    &::-webkit-scrollbar-thumb{
+        width: 5px;
+        border-radius: 7px;
+        @extend .mg-bg-warning;
+    }
+}
+.mg__investment{
+    min-height: 70px;
+    width: 100%;
+    margin-top: 10px;
+    padding: $padding * 0.2  $padding;
+    .mg__investment-desc{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+.mg__percentage-profit{
+    width: 80%;
+    display: grid;
+    margin: 10px auto;
+    place-items:  center;
+}
+
+.mg__payment-list{
+    width: 95%;
+    margin: $margin auto;
+    padding: 0;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding-block-start: 0;
+    list-style: none;
+    &::-webkit-scrollbar{
+        width: 5px;
+        @extend .mg-bg-dark;
+        border-radius: 7px;
+    }
+    &::-webkit-scrollbar-thumb{
+        width: 5px;
+        border-radius: 7px;
+        @extend .mg-bg-warning;
+    }
+    li{
+        border-bottom: 0.5px solid #303030;
+        padding:0.7em 0.5em;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        .amount{
+            font-size: 22px;
+        }
+        p{
+            font-size: 14px;
+        }
+    }
+    @include md{
+        li{
+            .amount{
+                font-size: 20px;
+            }
+        }
+    }
+    @include sm{
+        li{
+            .amount{
+                font-size: 16px;
+            }
+            p{
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+.mg__withdrawal-form{
+    width: 94%;
+    margin: 0.3em auto;
+}
+.mg__bot-list{
+    li{
+        padding: 0.3em 0.5em;
+        margin-bottom: 10px;
+        .title{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.mg__investment-page{
+    margin: 1.5em auto;
+    padding:0.7em 1.2em;
+    max-width: 450px;
 }

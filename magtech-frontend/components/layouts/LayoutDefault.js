@@ -8,7 +8,7 @@ export default function LayoutDefault({children,title,pageType}){
                <title>{title}</title>
             </Head>
             <NavBar pageType={pageType}/>
-            <div className="mg-container">
+            <div>
                 {children}
             </div>
            <Footer/>

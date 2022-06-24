@@ -30,20 +30,20 @@ export default function NavBar({pageType}){
             </div>
             <div className="mg-navbar mg-navbar-right" id='navbar'>
             {pageType !== "account"?
-                <p className="mg-nav-links mg-text-primary"
+                <p className="mg-nav-links mg-text-white"
                 onClick={(e)=>scrollToSection(e,'pricing')}
                 > Pricing</p>
                 :null
             }
             {pageType!=="account"?
-                <p className="mg-nav-links mg-text-primary"
+                <p className="mg-nav-links mg-text-white"
                 onClick={(e)=>scrollToSection(e,'how-it-works')}
                 > How it works</p>
                 :null
             }
             {pageType !== "account"?
             
-              <p className="mg-nav-links mg-text-primary"
+              <p className="mg-nav-links mg-text-white"
               onClick={(e)=>scrollToSection(e,'contact')}
               > Contact us</p>
               :null
@@ -53,7 +53,7 @@ export default function NavBar({pageType}){
               <a className="mg-nav-links mg-text-primary">Login</a>
              </Link>
              <Link href={"/account/register"}>
-              <a className="mg-nav-links mg-text-white mg-bg-primary mg-rounded"> Register</a>
+              <a className="mg-nav-links mg-text-white mg-bg-danger mg-rounded-pill"> Register</a>
              </Link>
             </div>
         </nav>

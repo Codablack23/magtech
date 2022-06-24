@@ -14,6 +14,11 @@
      }
      }
 }
+@each $k,$v in $casing {
+  .mg-case-#{$k}{
+    text-transform: $v;
+  }
+}
 .mg-font-bold{
    font-weight: 600;
 }

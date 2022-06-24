@@ -13,6 +13,8 @@ $colors:(
     'disabled':#333,
     'light':#c4c4c4,
     'grey':#939596,
+     "disabled-light":#303030,
+     "danger":#F23645,
     'none':none
 );
 $break_points:(
@@ -37,6 +39,12 @@ $display:(
 
 $text_align:(
     'center':center,
-    'start':right,
-    'end':left
+    'end':right,
+    'start':left
+);
+
+$casing:(
+    "lower":lowercase,
+    "upper":uppercase,
+    "capital":capitalize
 )

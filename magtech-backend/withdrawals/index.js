@@ -9,5 +9,4 @@ botsRouter.get("/investments",(req,res)=>{
     res.send("bots")
 })
 
-invest
 module.exports = botsRouter;
