@@ -32,7 +32,7 @@ export default function NavBar({pageType}){
             {pageType !== "account"?
                 <p className="mg-nav-links mg-text-white"
                 onClick={(e)=>scrollToSection(e,'pricing')}
-                > Pricing</p>
+                >Products</p>
                 :null
             }
             {pageType!=="account"?
@@ -41,14 +41,27 @@ export default function NavBar({pageType}){
                 > How it works</p>
                 :null
             }
-            {pageType !== "account"?
+              {pageType!=="account"?
+                <p className="mg-nav-links mg-text-white"
+                onClick={(e)=>scrollToSection(e,'services')}
+                > Services</p>
+                :null
+            }
+            {pageType!=="account"?
+                <p className="mg-nav-links mg-text-white"
+                onClick={(e)=>scrollToSection(e,'about')}
+                > About</p>
+                :null
+            }
+            {/* {pageType !== "account"?
             
               <p className="mg-nav-links mg-text-white"
               onClick={(e)=>scrollToSection(e,'contact')}
               > Contact us</p>
               :null
 
-            }
+            } */}
+            
              <Link href={"/account/"}>
               <a className="mg-nav-links mg-text-danger">Login</a>
              </Link>

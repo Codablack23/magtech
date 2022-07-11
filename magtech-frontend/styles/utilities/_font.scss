@@ -1,4 +1,4 @@
-@for $i from 12 through 40 {
+@for $i from 12 through 60 {
     .mg-small-#{$i}{
       font-size: $i * 1px;
     }

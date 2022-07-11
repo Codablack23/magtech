@@ -35,6 +35,7 @@ body {
   font-family: 'Raleway', sans-serif;
   resize: none;
   font-size: 16px;
+  letter-spacing: 0;
   @include md{
     font-size: 16px;
   }
@@ -72,6 +73,12 @@ a {
 }
 .mg-pointer{
   cursor: pointer;
+}
+.mg-hover-scale{
+  transition: all  ease  0.2s;
+  &:hover{
+    transform: scale(1.025);
+  }
 }
 @each $key,$val in $colors{
     .mg-text-#{$key}{

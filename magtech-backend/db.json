@@ -1,0 +1,25 @@
+{
+    "users": [
+      {
+        "id": "1",
+        "firstname": "Edih ",
+        "lastname": "Goodluck",
+        "email": "goodluckedih@gmail.com",
+        "password": "password245"
+      },
+      {
+        "id": "2",
+        "firstname": "John",
+        "lastname": "Doe",
+        "email": "johndoe@gmail.com",
+        "password": "password234"
+      },
+      {
+        "id": "3",
+        "firstname": "James",
+        "lastname": "Brown",
+        "email": "jamesbrown@gmail.com",
+        "password": "password@john"
+      }
+    ]
+  }

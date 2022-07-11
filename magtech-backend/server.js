@@ -1,7 +1,8 @@
 const express = require("express")
-const {auth,chat,bots,superusers,refferrals,withdrawals} = require("./config")
+const {users,chat,bots,superusers,refferrals,withdrawals} = require("./config")
 const sequelize = require("./database")
 const app = express()
+const session = require("express-session")
 
 
 
@@ -12,8 +13,10 @@ sequelize.sync().then(() => {
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 
+
 app.use("/chat",chat)
 app.use("/bots",bots)
+app.use("/users",users)
 app.use("/superusers",superusers)
 app.use('/refferals',refferrals)
 app.use('/withdrawals',withdrawals)

@@ -20,3 +20,11 @@ export function FullChart(){
   </div>
   )
 }
+
+export function Snaps(){
+  return(
+  <div className="mg-w-100">
+    <iframe src="/iframe_src/snaps.html" className="mg-w-100 mg-vh-100" style={{padding:'16px',overflow:"hidden"}}  frameborder="0"></iframe>r
+  </div>
+  )
+}

@@ -2,7 +2,10 @@ import Contact from '~/components/widgets/home/ContactSection'
 import PricingContainer from '~/components/widgets/home/PricingContainer'
 import LayoutDefault from '~/components/layouts/LayoutDefault'
 import {useRouter} from 'next/router'
-import { FullChart, TickerTapeWidget } from '~/components/widgets/charts/chart'
+import { FullChart, Snaps, TickerTapeWidget } from '~/components/widgets/charts/chart'
+import Steps from '~/components/widgets/home/Steps'
+import Services from '~/components/widgets/home/Services'
+import Features from '~/components/widgets/home/Features'
 
 export default function Home() {
   const Router = useRouter()
@@ -17,7 +20,7 @@ export default function Home() {
        <TickerTapeWidget/>
        </div>
         <div className="mg__hero-content mg-container mg-text-sm-center">
-           <p className="mg-text-white title">Your Profit <br/> Your Investment</p>
+           <p className="mg-text-white title">The Right <br/>  Investment Choice</p>
            <br />
            <div className="mg__hero-action">
              <button className="mg-btn-danger mg-text-white mg-card mg-rounded-pill mg-case-upper mg-font-bold mg-small-25 mg-bg-hover-white"
@@ -33,12 +36,19 @@ export default function Home() {
      <div className="mg-text-center">
      <FullChart/>
      </div>
+     <Services/><br />
+     <Features/>
+      <Steps/><br />
       <PricingContainer/><br />
-      <div className="mg-how-it-works mg-min-vh-60" id='how-it-works'>
-        <p className="mg-text-warning mg-small-30 mg-text-center"> How it Works </p>
-        <p className="mg-text-grey mg-description mg-text-center mg-small-18">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius nesciunt dolorum ipsum placeat nisi odio debitis, sint fugit, sed eum consequatur consequuntur itaque aliquid quisquam. Ab odit officiis necessitatibus, ipsum, quidem quos repellendus sequi nam incidunt quia dolor quas est. Maiores nemo, nulla quis veniam eum iusto error. Assumenda, eligendi.</p>
-      </div><br />
-      <Contact/>
+      <div className="mg-container mg-text-white mg-text-center mg-min-vh-90 mg__about" id='about'>
+        <div>
+        <p
+        className="mg-small-40 mg-small-md-20 mg-text-warning mg-font-bold mg-font-euclid">
+         About Us
+        </p>
+        <p className='mg__about-content mg-small-18 mg-small-sm-14'><span className='mg-text-warning'><b>Magtech</b></span> is an affiliate company of Maxybest limited. A registered real estate and trading company. Our  team of experienced traders has been trading Forex for almost a decade:while still boasting of real estates scattered across the globe with the introduction of Magtech A.I trading has become more profitable and stressfree. We employ you to hop o aboard and enjoy the benefit of this A.I technology Which is profitable and stress free</p>
+        </div>
+      </div>
     </div>
   </LayoutDefault>
   )
