@@ -5,10 +5,10 @@ export default function DashoardSettingsPage(){
         <DashboardLayout title={"Settings"}>
          <div className="">
             <div className="mg-min-vh-10 mg-bg-component mg-rounded" style={{marginTop:"20px"}}>
-
+                <p>Change Password</p>
             </div>
             <div className="mg-min-vh-10 mg-bg-component mg-rounded" style={{marginTop:"20px"}}>
-
+                
             </div>
             <div className="mg-min-vh-10 mg-bg-component mg-rounded" style={{marginTop:"20px"}}>
 

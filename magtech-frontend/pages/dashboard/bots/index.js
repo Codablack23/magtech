@@ -5,9 +5,12 @@ import DashboardBalance from "~/components/widgets/dashbaord/Balance";
 import Investment from "~/components/widgets/dashbaord/Investment";
 
 const bots = [
-    {name:"Bot 1",price:10,maxDeposit:80,profit:10},
-    {name:"Bot 2",price:15,maxDeposit:100,profit:15},
-    {name:"Bot 3",price:20,maxDeposit:200,profit:20}
+    {name:"Bot 1",price:5,maxDeposit:50,profit:10},
+    {name:"Bot 2",price:8,maxDeposit:200,profit:15},
+    {name:"Bot 3",price:15,maxDeposit:500,profit:20},
+    {name:"Bot 4",price:30,maxDeposit:2000,profit:20},
+    {name:"Bot 5",price:100,maxDeposit:10000,profit:20},
+    {name:"Bot 6",price:200,maxDeposit:20000,profit:20}
 ]
 
 export default function DashoardBotPage(){
@@ -22,7 +25,7 @@ export default function DashoardBotPage(){
                     <p className="mg-small-20 mg-small-md-14">{bot.name}</p>
                     </header>
                     <div>
-                      <p className="mg-font-euclid">{bot.profit}% profit/60days</p>
+                      <p className="mg-font-euclid">{bot.profit}% profit/90days</p>
                       <p className="mg-font-euclid">Price: ${bot.price}</p>
                       <p className="mg-font-euclid">Max Deposit: ${bot.maxDeposit}</p>
                     </div><br />
@@ -52,7 +55,7 @@ export default function DashoardBotPage(){
                       <p>Bot 1</p>
                       <div className="title">
                       <p>{new Date().toDateString()}</p>
-                        <p>Usage: 30/60 days</p>
+                        <p>Usage: 30/90 days</p>
                       </div>
                     </li>
 
@@ -67,7 +70,7 @@ export default function DashoardBotPage(){
                       <p>Bot 1</p>
                       <div className="title">
                         <p>{new Date().toDateString()}</p>
-                        <p>Usage: 30/60 days</p>
+                        <p>Usage: 30/90 days</p>
                       </div>
                     <p className="mg-text-end"> 
                      <button className="mg-btn-outline-warning mg-w-35 mg-w-md-45 mg-w-sm-55">Invest</button>
