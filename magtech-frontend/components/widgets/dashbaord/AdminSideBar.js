@@ -2,7 +2,7 @@ import Link from "next/link"
 import {toggleAdminSideMenu} from '~/helpers'
 
 const addAdminIdToLinks =(id)=>{
- const url = `/admin/${id}`
+ const url = `/admin`
  const links = [
         {
           name:"Stats",

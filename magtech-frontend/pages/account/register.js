@@ -1,11 +1,29 @@
+import { notification, Spin } from "antd";
 import Link from "next/link";
-import { useState } from "react";
+import { useState,useContext,useEffect} from "react";
 import AccountContainer from "~/components/elements/account/AccountContainer";
 import AccountLayout from "~/components/layouts/AccountLayout";
+import User from "~/utils/User";
+import {AuthContext} from "~/context/auth/context";
+import validateFields from "~/utils/validate";
+import { useRouter } from "next/router";
 
 export default function RegisterPage(){
+    const {dispatch} = useContext(AuthContext)
+
+    const router = useRouter()
+    const ref_code = router.query.refcode;
+
     const [isPassShowing,setIsPassShowing] = useState(false)
     const [isConfirmPassShowing,setIsConfirmPassShowing] = useState(false)
+    const [name,setName] = useState("")
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
+    const [refcode,setRefcode] = useState("")
+    const [phone,setPhone] = useState("")
+    const [confirmPassword,setConfirmPassword] = useState("")
+    const [errors,setErrors] = useState({})
+    const [isLoading,setIsLoading] = useState(false)
 
     const handleShowPassword=(e,field)=>{
         if(field==='confirm'){
@@ -20,6 +38,56 @@ export default function RegisterPage(){
         }
       
     }
+    async function handleSignUp(e){
+        e.preventDefault()
+        let refCodeErr = []
+        const errObj = {}
+
+        if(refcode !== "" && refcode !== " "){
+            refCodeErr = validateFields([{inputField:refcode,inputType:"refcode"}])
+        }
+        
+        const fieldErrors = validateFields([
+            {inputField:name,inputType:"text",inputName:"Name"},
+            {inputField:password,inputType:"password"},
+            {inputField:email,inputType:"email"},
+            {inputField:phone,inputType:"phone"},
+            {inputField:confirmPassword,inputType:"username",inputName:"Confirm Password"}
+        ])
+        if(refCodeErr.length > 0){
+            const [err] = refCodeErr
+            errObj[err.field] = err.error
+        }
+        fieldErrors.forEach(err=>{
+            errObj[err.field] = err.error
+        })
+
+        setErrors(errObj)
+
+        if(fieldErrors.length === 0){
+            setIsLoading(true)
+           if(password !== confirmPassword){
+            notification.error({
+                className:"mg-bg-component",
+                message:<h2 className="mg-text-white">Passwords Do Not Match</h2>,
+                description:<p className="mg-text-danger">password and confirm password do not match </p>
+            })
+           }else{
+            const response = await User.signUp({refcode,email,password,phone,name})
+            if(response.user){
+                dispatch({type:"SIGNUP_USER",payload:{user:response.user}})
+                window.location.assign('/dashboard')
+            } else{
+                notification.error({
+                    className:"mg-bg-component",
+                    message:<h2 className="mg-text-white">Login Error</h2>,
+                    description:<p className="mg-text-danger">{response.err}</p>
+                })
+            }
+           }
+           setIsLoading(false)
+        }
+    }
     return(
         <AccountLayout title={"Sign Up"} pageType={"account"}>
           <AccountContainer Page={'Sign Up'}>
@@ -28,34 +96,45 @@ export default function RegisterPage(){
                     <label htmlFor="" className="mg-input-label mg-text-grey">Name</label>
                       <div className="mg-input-field">
                           <input type="text" 
+                          value={name}
+                          onChange={(e)=>setName(e.target.value)}
                           className="mg-text-warning"
                           />
                       </div>
                    </div>
+                  <p className="mg-text-danger mg-small-12">{errors.name}</p>
 
                    <div className="mg-input-container">
                     <label htmlFor="" className="mg-input-label mg-text-grey">Email</label>
                       <div className="mg-input-field">
                           <input type="email" 
+                          value={email}
+                          onChange={(e)=>setEmail(e.target.value)}
                           className="mg-text-warning" 
                           />
                       </div>
                    </div>
+                   <p className="mg-text-danger mg-small-12">{errors.email}</p>
 
                    <div className="mg-input-container">
                     <label htmlFor="" className="mg-input-label mg-text-grey">Phone No</label>
                       <div className="mg-input-field">
-                          <input type="phone"
+                          <input type="number"
+                            value={phone}
+                            onChange={(e)=>setPhone(e.target.value)}
                           className="mg-text-warning"
                           />
                       </div>
                    </div>
+                   <p className="mg-text-danger mg-small-12">{errors.phone_number}</p>
 
                    <div className="mg-input-container">
                     <label htmlFor="" className="mg-input-label mg-text-grey">Password</label>
                       <div className="mg-input-field">
                           <input 
                           className="mg-text-warning"
+                          value={password}
+                          onChange={(e)=>setPassword(e.target.value)}
                           type={!isPassShowing?"password":'text'} />
                           <button 
                            type="button"
@@ -66,10 +145,14 @@ export default function RegisterPage(){
                           </button>
                       </div>
                    </div>
+                   <p className="mg-text-danger mg-small-12">{errors.password}</p>
+
                    <div className="mg-input-container">
                     <label htmlFor="" className="mg-input-label mg-text-grey">Confirm Password</label>
                       <div className="mg-input-field">
                           <input 
+                           value={confirmPassword}
+                           onChange={(e)=>setConfirmPassword(e.target.value)}
                           type={!isConfirmPassShowing?"password":'text'} 
                           className="mg-text-warning"
                           />
@@ -82,16 +165,24 @@ export default function RegisterPage(){
                           </button>
                       </div>
                    </div>
+                   <p className="mg-text-danger mg-small-12">{errors.confirm_password}</p>
                    <div className="mg-input-container">
                     <label htmlFor="" className="mg-input-label mg-text-grey">Refferal Code</label>
                       <div className="mg-input-field">
                           <input type="text"
+                          value={ref_code?ref_code:ref_code}
+                          onChange={(e)=>setRefcode(e.target.value)}
+                          readOnly={ref_code?true:false}
                           className="mg-text-warning"
                           />
                       </div>
                    </div>
+                   <p className="mg-text-danger mg-small-12">{errors.ref_code}</p>
                    <br />
-                   <button className="mg-submit-btn mg-bg-warning">Submit</button>
+                   {
+                    isLoading?<button className="mg-submit-btn mg-bg-warning" type="button"><Spin/></button>
+                    :<button className="mg-submit-btn mg-bg-warning" onClick={handleSignUp}>Submit</button>
+                   }
                </form>
           </AccountContainer>
         </AccountLayout>

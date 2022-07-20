@@ -27,7 +27,11 @@ const links = [
     url:"/dashboard/referrals",
     icon:"bi bi-gear",
   },
-
+  {
+    name:"Invest",
+    url:"/dashboard/bots/invest",
+    icon:"bi bi-graph-up-arrow",
+  },
 ]
 
 export default function SideMenu({isMobile,title,children}){
@@ -38,7 +42,7 @@ export default function SideMenu({isMobile,title,children}){
             </div>
            <div className="mg__dashboard-links">
             {links.map(link=>(
-                <Link href={link.url}>
+                <Link href={link.url} key={link.name}>
                 <a className={`mg__dashboard-link ${title===link.name?"active":null}`}>
                 <i className={link.icon}></i>
                 <span>{link.name}</span>

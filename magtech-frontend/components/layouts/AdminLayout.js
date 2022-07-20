@@ -1,8 +1,22 @@
 import Head from "next/head";
 import AdminSideBar from "../widgets/dashbaord/AdminSideBar";
 import {toggleAdminSideMenu} from '~/helpers'
+import Admin from "~/utils/Admin";
+import { useEffect } from "react";
 
 export default  function AdminLayout({title,children}){
+  async function getAdmin(){
+    const response = await Admin.authenticate()
+    console.log(response.admin)
+    if(!response.admin){
+        location.assign("/admin/login")
+    }else{
+    
+    }
+}
+useEffect(() => {
+  getAdmin()
+}, [])
  return(
     <main className="mg-layout-default mg-bg-dark">
     <Head>

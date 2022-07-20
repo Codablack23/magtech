@@ -1,20 +1,20 @@
 const express = require("express")
+const { sign } = require("jsonwebtoken")
+const {authenticate} = require("../services/auth")
+const {loginHandler,logoutHandler,registerHandler} = require("./controllers")
 
-const authRouter = express.Router()
+const userRouter = express.Router()
+userRouter.use(express.json())
 
-authRouter.get("/",(req,res)=>{
+userRouter.get("/",(req,res)=>{
     res.send("auth")
 })
-authRouter.post("/login",(req,res)=>{
+userRouter.post("/",authenticate,(req,res)=>{res.json({...req.session.user,status:"Authorized"})} )
+userRouter.post("/login",loginHandler)
+userRouter.post("/logout",authenticate,logoutHandler)
+userRouter.post("/signup",registerHandler)
+
+userRouter.get("/forgot-password/",(req,res)=>{
     res.send("/")
 })
-authRouter.get("/logout",(req,res)=>{
-    res.send("/")
-})
-authRouter.get("/signup",(req,res)=>{
-    res.send("/")
-})
-authRouter.get("/forgot-password/",(req,res)=>{
-    res.send("/")
-})
-module.exports = authRouter;
+module.exports = userRouter;

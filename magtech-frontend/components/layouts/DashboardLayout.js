@@ -1,26 +1,32 @@
+import { Skeleton } from "antd"
 import Head from "next/head"
 import Link from "next/link"
+import { useContext, useEffect, useState } from "react"
 import SideMenu from "~/components/elements/dashboard/SideMenu"
+import { AuthContext } from "~/context/auth/context"
 import {toggleSideMenu} from '~/helpers'
+import User from "~/utils/User"
 
 export default function DashboardLayout({children,title}){
-    //  new TradingView.widget(
-  //       {
-  //       "symbol": "NASDAQ:AAPL",
-  //       "timezone": "Etc/UTC",
-  //       "theme": "dark",
-  //       "style": "1",
-  //       "locale": "en",
-  //       "toolbar_bg": "#f1f3f6",
-  //       "enable_publishing": false,
-  //       "withdateranges": true,
-  //       "range": "YTD",
-  //       "hide_side_toolbar": false,
-  //       "allow_symbol_change": true,
-  //       "details": true,
-  //       "container_id": "tradingview_796e4"
-  //     }
-  //   )
+    const {authState,dispatch} = useContext(AuthContext)
+
+    async function getUser(){
+        const response = await User.authenticateUser()
+        
+        console.log(response.user)
+        if(!response.user){
+            location.assign("/account")
+        }else{
+           dispatch({
+            type:"LOGIN_USER",
+            payload:{user:response.user}})
+        }
+    }
+    
+    useEffect(() => {
+      getUser()
+    }, [])
+    
     return(
         <div className="mg__dashboard-layout ">
             <Head>
@@ -45,7 +51,7 @@ export default function DashboardLayout({children,title}){
              </SideMenu>
              <div className="mg__dashboard-content mg-container-small">
                 <header className="mg-text-white mg-bg-dark">
-                    <p className="mg-small-18">Goodluck Edih</p>
+                    <p className="">{authState.user && authState.user.email}</p>
                     <div className="mg__dashboard-actions">
                         <Link href={"/dashboard/notifications"}>
                         <a className="mg__notification-link">

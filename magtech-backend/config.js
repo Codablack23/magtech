@@ -3,6 +3,5 @@ module.exports ={
     chat:require("./chat/"),
     bots:require("./bots/"),
     superusers:require("./superusers/"),
-    refferrals:require("./refferals"),
     withdrawals:require("./withdrawals")
 }

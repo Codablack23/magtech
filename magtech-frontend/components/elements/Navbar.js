@@ -63,10 +63,10 @@ export default function NavBar({pageType}){
             } */}
             
              <Link href={"/account/"}>
-              <a className="mg-nav-links mg-text-danger">Login</a>
+              <a className="mg-nav-links mg-text-primary">Login</a>
              </Link>
              <Link href={"/account/register"}>
-              <a className="mg-nav-links mg-text-white mg-bg-danger mg-rounded-pill"> Register</a>
+              <a className="mg-nav-links mg-text-white mg-bg-primary mg-rounded-pill"> Register</a>
              </Link>
             </div>
         </nav>

@@ -11,3 +11,8 @@ export function toggleSupportSideMenu(show){
     const adminMenu = document.querySelector('#support-sidebar')
     adminMenu.style.right = `${show}%`
 }
+
+export const config = {
+    headers: {"Access-Control-Allow-Origin": "Set-Cookie"},
+    withCredentials:true,
+}

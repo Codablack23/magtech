@@ -1,43 +1,73 @@
 import DashboardLayout from "~/components/layouts/DashboardLayout";
-import { Progress } from "antd";
+import { Progress, Spin } from "antd";
+import Payments from "~/utils/Payment";
 import DashboardBalance from "~/components/widgets/dashbaord/Balance";
 import Investment from "~/components/widgets/dashbaord/Investment";
-const payments =[
-    "investment","withdrawals","bots","investments"
-]
+import { useEffect, useState } from "react";
 
-const Payments =({paymentType})=>{
-    const date = new Date()
+
+const Payment =({payment})=>{
+    const date = new Date(payment.createdAt)
     return(
     <li>
         <div className="">
-            <p className="mg-text-grey mg-font-bold amount">$300</p>
-            <p className="mg-text-warning">{paymentType}</p>
+            <p className="mg-text-grey mg-font-bold amount">${payment.amount}</p>
+            <p className="mg-text-warning">{payment.description}</p>
         </div>
         <div>
         <p className="mg-text-grey">{date.toDateString()}</p>
-        <p className="mg-text-grey">60/60 days</p>
         </div>
         <div>
-            <p className="mg-btn-outline-warning">Paid</p>
+            <p className="mg-btn-outline-warning">{payment.status}</p>
         </div>
     </li>
     )
 }
+
 export default function DashboardHome(){
-  
+
+    const [payments,setPayments] = useState([])
+    const [investments,setInvestments] = useState([])
+    const [isLoading,setIsLoading] = useState(false)
+
+    async function getData(){
+        setIsLoading(true)
+        const paymentData =  await Payments.getPayments()
+        const investmentData = await Payments.getInvestments()
+        setPayments(paymentData.payments)
+        setInvestments(()=>{
+            const oneDay = 1000 * 60 * 60 * 24
+            return investmentData.investments.filter(i=>{
+                 const round = Math.round((new Date(i.expires) - new Date())/oneDay)
+                return round > 1
+            })
+        })
+        setIsLoading(false)
+    }
+    useEffect(() => {
+       getData() 
+    }, [])
+    
+
     return(
         <DashboardLayout title={"Analytics"}>
          <div className="mg__dashboard-analytics">
             <div className="row" style={{marginTop:"20px"}}>
                <div className="col-7 col-md-12 mg-bg-component mg-rounded">
-               <p className="mg-small-23 mg-font-euclid 
+                   <heading className="mg-d-flex mg-justify-between">
+                   <p className="mg-small-23 mg-font-euclid 
                       mg-text-white
                       mg-font-bold
                       mg-text-center
                       ">Pending Investments</p>
+                    <p style={{margin:"0.7em 0.5em"}}>
+                    {isLoading && (<Spin/>)}
+                   </p>
+                   </heading>
                     <div className="mg__pending-investments">                        
-                     <Investment/>
+                     {investments.length > 0?
+                     investments.map(investment=><Investment investment={investment}/>)
+                     :<></>}
                     </div>
                 </div>
 
@@ -47,15 +77,25 @@ export default function DashboardHome(){
               
             </div>
             <div className="mg-min-vh-50 mg-bg-component mg-rounded" style={{marginTop:"20px"}}>
-            <p 
+            <header className="mg-d-flex mg-justify-between">
+             <p 
               className="mg-small-23 mg-font-euclid 
               mg-text-white mg-font-bold"
               style={{margin:"0.7em 0.5em"}}
               >
              Transactions
              </p>
+             <p style={{margin:"0.7em 0.5em"}}>
+                {isLoading && (<Spin/>)}
+             </p>
+            </header>
              <ul className="mg__payment-list">
-                {payments.map(payment=><Payments paymentType={payment}/>)}
+               {payments.length > 0?
+                 payments.map(payment=><Payment payment={payment}/>)
+               :
+                 <h2 className="mg-text-disabled mg-text-center">
+                    You have not made any transaction
+                </h2>}
              </ul>
             </div>
          </div>
