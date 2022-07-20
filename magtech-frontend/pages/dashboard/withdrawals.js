@@ -3,6 +3,7 @@ import WithdrawalForm from "~/components/elements/dashboard/WithdrawalForm";
 import DashboardLayout from "~/components/layouts/DashboardLayout";
 import DashboardBalance from "~/components/widgets/dashbaord/Balance";
 import Payments from "~/utils/Payment";
+import {Spin} from "antd"
 import {useState,useEffect} from 'react'
 
 export default function DashoardWithDrawalPage(){
