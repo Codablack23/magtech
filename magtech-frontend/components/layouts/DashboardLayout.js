@@ -12,7 +12,7 @@ export default function DashboardLayout({children,title}){
 
     async function getUser(){
         const response = await User.authenticateUser()
-        
+        console.log("hello")
         console.log(response.user)
         console.log(response)
         if(!response.user){
