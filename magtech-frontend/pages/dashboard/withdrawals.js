@@ -2,15 +2,18 @@ import Payment from "~/components/elements/dashboard/Payment";
 import WithdrawalForm from "~/components/elements/dashboard/WithdrawalForm";
 import DashboardLayout from "~/components/layouts/DashboardLayout";
 import DashboardBalance from "~/components/widgets/dashbaord/Balance";
+import Payments from "~/utils/Payment";
+import {useState,useEffect} from 'react'
 
 export default function DashoardWithDrawalPage(){
     const [payments,setPayments] = useState([])
     const [isLoading,setIsLoading] = useState(false)
 
     async function getData(){
+        
         setIsLoading(true)
         const paymentData =  await Payments.getPayments()
-        const investmentData = await Payments.getInvestments()
+        
         setPayments(paymentData.payments)
         setIsLoading(false)
     }

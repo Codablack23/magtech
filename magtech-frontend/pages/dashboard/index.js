@@ -1,5 +1,5 @@
 import DashboardLayout from "~/components/layouts/DashboardLayout";
-import { Progress, Spin } from "antd";
+import {Spin } from "antd";
 import Payments from "~/utils/Payment";
 import DashboardBalance from "~/components/widgets/dashbaord/Balance";
 import Investment from "~/components/widgets/dashbaord/Investment";
