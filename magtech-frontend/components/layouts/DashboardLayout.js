@@ -14,8 +14,9 @@ export default function DashboardLayout({children,title}){
         const response = await User.authenticateUser()
         
         console.log(response.user)
+        console.log(response)
         if(!response.user){
-            location.assign("/account")
+           
         }else{
            dispatch({
             type:"LOGIN_USER",
