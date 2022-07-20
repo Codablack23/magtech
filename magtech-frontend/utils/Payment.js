@@ -1,8 +1,15 @@
 import { config } from "~/helpers";
 import axios from "axios";
 
+function getEnv(){
+    return {
+      env:process.env.NEXT_PUBLIC_ENV,
+      api:process.env.NEXT_PUBLIC_API_ENDPOINT
+    }
+  }
+
 class Payments{
-    api = "http://localhost:5000/bots"
+    api =`${getEnv().env == "production"?getEnv().api:"http://localhost:5000"}/bots`
     
     async startPayment(payment_data){
         return await axios.post(`${this.api}/add-payment`,payment_data,config)

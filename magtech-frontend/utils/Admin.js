@@ -1,8 +1,16 @@
 import { config } from "~/helpers";
 import axios from "axios";
 
+function getEnv(){
+  return {
+    env:process.env.NEXT_PUBLIC_ENV,
+    api:process.env.NEXT_PUBLIC_API_ENDPOINT
+  }
+}
+
 class Admin {
-    api = "http://localhost:5000/superusers"
+
+    api = `${getEnv().env == "production"?getEnv().api:"http://localhost:5000"}/superusers`
     async authenticate(){
         return await axios.post(`${this.api}`,{},config)
   

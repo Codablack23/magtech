@@ -21,18 +21,7 @@ async function createAdmin(req,res){
 }
 
 
-async function UpdateAdmin(req,res){
-    const salt = await bcrypt.genSalt()
-    const hashed = await bcrypt.hash("@magtech23",salt)
-    await Admin.update({password:hashed},{
-        where:{
-            username:"admin23"
-        }
-    })
-    res.json({
-        status:"success"
-    })
-}
+
 async function loginAdmin(req,res){
     const {username,password} = req.body
     let result = {
@@ -159,6 +148,5 @@ module.exports={
     getUsers, 
     loginAdmin,
     addAdmin,
-    UpdateAdmin,
     createAdmin,
   }

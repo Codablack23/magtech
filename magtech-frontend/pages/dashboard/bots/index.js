@@ -54,6 +54,7 @@ const bots = [
     minDeposit:15000,
     maxDeposit:20000,
   },
+
 ]
 async function flutterwaveCallback(res,payment_id,details,addBot){
   if(res.status === "successful"){
@@ -194,7 +195,7 @@ export default function DashoardBotPage(){
                     <p className="mg-small-20 mg-small-md-14">{bot.name}</p>
                     </header>
                     <div>
-                      <p className="mg-font-euclid">{bot.profit *100}% profit/90days</p>
+                      <p className="mg-font-euclid">{bot.profit}% profit/90days</p>
                       <p className="mg-font-euclid">Price: ${bot.price}</p>
                       <p className="mg-font-euclid">Min Deposit: ${bot.minDeposit}</p>
                       <p className="mg-font-euclid">Max Deposit: ${bot.maxDeposit}</p>
@@ -229,6 +230,39 @@ export default function DashoardBotPage(){
                    paidbots.map(bot=><PaidBots key={bot.bot_id} bot={bot}/>):
                   <h2 className="mg-text-disabled mg-text-center">You have not paid for any bot</h2>
                  }
+
+                    <li className="mg-bg-dark mg-rounded">
+                      <div className="title mg-w-100">
+                        <p>
+                          <i className="bi bi-robot mg-text-warning mg-small-22"></i>
+                          <span className="mg-font-euclid mg-font-bold mg-small-22">124</span>
+                        </p>
+                        <p className="mg-text-warning">active</p>
+                      </div>
+                      <p>Bot 1</p>
+                      <div className="title">
+                      <p>{new Date().toDateString()}</p>
+                        <p>Usage: 30/90 days</p>
+                      </div>
+                    </li>
+
+                    <li className="mg-bg-dark mg-rounded">
+                      <div className="title mg-w-100">
+                        <p>
+                          <i className="bi bi-robot mg-text-warning mg-small-22"></i>
+                          <span className="mg-font-euclid mg-font-bold mg-small-22">124</span>
+                        </p>
+                        <p className="mg-text-disabled">inactive</p>
+                      </div>
+                      <p>Bot 1</p>
+                      <div className="title">
+                        <p>{new Date().toDateString()}</p>
+                        <p>Usage: 30/90 days</p>
+                      </div>
+                    <p className="mg-text-end"> 
+                     <button className="mg-btn-outline-warning mg-w-35 mg-w-md-45 mg-w-sm-55">Invest</button>
+                    </p>
+                    </li>
                 </ul>
                 </div>
 

@@ -1,7 +1,13 @@
 const { default: axios } = require("axios")
 
+function getEnv(){
+    return {
+      env:process.env.NEXT_PUBLIC_ENV,
+      api:process.env.NEXT_PUBLIC_API_ENDPOINT
+    }
+  }
 class User {
-    api = "http://localhost:5000/users"
+    api =`${getEnv().env == "production"?getEnv().api:"http://localhost:5000"}/users`
      config = {
         headers: {"Access-Control-Allow-Origin": "Set-Cookie"},
         withCredentials:true,

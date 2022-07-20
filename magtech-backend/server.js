@@ -9,7 +9,6 @@ const {sequelize,sequelize_session}= require("./database")
 const oneMonth = 1000 * 60 * 60 * 24 * 30
 const app = express()
 
-
 sequelize.sync().then(() => {
   console.log('db has been created')
 }).catch(err=>console.log(err))
@@ -22,7 +21,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
    credentials:true,
-   origin:process.env.ENV==="dev"?"http://localhost:3005":process.env.FRONT_END
+   origin:process.env.ENV == "dev"?"http://localhost:3005":process.env.FRONT_END
 }))
 app.use(session({
   secret:process.env.SESSION_SECRET,
