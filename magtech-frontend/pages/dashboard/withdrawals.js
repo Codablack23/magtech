@@ -1,52 +1,28 @@
 import Payment from "~/components/elements/dashboard/Payment";
 import WithdrawalForm from "~/components/elements/dashboard/WithdrawalForm";
 import DashboardLayout from "~/components/layouts/DashboardLayout";
-import { Progress } from "antd";
+import DashboardBalance from "~/components/widgets/dashbaord/Balance";
 
 export default function DashoardWithDrawalPage(){
+    const [payments,setPayments] = useState([])
+    const [isLoading,setIsLoading] = useState(false)
+
+    async function getData(){
+        setIsLoading(true)
+        const paymentData =  await Payments.getPayments()
+        const investmentData = await Payments.getInvestments()
+        setPayments(paymentData.payments)
+        setIsLoading(false)
+    }
+    useEffect(() => {
+       getData() 
+    }, [])
     return(
         <DashboardLayout title={"Withdrawals"}>
          <div className="">
             <div className="row" style={{marginTop:"20px"}}>
                 <div className="col-6 col-md-12 mg-min-vh-35 mg-bg-component mg-rounded">
-                 <p 
-                 className="mg-small-20 mg-font-euclid 
-                 mg-text-white mg-font-bold mg-text-center">
-                 Available Balance
-                 </p>
-                 <p className="mg-small-14 mg-text-disabled mg-text-center">(Only available profits can be withdrawn while investment is ongoing)</p>
-                 <p className="mg-small-35 mg-font-bold  mg-text-center mg-font-euclid mg-text-warning">$123,544.00</p>
-                
-                  <p className="mg-small-20 mg-font-euclid mg-text-white mg-font-bold">Statistics</p><br />
-                  <div>
-                  <p className="mg-text-grey mg-font-euclid ">Total Profits: <span className="mg-text-warning mg-font-euclid">$110000.00</span></p>
-                  <Progress strokeColor={"#fcd535"} 
-                      width={170}
-                      trailColor="#0b0e11"
-                      percent={70}
-                      format={percent=><p className="mg-text-warning mg-small-15"></p>}
-                      />
-                  </div><br />
-
-                  <div>
-                  <p className="mg-text-grey mg-font-euclid ">Refferal Bonus: <span className="mg-text-warning mg-font-euclid">$12301.00</span></p>
-                  <Progress strokeColor={"#fcd535"} 
-                      width={170}
-                      trailColor="#0b0e11"
-                      percent={35}
-                      format={percent=><p className="mg-text-warning mg-small-15"></p>}
-                      />
-                  </div>
-
-                  <div><br />
-                  <p className="mg-text-grey mg-font-euclid ">Total Withdrawals: <span className="mg-text-warning mg-font-euclid">-$5253.00</span></p>
-                  <Progress strokeColor={"#fcd535"} 
-                      width={170}
-                      trailColor="#0b0e11"
-                      percent={-15}
-                      format={percent=><p className="mg-text-warning mg-small-15"></p>}
-                      />
-                  </div>
+                <DashboardBalance/>
                 </div>
 
                 <div className="col-6 col-md-12 mg-min-vh-30 mg-bg-component mg-rounded">
@@ -60,13 +36,25 @@ export default function DashoardWithDrawalPage(){
             </div>
 
             <div className="mg-min-vh-50 mg-bg-component mg-rounded" style={{marginTop:"20px"}}>
-            <p 
+            <header className="mg-d-flex mg-justify-between">
+             <p 
               className="mg-small-23 mg-font-euclid 
-              mg-text-white mg-font-bold mg-text-center">
-              Withdrawals
+              mg-text-white mg-font-bold"
+              style={{margin:"0.7em 0.5em"}}
+              >
+             Withdrawals
              </p>
+             <p style={{margin:"0.7em 0.5em"}}>
+                {isLoading && (<Spin/>)}
+             </p>
+            </header>
              <ul className="mg__payment-list">
-                <Payment/>
+             {payments.length > 0?
+                 payments.map(payment=><Payment payment={payment}/>)
+               :
+                 <h2 className="mg-text-disabled mg-text-center">
+                    You have not made any transaction
+                </h2>}
              </ul>
             </div>
          </div>
