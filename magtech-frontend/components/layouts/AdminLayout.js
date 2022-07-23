@@ -2,16 +2,16 @@ import Head from "next/head";
 import AdminSideBar from "../widgets/dashbaord/AdminSideBar";
 import {toggleAdminSideMenu} from '~/helpers'
 import Admin from "~/utils/Admin";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default  function AdminLayout({title,children}){
+  const [admin,setAdmin] = useState({})
   async function getAdmin(){
     const response = await Admin.authenticate()
-    console.log(response.admin)
     if(!response.admin){
-        location.assign("/admin/login")
+        window.location.assign("/admin/login")
     }else{
-    
+       setAdmin(response.admin)
     }
 }
 useEffect(() => {

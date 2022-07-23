@@ -1,12 +1,12 @@
 const express = require("express")
 
-const botsRouter = express.Router()
+const withdrawRouter = express.Router()
 
-botsRouter.get("/",(req,res)=>{
+withdrawRouter.get("/",(req,res)=>{
     res.send("bots")
 })
-botsRouter.get("/investments",(req,res)=>{
+withdrawRouter.get("/investments",(req,res)=>{
     res.send("bots")
 })
 
-module.exports = botsRouter;
+module.exports = withdrawRouter;

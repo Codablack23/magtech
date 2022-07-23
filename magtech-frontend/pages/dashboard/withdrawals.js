@@ -5,10 +5,12 @@ import DashboardBalance from "~/components/widgets/dashbaord/Balance";
 import Payments from "~/utils/Payment";
 import {Spin} from "antd"
 import {useState,useEffect} from 'react'
+import { Modal } from "~/components/widgets/global/Modal";
 
 export default function DashoardWithDrawalPage(){
     const [payments,setPayments] = useState([])
     const [isLoading,setIsLoading] = useState(false)
+    const [isShowing,setIsShowing] = useState(false) 
 
     async function getData(){
         
@@ -35,10 +37,29 @@ export default function DashoardWithDrawalPage(){
                   mg-text-warning mg-font-bold">
                   Request withdrawal
                  </p><br />
-                <WithdrawalForm/>
+
+                 <form className="mg__withdrawal-form mg-text-grey">
+                    <div className="mg-input-group mg-w-100">
+                        <label htmlFor="account">Amount</label>
+                        <div className="mg-input-field mg-input-field-disabled-light mg-w-100">
+                            <input type="number mg-w-100" />
+                        </div>
+                    </div><br />
+                    <button className="mg-btn-warning mg-w-65"
+                    type="button"
+                    onClick={()=>setIsShowing(true)}
+                    >Withdraw</button>
+                  </form>
+                {/* <WithdrawalForm/> */}
                 </div>
             </div>
-
+            <Modal isShown={isShowing} 
+            title={<p className="mg-small-20 mg-font-euclid mg-text-center mg-text-warning mg-font-bold">Beneficiary Details</p>}
+            setIsShowing={setIsShowing}
+            >
+            
+            <WithdrawalForm/>
+            </Modal>
             <div className="mg-min-vh-50 mg-bg-component mg-rounded" style={{marginTop:"20px"}}>
             <header className="mg-d-flex mg-justify-between">
              <p 

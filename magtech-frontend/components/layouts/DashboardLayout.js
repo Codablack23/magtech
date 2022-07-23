@@ -15,7 +15,7 @@ export default function DashboardLayout({children,title}){
         
         console.log(response.user)
         if(!response.user){
-            location.assign("/account")
+            window.location.assign("/account")
         }else{
            dispatch({
             type:"LOGIN_USER",

@@ -11,8 +11,14 @@ async function transfer(details){
    const {
     account_bank,
     account_number,
+    account_name,
     amount,
-    debit_currency,
+    currency,
+    swift_code,
+    address,
+    last_name,
+    firstname,
+    routing_number,
    } = details
    const flutterwave = new Flutterwave(flutter_config.public,flutter_config.private)
    await flutterwave.Transfer.initiate({

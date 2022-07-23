@@ -5,7 +5,7 @@ export default function validateFields(validator){
     }
     function addErrors(errorArray,message,fieldType){
         errorArray.push({
-            field:fieldType.toLowerCase().replaceAll(" ","_"),
+            field:fieldType.toLowerCase().replace(" ","_"),
             error:`${fieldType} ${message}`
           })
     }
