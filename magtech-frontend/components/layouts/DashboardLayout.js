@@ -1,4 +1,4 @@
-import { Skeleton } from "antd"
+import { Skeleton, Spin } from "antd"
 import Head from "next/head"
 import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
@@ -9,6 +9,7 @@ import User from "~/utils/User"
 
 export default function DashboardLayout({children,title}){
     const {authState,dispatch} = useContext(AuthContext)
+    const [isLoading,setIsLoading] = useState(true)
 
     async function getUser(){
         const response = await User.authenticateUser()
@@ -25,6 +26,7 @@ export default function DashboardLayout({children,title}){
     
     useEffect(() => {
       getUser()
+      setIsLoading(false)
     }, [])
     
     return(
@@ -66,7 +68,12 @@ export default function DashboardLayout({children,title}){
                         </p>
                     </div>
                 </header>
-                {}
+                {isLoading
+                ?<div className="mg-d-flex mg-justify-center mg-align-center mg-w-100 vh-95">
+                    <Spin size="large"/>
+                </div>
+                :children
+                }
              </div>
           </div>
         </div>
