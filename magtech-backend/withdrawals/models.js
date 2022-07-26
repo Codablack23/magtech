@@ -10,12 +10,12 @@ Withdrawal.init({
         primaryKey:true,
     },
     withdrawal_id:{
-       type:DataTypes.UUIDV4,
+       type:DataTypes.STRING,
        allowNull:false,
     },
     status:{
         type:DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
     },
     amount:{
         type:DataTypes.BIGINT,

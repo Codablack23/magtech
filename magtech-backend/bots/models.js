@@ -5,6 +5,7 @@ const {Model,DataTypes} = require("sequelize")
 class Investment extends Model {}
 class Bot extends Model{}
 class Payment extends Model{}
+class Refferals extends Model{}
 
 Investment.init({
     id:{
@@ -107,8 +108,34 @@ Payment.init({
         defaultValue:0.00
     }
 },{sequelize,tableName:"payments"})
+
+Refferals.init({
+    id:{
+        autoIncrement:true,
+        primaryKey:true,
+        type:DataTypes.BIGINT
+    },
+    ref_code:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
+    first_gen:{
+       type:DataTypes.STRING,
+       allowNull:false,
+    },
+    second_gen:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
+    amount:{
+        type:DataTypes.BIGINT,
+        allowNull:false,
+        defaultValue:0
+    },
+},{sequelize,tableName:"refferals"})
 module.exports = {
     Investment,
     Bot,
-    Payment
+    Payment,
+    Refferals
 }

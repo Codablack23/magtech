@@ -86,7 +86,7 @@ console.log(req.body)
           reffered:refcode === "" ?false:true,
           ref:refUser !== null?refUser.email:""
          })
-         req.session.user = {email}
+         req.session.user = {email,ref_code}
          result.status ="Success"
          result.user = {email,ref_code}
        }

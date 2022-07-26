@@ -14,7 +14,7 @@ export default function DashboardLayout({children,title}){
         const response = await User.authenticateUser()
         
         console.log(response.user)
-        if(!response.user){
+        if(!response.user || response.user.email === undefined){
             window.location.assign("/account")
         }else{
            dispatch({
@@ -66,7 +66,7 @@ export default function DashboardLayout({children,title}){
                         </p>
                     </div>
                 </header>
-                {children}
+                {}
              </div>
           </div>
         </div>

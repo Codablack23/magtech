@@ -12,9 +12,13 @@ export default function DashboardBalance(){
 
     async function getData(){
         setIsLoading(true)
+        const date = new Date()
+        const aSecond = 1000 * 60 
         const investmentData = await Payments.getInvestments()
         const iTotal = investmentData.investments.reduce((a,b)=>{ 
-            return a + (b.percentage_profit/b.duration)
+            const expires = new Date(b.expires)
+            const timeLeft = (expires - date) /(1000 * 60 * 60 * 24 )
+            return a + ((b.amount * b.percentage_profit)/timeLeft)
         },0)
         setInvestment(iTotal)
         setBalance(iTotal)

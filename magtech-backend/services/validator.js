@@ -71,6 +71,32 @@ function validateFields(validator){
             addErrors(errors,"must contain only alphabets",fieldName)
           }
         }
+       },
+       word:{
+        validate(field=" ",fieldName="Text"){
+          if(isEmpty(field)){
+            addErrors(errors,"must not be empty",fieldName)
+          }
+          else if(field.length < 2){
+            addErrors(errors,"must atleast be 2 characters long",fieldName)
+          }
+          else if(field.match(/[\d|@|_|#|$|%|!|&]+/g) !== null){
+            addErrors(errors,"must contain only alphabets",fieldName)
+          }
+        }
+       },
+        address:{
+        validate(field=" ",fieldName="Address"){
+          if(field.startsWith(" ")|| field.endsWith(" ")){
+            addErrors(errors,"must not be empty",fieldName)
+          }
+          else if(field.length < 3){
+            addErrors(errors,"must atleast be 3 characters long",fieldName)
+          }
+          else if(field.match(/[|@||#|$|%|!|&]+/g) !== null){
+            addErrors(errors,"must contain only alphabets numbers or _ and -",fieldName)
+          }
+        }
        }
      }
    

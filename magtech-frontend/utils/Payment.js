@@ -9,10 +9,10 @@ function getEnv(){
   }
 
 class Payments{
-    api =`${getEnv().env == "production"?getEnv().api:"http://localhost:5000"}/bots`
+    api =`${getEnv().env == "production"?getEnv().api:"http://localhost:5000"}`
     
     async startPayment(payment_data){
-        return await axios.post(`${this.api}/add-payment`,payment_data,config)
+        return await axios.post(`${this.api}/bots/add-payment`,payment_data,config)
         .then((res)=> res.data)
         .catch(err=>{
          return {
@@ -23,7 +23,7 @@ class Payments{
      }
     
     async completePayment(id){
-        return await axios.post(`${this.api}/add-payment/${id}`,{},config)
+        return await axios.post(`${this.api}/bots/add-payment/${id}`,{},config)
         .then((res)=> res.data)
         .catch(err=>{
          return {
@@ -33,7 +33,7 @@ class Payments{
         })
     }
     async makeInvestment(investment_data){
-        return await axios.post(`${this.api}/invest`,investment_data,config)
+        return await axios.post(`${this.api}/bots/invest`,investment_data,config)
         .then((res)=> res.data)
         .catch(err=>{
          return {
@@ -43,7 +43,7 @@ class Payments{
         })
     }
     async buyBot(data){
-        return await axios.post(`${this.api}/buy`,data,config)
+        return await axios.post(`${this.api}/bots/buy`,data,config)
         .then(res=>res.data)
         .catch(err=>{
             return {
@@ -53,7 +53,7 @@ class Payments{
            })
     }
     async getBots(){
-        return await axios.post(`${this.api}/`,{},config)
+        return await axios.post(`${this.api}/bots/`,{},config)
         .then(res=>res.data)
         .catch(err=>{
             return {
@@ -63,7 +63,7 @@ class Payments{
            })
     }
     async getInvestments(){
-        return await axios.post(`${this.api}/investments`,{},config)
+        return await axios.post(`${this.api}/bots/investments`,{},config)
         .then(res=>res.data)
         .catch(err=>{
             return {
@@ -73,7 +73,27 @@ class Payments{
            })
     }
     async getPayments(){
-        return await axios.post(`${this.api}/payments`,{},config)
+        return await axios.post(`${this.api}/bots/payments`,{},config)
+        .then(res=>res.data)
+        .catch(err=>{
+            return {
+                axios_err:err,
+                error:'couldn\'t connect with server please try again later',
+            }
+           })
+    }
+    async getWithdrawals(){
+        return await axios.post(`${this.api}/withdrawals/`,{},config)
+        .then(res=>res.data)
+        .catch(err=>{
+            return {
+                axios_err:err,
+                error:'couldn\'t connect with server please try again later',
+            }
+           })
+    }
+    async requestWithdrawal(data){
+        return await axios.post(`${this.api}/withdrawals/withdraw`,data,config)
         .then(res=>res.data)
         .catch(err=>{
             return {

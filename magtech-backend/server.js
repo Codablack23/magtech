@@ -5,6 +5,7 @@ const cors = require("cors")
 const dotenv = require("dotenv").config()
 const {users,chat,bots,superusers,withdrawals} = require("./config")
 const {sequelize,sequelize_session}= require("./database")
+const { sendEmail } = require("./services/sendmail")
 
 const oneMonth = 1000 * 60 * 60 * 24 * 30
 const app = express()
@@ -51,5 +52,17 @@ app.get("/",(req,res)=>{
    res.json({
     status:200,
     message:"Welcome to magtech api"
+   })
+})
+app.get("/send-mail",async(req,res)=>{
+   await sendEmail({
+    reciever:["codablack24@gmail.com"],
+    subject:"Test",
+    message_body:{
+      html:"<h1>Hello World</h1>"
+    }
+   })
+   res.json({
+    message:"message sent successfully"
    })
 })

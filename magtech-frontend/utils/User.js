@@ -16,7 +16,7 @@ class User {
     async login(user){
       return await axios.post(`${this.api}/login`,user,this.config)
       .then((res)=>{
-        console.log(res.headers)
+        console.log(res.data)
         return {
             user:res.data.user,
             err:res.data.error
@@ -49,7 +49,7 @@ class User {
   
         .then(res=>{
             return {
-                user:{email:res.data.email},
+                user:{email:res.data.email,refcode:res.data.ref_code},
                 err:res.data.err
             }
         })

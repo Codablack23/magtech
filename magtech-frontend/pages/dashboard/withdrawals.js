@@ -8,6 +8,7 @@ import {useState,useEffect} from 'react'
 import { Modal } from "~/components/widgets/global/Modal";
 
 export default function DashoardWithDrawalPage(){
+    const [amount,setAmount] = useState(0)
     const [payments,setPayments] = useState([])
     const [isLoading,setIsLoading] = useState(false)
     const [isShowing,setIsShowing] = useState(false) 
@@ -42,7 +43,10 @@ export default function DashoardWithDrawalPage(){
                     <div className="mg-input-group mg-w-100">
                         <label htmlFor="account">Amount</label>
                         <div className="mg-input-field mg-input-field-disabled-light mg-w-100">
-                            <input type="number mg-w-100" />
+                            <input type="number mg-w-100"
+                             value={amount} 
+                             onChange={(e)=>setAmount(e.target.value)}
+                             />
                         </div>
                     </div><br />
                     <button className="mg-btn-warning mg-w-65"
@@ -58,7 +62,7 @@ export default function DashoardWithDrawalPage(){
             setIsShowing={setIsShowing}
             >
             
-            <WithdrawalForm/>
+            <WithdrawalForm amount={amount}/>
             </Modal>
             <div className="mg-min-vh-50 mg-bg-component mg-rounded" style={{marginTop:"20px"}}>
             <header className="mg-d-flex mg-justify-between">
