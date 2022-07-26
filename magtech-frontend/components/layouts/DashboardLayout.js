@@ -18,6 +18,7 @@ export default function DashboardLayout({children,title}){
         if(!response.user || response.user.email === undefined){
             window.location.assign("/account")
         }else{
+          setIsLoading(false)
            dispatch({
             type:"LOGIN_USER",
             payload:{user:response.user}})
@@ -26,7 +27,7 @@ export default function DashboardLayout({children,title}){
     
     useEffect(() => {
       getUser()
-      setIsLoading(false)
+    
     }, [])
     
     return(
@@ -69,7 +70,7 @@ export default function DashboardLayout({children,title}){
                     </div>
                 </header>
                 {isLoading
-                ?<div className="mg-d-flex mg-justify-center mg-align-center mg-w-100 vh-95">
+                ?<div className="mg-d-flex mg-justify-center mg-align-center mg-w-100 mg-vh-95">
                     <Spin size="large"/>
                 </div>
                 :children
