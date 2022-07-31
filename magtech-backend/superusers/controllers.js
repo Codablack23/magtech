@@ -5,14 +5,18 @@ const { validateFields } = require('../services/validator')
 const bcrypt = require("bcrypt")
 const uuid = require("uuid")
 const { Withdrawal } = require('../withdrawals/models')
+const dotenv = require("dotenv").config()
 
 
-
+const admin = {
+  username:process.env.ADMIN_USERNAME,
+  password:process.env.ADMIN_PASSWORD
+}
 async function createAdmin(req,res){
     const salt = await bcrypt.genSalt()
-    const hashed = await bcrypt.hash("@_magtech123#",salt)
+    const hashed = await bcrypt.hash(admin.password,salt)
     await Admin.create({
-       username:"admin@magtech",
+       username:admin.username,
        password:hashed,
        admin_id:uuid.v4().toString().slice(0,5),
        isSuperUser:true

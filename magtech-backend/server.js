@@ -28,13 +28,14 @@ app.use(session({
   secret:process.env.SESSION_SECRET,
   store: new SequelizeStore({db:sequelize_session}),
   saveUninitialized:false,
+  proxy:true,
+  name:"api-magtech",
   resave:false,
   cookie:{
     httpOnly:true,
-    secure:false,
+    secure:true,
     maxAge:oneMonth,
-    sameSite:false,
-  
+    sameSite:"none",
 }
 }))
 
