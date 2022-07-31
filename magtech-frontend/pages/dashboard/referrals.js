@@ -1,35 +1,46 @@
-import { notification } from "antd";
+import { notification ,Spin} from "antd";
 import { useContext, useEffect, useState } from "react";
 import DashboardLayout from "~/components/layouts/DashboardLayout";
 import Investment from "~/components/widgets/dashbaord/Investment";
 import { AuthContext } from "~/context/auth/context";
-const payments =[
-    "investment","withdrawals",
-]
-const Payments =({paymentType})=>{
-    const date = new Date()
+import Payment from "~/utils/Payment";
+
+const Referrals =({refree})=>{
+    const date = new Date(refree.createdAt)
     return(
     <li>
         <div className="">
-            <p className="mg-text-grey mg-font-bold amount">$300</p>
-            <p className="mg-text-warning">{paymentType}</p>
+            <p className="mg-text-warning">{refree.first_gen}</p>
         </div>
         <div>
         <p className="mg-text-grey">{date.toDateString()}</p>
-        <p className="mg-text-grey">60/60 days</p>
-        </div>
-        <div>
-            <p className="mg-btn-outline-warning">Paid</p>
         </div>
     </li>
     )
 }
-export default function DashoardReferralsPage(){
+export default function DashboardReferralsPage(){
     const {authState} = useContext(AuthContext)
     const [url,setUrl] = useState("")
+    const [isLoading,setIsLoading] = useState(false)
+    const [refs,setRefs] = useState([])
+    const [refTotal,setRefTotal] = useState(0) 
 
-    useEffect(() => {
-        setUrl(window.location.origin)
+    async function getInit(){
+        setIsLoading(true)
+        const response = await Payment.getRefs()
+        if(response.refs){
+            setRefs(response.refs)
+
+            console.log(response)
+        }
+        setIsLoading(false)
+    }
+    useEffect(() => { 
+      setUrl(window.location.origin)
+      getInit()
+      setRefTotal(refs.reduce((total,a)=>
+      {return total + a.amount},
+      0))
     }, [])
  
     function copyText(){
@@ -67,19 +78,24 @@ export default function DashoardReferralsPage(){
                 </div>
                 <div className="col-5 col-md-12 mg-text-center mg-center mg-min-vh-30 mg-bg-component mg-rounded mg-font-euclid  mg-font-bold">
                 <p className="mg-small-20 mg-text-white"> Referral Bonus </p>
-                <p className="mg-text-warning mg-small-35 mg-font-euclid mg-small-18">$10,200</p>
+                <p className="mg-text-warning mg-small-35 mg-font-euclid mg-small-18">${refTotal}</p>
                 </div>
             </div>
             <div className="mg-min-vh-50 mg-bg-component mg-rounded" style={{marginTop:"20px"}}>
-            <p 
-              className="mg-small-23 mg-font-euclid 
-              mg-text-white mg-font-bold"
-              style={{margin:"0.7em 0.5em"}}
-              >
-             Referrals
-             </p>
+              <heading className="mg-d-flex mg-justify-between" style={{padding:"10px"}}>
+                   <p className="mg-small-23 mg-font-euclid 
+                      mg-text-white
+                      mg-font-bold
+                      mg-text-center
+                      ">Referrals</p>
+                    <p style={{margin:"0.7em 0.5em"}}>
+                    {isLoading && (<Spin/>)}
+                   </p>
+               </heading>
              <ul className="mg__payment-list">
-                {payments.map(payment=><Payments paymentType={payment}/>)}
+                { refs.length > 0 ? refs.map(ref=><Referrals refree={ref}/>)
+                :<h3 className="mg-text-disabled mg-text-center">No Referrals Made</h3>
+                }
              </ul>
             </div>
          </div>

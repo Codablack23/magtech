@@ -38,19 +38,11 @@ export default function DashboardLayout({children,title}){
             </Head>
           <div className="mg-contain">
              <SideMenu title={title}>
-                <p><i className="bi bi-bar-chart mg-small-22 mg-text-grey"></i></p>
-                <p className="mg-small-22 mg-text-white">Magtech <span className="mg-text-grey mg-small-18">Dashboard</span></p>
-                 <p className="bi bi-x-lg mg__close-side-menu mg-text-warning"
-                 onClick={()=>{toggleSideMenu(-100)}}
-                 >
-                 </p>
-             </SideMenu>
-             <SideMenu isMobile={true} title={title}>
-               <p><i className="bi bi-bar-chart mg-small-22 mg-text-grey"></i></p>
-                <p className="mg-small-22 mg-text-white">Magtech <span className="mg-text-grey mg-small-18">Dashboard</span></p>
-                 <p className="bi bi-x-lg mg__close-side-menu mg-text-warning"
-                 onClick={()=>{toggleSideMenu(-100)}}
-                 ></p>
+               <div className="mg__link-text">
+                <Link href={"/"}>
+                <a className="mg-small-22 mg-text-white">Magtech <span className="mg-text-grey mg-small-18">Dashboard</span></a>
+                </Link>
+                </div>
              </SideMenu>
              <div className="mg__dashboard-content mg-container-small">
                 <header className="mg-text-white mg-bg-dark">
@@ -62,11 +54,11 @@ export default function DashboardLayout({children,title}){
                                 <sup></sup>
                             </a>
                         </Link>
-                        <p className="mg__open-side-menu"
-                         onClick={()=>{toggleSideMenu(0)}}
-                        >
-                          <i className="bi bi-justify mg-small-20"></i>
+                        <Link href={"/dashboard/settings"} >
+                        <p className="mg__open-side-menu" style={{marginTop:"4px"}}>
+                          <i className="bi bi-gear mg-small-20"></i>
                         </p>
+                        </Link>
                     </div>
                 </header>
                 {isLoading

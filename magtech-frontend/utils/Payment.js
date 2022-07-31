@@ -32,6 +32,17 @@ class Payments{
          }
         })
     }
+    
+    async deletePayment(id){
+        return await axios.post(`${this.api}/bots/delete-payment/${id}`,{},config)
+        .then((res)=> res.data)
+        .catch(err=>{
+         return {
+             axios_err:err,
+             error:'couldn\'t connect with server please try again later',
+         }
+        })    
+    }
     async makeInvestment(investment_data){
         return await axios.post(`${this.api}/bots/invest`,investment_data,config)
         .then((res)=> res.data)
@@ -94,6 +105,17 @@ class Payments{
     }
     async requestWithdrawal(data){
         return await axios.post(`${this.api}/withdrawals/withdraw`,data,config)
+        .then(res=>res.data)
+        .catch(err=>{
+            return {
+                axios_err:err,
+                error:'couldn\'t connect with server please try again later',
+            }
+           })
+    }
+    async getRefs(){
+        console.log("HEllo")
+        return await axios.post(`${this.api}/bots/refs`,{},config)
         .then(res=>res.data)
         .catch(err=>{
             return {

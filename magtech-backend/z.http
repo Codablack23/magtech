@@ -1,0 +1,2 @@
+POST  http://localhost:5000/superusers/create-admin HTTP/1.1
+content-type: application/json

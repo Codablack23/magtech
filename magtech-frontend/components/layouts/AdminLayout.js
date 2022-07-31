@@ -8,7 +8,7 @@ export default  function AdminLayout({title,children}){
   const [admin,setAdmin] = useState({})
   async function getAdmin(){
     const response = await Admin.authenticate()
-    if(!response.admin){
+    if(!response.admin || response.admin.username === undefined){
         window.location.assign("/admin/login")
     }else{
        setAdmin(response.admin)

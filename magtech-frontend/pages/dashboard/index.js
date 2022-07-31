@@ -39,7 +39,7 @@ export default function DashboardHome(){
             const oneDay = 1000 * 60 * 60 * 24
             return investmentData.investments.filter(i=>{
                  const round = Math.round((new Date(i.expires) - new Date())/oneDay)
-                return round > 1
+                return round > 0
             })
         })
         setIsLoading(false)
@@ -67,7 +67,9 @@ export default function DashboardHome(){
                     <div className="mg__pending-investments">                        
                      {investments.length > 0?
                      investments.map(investment=><Investment investment={investment}/>)
-                     :<></>}
+                     :<div className="mg-d-flex mg-justify-center mg-align-center mg-min-vh-35">
+                      <p className="mg-text-disabled">No pending Investment</p>   
+                     </div>}
                     </div>
                 </div>
 

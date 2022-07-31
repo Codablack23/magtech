@@ -41,18 +41,23 @@ export default function SideMenu({isMobile,title,children}){
                 {children}
             </div>
            <div className="mg__dashboard-links">
+            <Link href={"/"}>
+                <a className={`mg__dashboard-link mg-home-icon`}>
+                <i className={"bi bi-house"}></i>
+                </a>
+              </Link>
             {links.map(link=>(
                 <Link href={link.url} key={link.name}>
                 <a className={`mg__dashboard-link ${title===link.name?"active":null}`}>
                 <i className={link.icon}></i>
-                <span>{link.name}</span>
+                <span className="mg__link-text">{link.name}</span>
                 </a>
               </Link>
             ))}
            </div>
            <div>
-           <Link href={"/dashboard/settings"}>
-               <a className="mg__dashboard-settings-link">
+           <Link href={"/dashboard/settings"} >
+               <a className="mg__dashboard-settings-link mg__link-text">
                 <i className="bi bi-gear"></i>
                 <span>Settings</span>
                </a>

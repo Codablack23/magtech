@@ -1,7 +1,11 @@
 const { User } = require("./models")
+const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt")
 const uuid = require("uuid")
 const {validateFields,checkEmpty,matchFormat} = require("../services/validator")
+const { Refferals } = require("../bots/models")
+const { sendEmail } = require("../services/sendmail")
+const { response } = require("express")
 
 
 async function loginHandler(req,res){
@@ -84,8 +88,16 @@ console.log(req.body)
           ref_code,
           phone_no:phone,
           reffered:refcode === "" ?false:true,
-          ref:refUser !== null?refUser.email:""
+          ref:refcode
          })
+         if(refcode !== ""){
+          await Refferals.create({
+            ref_code:refcode,
+            first_gen:email,
+            amount:0,
+            second_gen:""
+          })
+         }
          req.session.user = {email,ref_code}
          result.status ="Success"
          result.user = {email,ref_code}
@@ -103,6 +115,40 @@ console.log(req.body)
  res.json(result)
 
 }
+async function sendResetPasswordToken(req,res){
+  const {email} = req.session.user
+  const genCode = uuid.v4().toString().slice(0,6)
+
+  const result = {
+    status:"pending",
+    error:""
+  }
+  const {url} = await sendEmail({
+    reciever:email,
+    message_body:{
+      html:`
+        <h1 style="font-family:sans-serif;font-size:24px;">
+           <b>Your password reset code is ${genCode} it expires in 30mins please do not share with anyone</b>
+        </h1>
+       <a>
+       <button style="background:blue;color:white;width:140px;height:40px;font-size:18px;border:none;">Visit Page</button>
+       </a>
+        `
+    }
+  })
+  if(url){
+    result.status = "success",
+    result.message = "Message sent to your email successfully"
+    result.error = ""
+    result.url = url
+  }
+  else{
+    result.status = "Failed",
+    result.error = "Message could sent to your email successfully"
+  }
+  res.json(result)
+}
+
 async function logoutHandler(req,res){
     const response ={
      status:"",
@@ -120,4 +166,5 @@ module.exports = {
     loginHandler,
     registerHandler,
     logoutHandler,
+    sendResetPasswordToken,
 }

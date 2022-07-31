@@ -9,6 +9,8 @@ import { notification, Spin } from "antd";
 import Payments from "~/utils/Payment";
 import { AuthContext } from "~/context/auth/context";
 import Investment from "~/components/widgets/dashbaord/Investment";
+import { Modal } from "~/components/widgets/global/Modal";
+import { getBalance } from "~/utils/getBalance";
 
 
 const bots = [
@@ -90,30 +92,25 @@ async function flutterwaveCallback(res,payment_id,details,addBot){
 } 
 
 
-function GetBotButton({details,callBack,addBot}){
-  const {amount,currentUser,percent_profit,bot_name} = details
-  const showPaymentModal = useFlutterwave(getConfig({amount,email:currentUser.email,description:"Payment for investment Bot"}))
- 
-  
-  async function buyBot(){
-    const payment = await Payments.startPayment({amount,description:"Payment for investment Bot"})
-    if(payment.payment_id){
-       showPaymentModal({
-        callback:(res)=>callBack(res,payment.payment_id,{percent_profit,bot_name},addBot)
-       })
-    }
-    else{
-      notification.error({
-        message:<h2 className="mg-text-white">Payment Error</h2>,
-        description:<p className="mg-text-danger">there might have been an error with server please try again later</p>,
-        className:"mg-bg-component"
-    })
-    }
+function GetBotButton({details,setDetails,showModal}){
+  const {amount,percent_profit,bot_name} = details
+
+  function startBotPayment(){
+     setDetails(prev=>{
+      return {
+        ...prev,
+        bot_price:amount,
+        percent_profit,
+        bot_name
+      }
+     })
+     showModal()
   }
+
   return(
     <button 
     className="mg-btn-outline-warning mg-w-55 mg-w-sm-65"
-    onClick={buyBot}
+    onClick={startBotPayment}
     >Get Bot</button>
   )
 }
@@ -146,26 +143,75 @@ return (
 </li>
 )
 }
-export default function DashoardBotPage(){
+export default function DashboardBotPage(){
   const {authState} = useContext(AuthContext)
   const [isBotLoading,setIsBotLoading] = useState(false)
   const [paidbots,setPaidBots] = useState([])
   const [botCount,setBotCount] = useState(0)
   const [investments,setInvestments] = useState([])
   const [allInvestments,setAllInvestments] = useState([])
+  const [isModalOpen,setIsModalOpen] = useState(false)
   const [isLoading,setIsLoading] = useState(false)
+  const [currentBot,setCurrentBot] = useState({
+    bot_price:10,
+    percent_profit:60,
+    bot_name:"Bot 1"
+   })
 
+  async function buyBot(){
+    setIsBotLoading(true)
+   try {
+    const balance = await getBalance()
+    const botPayment = await Payments.buyBot(currentBot)
+    setIsBotLoading(false)
+    if(currentBot.bot_price > balance){
+      notification.error({
+        message:<h2 className="mg-text-white">Payment Error</h2>,
+        description:<p className="mg-text-danger">You do not have enough funds, you can go to your settings page to fund your account</p>,
+        className:"mg-bg-component"
+       })     
+      console.log("You do not have enough funds")
+    }else{
+    if(botPayment.error !== "" || botPayment.error !== " "){ 
+      setIsModalOpen(false)
+      setBotCount(prev=>prev+1)
+      notification.success({
+       message:<h2 className="mg-text-white">Success</h2>,
+       description:<p className="mg-text-primary">Bot has been successfully rented and your bot is now active</p>,
+       className:"mg-bg-dark"
+    })
+     }else{
+      notification.error({
+        message:<h2 className="mg-text-white">Payment Error</h2>,
+        description:<p className="mg-text-danger">{botPayment.error}</p>,
+        className:"mg-bg-component"
+       })
+     }
+    }
+    } catch (error) {
+      console.log(error)
+      notification.error({
+        message:<h2 className="mg-text-white">Payment Error</h2>,
+        description:<p className="mg-text-danger">An Error Occured</p>,
+        className:"mg-bg-component"
+       })   
+   }
+     
+   }
   async function getData(){
       setIsLoading(true)
       const investmentData = await Payments.getInvestments()
+      console.log(investmentData)
+      if(investmentData.err === ""){
       setAllInvestments(investmentData.investments)
-      setInvestments(()=>{
+        setInvestments(()=>{
           const oneDay = 1000 * 60 * 60 * 24
           return investmentData.investments.filter(i=>{
                const round = Math.round((new Date(i.expires) - new Date())/oneDay)
               return round > 1
           })
       })
+      }
       setIsLoading(false)
   }
 
@@ -186,7 +232,58 @@ export default function DashoardBotPage(){
     return(
         <DashboardLayout title={"Bots"}>
          <div className="mg__dashboard-analytics">
-         
+         <Modal 
+          isShown={isModalOpen} 
+          setIsShowing = {setIsModalOpen}
+          useDefault={true} 
+          className="mg-contain"
+          >
+          <br />
+          <div className="row">
+           <div className="col-4 col-md-5 col-sm-12">
+           <div className="mg-bot-desc mg-card" style={{padding:"16px"}}>
+               <h3 className="mg-text-warning mg-font-bold mg-small-22">{currentBot.bot_name}</h3>
+               <div className="mg-d-flex mg-font-euclid mg-font-bold">
+                <p className="mg-text-grey">Price: </p>
+               <p className="mg-text-grey mg-font-euclid">${currentBot.bot_price}</p>
+               </div>
+               <div className="mg-d-flex mg-font-bold">
+               <p className="mg-text-grey">Percentage Profit: </p>
+               <p className="mg-text-grey">{currentBot.percent_profit * 100}%</p>
+               </div>
+               <div className="mg-d-flex mg-font-bold">
+               <p className="mg-text-grey">Duration: </p>
+               <p className="mg-text-grey">90 days</p>
+               </div>
+           </div>
+           </div>
+           <div className="col-8 col-md-7 col-sm-12">
+            <div style={{padding:"16px"}}>
+              <h2 className="mg-text-warning mg-font-bold mg-small-24">Terms and Conditions</h2><br />
+
+              <div>
+               <h3 className="mg-text-grey mg-font-bold mg-small-21">Usage</h3>
+               <p  className="mg-text-grey mg-small-15">Any bot rented can only be used once and and can be used only for a single investment and the percentage profit only applies to that single investment,in the case of multiple investments, a bot can be rented as much as the required investment ie for each investment a single bot is rented. A bot is active the moment the renting process have been completed ie when it is paid for. </p>
+              </div><br />
+              <div>
+               <h3 className="mg-text-grey mg-font-bold mg-small-21">Duration and Termination</h3>
+               <p  className="mg-text-grey mg-small-15">Every bot has an active period where daily profit will be realised from invested amount, when a bot is no longer active daily profits will no longer be gotten and investment will be terminated and the capital will added to funds. In case of a premature termination only 30% of invested capital will be credited to funds and bot will be inactive and cannot be used again</p>
+              </div><br />
+              <div className="mg-d-flex mg-justify-end mg-align-center" style={{height:"50px"}}>
+               {isBotLoading?
+                <button className="mg-btn-sq-warning"><Spin/></button>:
+                <button className="mg-btn-sq-warning" onClick={buyBot}>Accept and Buy</button>
+               }
+                <button className="mg-btn-outline-sq-warning" 
+                onClick={()=>setIsModalOpen(false)}
+                style={{marginLeft:"10px"}}
+                >Reject and Cancel
+                </button>
+              </div>
+            </div>
+           </div>
+          </div>
+         </Modal>
          <div className="row mg-text-grey" style={{marginTop:"20px"}}>
               {bots.map(bot=>(
                   <div className="col-4 col-sm-12 mg-min-vh-30 mg-bg-component mg-rounded mg-bot" key={bot.name}>
@@ -207,8 +304,8 @@ export default function DashoardBotPage(){
                   percent_profit:(bot.profit).toString(),
                   bot_name:bot.name
                  }}
-                 addBot = {setBotCount} 
-                 callBack={flutterwaveCallback}
+                 showModal={()=>setIsModalOpen(true)}
+                 setDetails={setCurrentBot}
                  />
                 </div>
               ))}
@@ -230,39 +327,6 @@ export default function DashoardBotPage(){
                    paidbots.map(bot=><PaidBots key={bot.bot_id} bot={bot}/>):
                   <h2 className="mg-text-disabled mg-text-center">You have not paid for any bot</h2>
                  }
-
-                    <li className="mg-bg-dark mg-rounded">
-                      <div className="title mg-w-100">
-                        <p>
-                          <i className="bi bi-robot mg-text-warning mg-small-22"></i>
-                          <span className="mg-font-euclid mg-font-bold mg-small-22">124</span>
-                        </p>
-                        <p className="mg-text-warning">active</p>
-                      </div>
-                      <p>Bot 1</p>
-                      <div className="title">
-                      <p>{new Date().toDateString()}</p>
-                        <p>Usage: 30/90 days</p>
-                      </div>
-                    </li>
-
-                    <li className="mg-bg-dark mg-rounded">
-                      <div className="title mg-w-100">
-                        <p>
-                          <i className="bi bi-robot mg-text-warning mg-small-22"></i>
-                          <span className="mg-font-euclid mg-font-bold mg-small-22">124</span>
-                        </p>
-                        <p className="mg-text-disabled">inactive</p>
-                      </div>
-                      <p>Bot 1</p>
-                      <div className="title">
-                        <p>{new Date().toDateString()}</p>
-                        <p>Usage: 30/90 days</p>
-                      </div>
-                    <p className="mg-text-end"> 
-                     <button className="mg-btn-outline-warning mg-w-35 mg-w-md-45 mg-w-sm-55">Invest</button>
-                    </p>
-                    </li>
                 </ul>
                 </div>
 

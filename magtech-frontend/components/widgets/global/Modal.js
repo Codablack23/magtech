@@ -1,4 +1,4 @@
-export function Modal({children,isShown,title,setIsShowing}){
+export function Modal({children,isShown,title,setIsShowing,useDefault,className}){
     function Title(){
       return(
         <>{title}</>
@@ -11,7 +11,7 @@ export function Modal({children,isShown,title,setIsShowing}){
                     <i className="bi bi-x-lg"></i>
                 </button>
               
-              <div className="mg-modal-dialogue mg-round" style={{padding:"10px"}}>
+              <div  className={`${useDefault !== true?"mg-modal-dialogue":className} mg-round`} style={{padding:"10px"}}>
                   <Title/><br />
                   {children}
               </div>

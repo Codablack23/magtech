@@ -4,7 +4,7 @@ import Payment from "~/utils/Payment"
 import { validateWithdrawFields } from "~/utils/validate"
 const FW_TEST = process.env.NEXT_PUBLIC_FW_TEST
 
-export default function WithdrawalForm({amount}){
+export default function WithdrawalDetails(){
     const [errors,setErrors] = useState({})
     const [bankType,setBankType] = useState("NGN")
     const [country,setCountry] = useState("")
@@ -116,8 +116,7 @@ export default function WithdrawalForm({amount}){
             street_name:address.street_name,
             street_no:address.street_number.toString(),
             postal_code:address.postal_code,
-            city:address.city,
-            amount:amount.toString()
+            city:address.city
         }
       
 
@@ -336,7 +335,7 @@ export default function WithdrawalForm({amount}){
        :null}
         <br />
         {!isLoading
-         ?<button type="button" className="mg-btn-warning mg-w-100 mg-font-weight" onClick={handleWithdraw}>Continue</button>
+         ?<button type="button" className="mg-btn-warning mg-w-100 mg-font-weight" onClick={handleWithdraw}>Add Details</button>
          :<button type="button" className="mg-btn-warning mg-w-100 mg-font-weight">
             <Spin/>
          </button>

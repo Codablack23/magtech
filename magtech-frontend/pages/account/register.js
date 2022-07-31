@@ -73,7 +73,9 @@ export default function RegisterPage(){
                 description:<p className="mg-text-danger">password and confirm password do not match </p>
             })
            }else{
-            const response = await User.signUp({refcode,email,password,phone,name})
+            const response = await User.signUp({refcode:ref_code?ref_code:refcode,
+                email,password,phone,name
+            })
             if(response.user){
                 dispatch({type:"SIGNUP_USER",payload:{user:response.user}})
                 window.location.assign('/dashboard')

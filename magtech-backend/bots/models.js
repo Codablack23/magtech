@@ -58,6 +58,10 @@ Bot.init({
         type:DataTypes.STRING,
         allowNull:false,
     },
+    bot_price:{
+        type:DataTypes.INTEGER,
+        allowNull:false
+    },
     bot_name:{
         type:DataTypes.STRING,
         allowNull:false
@@ -65,6 +69,11 @@ Bot.init({
     email:{
         type:DataTypes.STRING,
         allowNull:false
+    },
+    used:{
+        type:DataTypes.BOOLEAN,
+        allowNull:false,
+        defaultValue:false,
     },
     duration:{
         type:DataTypes.BIGINT,

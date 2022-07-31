@@ -1,4 +1,6 @@
-const { Investment } = require("../bots/models")
+const { Investment,Bot,Payment,Refferals} = require("../bots/models")
+const {Withdrawal} = require("../withdrawals/models")
+const {User} = require("../users/models")
 const { validateFields } = require("./validator")
 const init = { 
     account_name:"",
@@ -182,16 +184,30 @@ function generateWithdrawDetails(acc_details = {...init}){
     }
 }
 async function getBalance(email){
+    const withdrawals = await Withdrawal.findAll({where:{email:email}})
+    const payments = await Payment.findAll({where:{email:email}})
+    const bots = await Bot.findAll({where:{email:email}})
+    const user = await User.findOne({where:{email:email}})
+    const refs = await Refferals.findAll({where:{ref_code:user.ref_code}})
     const investments = await Investment.findAll({where:{email:email}})
-    return investments.reduce((total,i)=>{
-        const date = new Date()
-        const expires = new Date(i.expires)
-        const t =  (expires - date)/(1000 * 60 * 60 * 24) 
-        const timeLeft = parseInt(t) < i.duration ?t:1
-        return total + (i.percentage_profit)
-    },0)
 
-    
+    const p_total = payments.filter(p=>p.status === "paid").reduce((total,p)=>(total +p.amount),0)
+    const i_total = investments.filter(i=>{
+            const expires = new Date(i.expires)
+            const timeLeft = (expires - date) /(1000 * 60 * 60 * 24 )
+            return timeLeft > 0
+    }).reduce((a,b)=>(a + b.amount),0)
+    const w_total =  withdrawals.filter(p=>p.status === "paid").reduce((a,b)=>(a + b.amount),0)
+    const ref_total =  refs.reduce((a,b)=>(a + b.amount),0)
+    const b_total = bots.reduce((a,b)=>(a + b.bot_price),0)
+    const funds = p_total - i_total - w_total - ref_total - b_total
+    const iTotal = investments.reduce((a,b)=>{ 
+        const expires = new Date(b.expires)
+        let timeLeft = (expires - date) /(1000 * 60 * 60 * 24 )
+        timeLeft = timeLeft < 0?1:timeLeft
+        return a + ((b.amount * b.percentage_profit)/timeLeft)
+    },0)
+    return funds + iTotal;
 }
 module.exports = {
     generateWithdrawDetails,

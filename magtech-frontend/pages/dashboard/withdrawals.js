@@ -7,18 +7,34 @@ import {Spin} from "antd"
 import {useState,useEffect} from 'react'
 import { Modal } from "~/components/widgets/global/Modal";
 
+function Withdrawals({withdraw}){
+    const date = new Date(withdraw.createdAt)
+    return(
+    <li>
+        <div className="">
+            <p className="mg-text-grey mg-font-bold amount">${withdraw.amount}</p>
+        </div>
+        <div>
+        <p className="mg-text-grey">{date.toDateString()}</p>
+        </div>
+        <div>
+            <p className="mg-btn-outline-warning">{withdraw.status}</p>
+        </div>
+    </li>
+    )
+}
+
 export default function DashoardWithDrawalPage(){
     const [amount,setAmount] = useState(0)
-    const [payments,setPayments] = useState([])
+    const [withdrawals,setWithdrawals] = useState([])
     const [isLoading,setIsLoading] = useState(false)
     const [isShowing,setIsShowing] = useState(false) 
 
     async function getData(){
         
         setIsLoading(true)
-        const paymentData =  await Payments.getPayments()
-        
-        setPayments(paymentData.payments)
+        const paymentData =  await Payments.getWithdrawals()
+        setWithdrawals(paymentData.withdrawals)
         setIsLoading(false)
     }
     useEffect(() => {
@@ -78,11 +94,11 @@ export default function DashoardWithDrawalPage(){
              </p>
             </header>
              <ul className="mg__payment-list">
-             {payments.length > 0?
-                 payments.map(payment=><Payment payment={payment}/>)
+             {withdrawals.length > 0?
+                 withdrawals.map(withdrawal=><Withdrawals withdraw={withdrawal}/>)
                :
                  <h2 className="mg-text-disabled mg-text-center">
-                    You have not made any transaction
+                    You have not made any withdrawals
                 </h2>}
              </ul>
             </div>

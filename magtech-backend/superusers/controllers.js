@@ -4,6 +4,8 @@ const {Bot,Payment,Investment} = require("../bots/models")
 const { validateFields } = require('../services/validator')
 const bcrypt = require("bcrypt")
 const uuid = require("uuid")
+const { Withdrawal } = require('../withdrawals/models')
+
 
 
 async function createAdmin(req,res){
@@ -140,6 +142,44 @@ async function getPayments(req,res){
 
     res.json(result)
 }
+async function getWithdrawals(req,res){
+  const result = {
+    status:"pending",
+    err:"",
+}
+try {
+    const withdrawals = await Withdrawal.findAll()
+    result.status = "completed"
+    result.withdrawals = withdrawals
+} catch (err) {
+    result.status = 'Network Error'
+    result.err = "an error occured in the server try again later"
+}
+
+res.json(result)
+}
+async function getAdmins(req,res){
+  const result = {
+    status:"pending",
+    err:"",
+}
+try {
+  const admins =  await Admin.findAll({where:{isSuperUser:false}})
+    result.status = "completed"
+    result.admins =  admins.map(user=>{
+      return {
+          username:user.username,
+          admin_id:user.admin_id,
+          createdAt:user.createdAt
+      }
+  })
+} catch (err) {
+    result.status = 'Network Error'
+    result.err = "an error occured in the server try again later"
+}
+
+res.json(result)
+};
 
 module.exports={
     getInvestments,
@@ -149,4 +189,6 @@ module.exports={
     loginAdmin,
     addAdmin,
     createAdmin,
+    getAdmins,
+    getWithdrawals
   }

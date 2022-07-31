@@ -2,14 +2,17 @@ import { Progress } from "antd"
 import { useState } from "react"
 
 export default function Investment({investment}){
+  const date = new Date()
+  const expires = new Date(investment.expires)
   const oneDay = 60 * 60 * 24
-   const oneDayM = 1000 * 60 * 60 * 24
-   const duration = investment.duration
-   const secondProfit =((investment.percentage_profit/duration)/oneDayM)
-  
-   const dailyProfit =  (investment.percentage_profit/duration) * 100
-   const usage = Math.round((new Date(investment.expires) - new Date())/oneDayM)
-   const [profit,setProfit] = useState(parseFloat(investment.amount)*(dailyProfit/100))
+   const oneDayMs = oneDay * 1000
+   const date_diff =  (expires - date)/oneDayMs
+   const duration = date_diff > 0?date_diff:1
+   const secondProfit =(((investment.percentage_profit)/duration)/oneDayMs)
+   const dailyProfit =  (investment.percentage_profit/investment.duration) * 100
+   const current_profit = (investment.amount * investment.percentage_profit/duration) 
+   const usage = Math.round((expires - date)/oneDayMs)
+   const [profit,setProfit] = useState(parseFloat(current_profit))
 
 
    setInterval(()=>{

@@ -29,7 +29,7 @@ export default function AdminPaymentsPage(){
           </div>:
           payments.length > 0 ?
           payments.map(p=>(
-            <div className="mg-bg-dark mg-min-vh-10 mg-rounded mg-d-flex mg-justify-between mg-align-center" 
+            <div key={p.id} className="mg-bg-dark mg-min-vh-10 mg-rounded mg-d-flex mg-justify-between mg-align-center" 
             style={{margin:"10px auto",padding:"10px"}}>
                 <div>
                   <h2 className="mg-text-primary mg-font-euclid mg-font-bold mg-small-18 mg-small-md-14">${p.amount}</h2>
