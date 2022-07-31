@@ -24,18 +24,31 @@ app.use(cors({
    credentials:true,
    origin:process.env.ENV == "dev"?"http://localhost:3005":process.env.FRONT_END
 }))
+// app.use(session({
+//   secret:process.env.SESSION_SECRET,
+//   store: new SequelizeStore({db:sequelize_session}),
+//   saveUninitialized:false,
+//   proxy:true,
+//   name:"api-magtech",
+//   resave:false,
+//   cookie:{
+//     httpOnly:true,
+//     secure:true,
+//     maxAge:oneMonth,
+//     sameSite:"none",
+// }
+// }))
 app.use(session({
   secret:process.env.SESSION_SECRET,
   store: new SequelizeStore({db:sequelize_session}),
   saveUninitialized:false,
-  proxy:true,
-  name:"api-magtech",
   resave:false,
   cookie:{
     httpOnly:true,
-    secure:true,
+    secure:false,
     maxAge:oneMonth,
-    sameSite:"none",
+    sameSite:false,
+  
 }
 }))
 

@@ -10,87 +10,7 @@ import Payments from "~/utils/Payment";
 import { AuthContext } from "~/context/auth/context";
 import Investment from "~/components/widgets/dashbaord/Investment";
 import { Modal } from "~/components/widgets/global/Modal";
-import { getBalance } from "~/utils/getBalance";
-
-
-const bots = [
-  {
-    name:"Bot 1",
-    price:'5',
-    profit:0.69,
-    minDeposit:20,
-    maxDeposit:50,
-  },
-  {
-    name:"Bot 2",
-    price:'8',
-    profit:0.69,
-    minDeposit:100,
-    maxDeposit:200,
-  },
-  {
-    name:"Bot 3",
-    price:'15',
-    profit:0.69,
-    minDeposit:400,
-    maxDeposit:500,
-  },
-  {
-    name:"Bot 4",
-    price:'30',
-    profit:0.69,
-    minDeposit:1000,
-    maxDeposit:2000,
-  },
-  {
-    name:"Bot 5",
-    price:'100',
-    profit:0.69,
-    minDeposit:5000,
-    maxDeposit:10000,
-  },
-  {
-    name:"Bot 6",
-    price:'200',
-    profit:0.69,
-    minDeposit:15000,
-    maxDeposit:20000,
-  },
-
-]
-async function flutterwaveCallback(res,payment_id,details,addBot){
-  if(res.status === "successful"){
-      const paymentStatus = await Payments.completePayment(payment_id)
-      if(paymentStatus.status === "Success"){
-       const botPayment = await Payments.buyBot(details)
-       if(botPayment.error !== "" || botPayment.error !== " "){ 
-        notification.success({
-         message:<h2 className="mg-text-white">{paymentStatus.status}</h2>,
-         description:<p className="mg-text-primary">{paymentStatus.message}</p>,
-         className:"mg-bg-dark"
-      })
-      addBot(prev=>prev + 1)
-       }else{
-        notification.error({
-          message:<h2 className="mg-text-white">Payment Error</h2>,
-          description:<p className="mg-text-danger">{botPayment.error}</p>,
-          className:"mg-bg-component"
-         })
-       }
-     
-      }
-      else {
-          notification.error({
-              message:<h2 className="mg-text-white">Payment Error</h2>,
-              description:<p className="mg-text-danger">Payment couldn't be completed please try again</p>,
-              className:"mg-bg-component"
-          })
-    
-      }
- }
- closePaymentModal()
-} 
-
+import { getBalance,bots } from "~/utils/getBalance";
 
 function GetBotButton({details,setDetails,showModal}){
   const {amount,percent_profit,bot_name} = details
@@ -162,16 +82,16 @@ export default function DashboardBotPage(){
     setIsBotLoading(true)
    try {
     const balance = await getBalance()
-    const botPayment = await Payments.buyBot(currentBot)
-    setIsBotLoading(false)
     if(currentBot.bot_price > balance){
+      setIsBotLoading(false)
       notification.error({
         message:<h2 className="mg-text-white">Payment Error</h2>,
         description:<p className="mg-text-danger">You do not have enough funds, you can go to your settings page to fund your account</p>,
         className:"mg-bg-component"
        })     
-      console.log("You do not have enough funds")
     }else{
+      const botPayment = await Payments.buyBot(currentBot)
+      setIsBotLoading(false)
     if(botPayment.error !== "" || botPayment.error !== " "){ 
       setIsModalOpen(false)
       setBotCount(prev=>prev+1)
