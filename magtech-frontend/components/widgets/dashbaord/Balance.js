@@ -30,7 +30,8 @@ export default function DashboardBalance(){
         const iTotal = investmentData.investments.reduce((a,b)=>{ 
             const expires = new Date(b.expires)
             const timeLeft = (expires - date) /(1000 * 60 * 60 * 24 )
-            return a + ((b.amount * b.percentage_profit)/timeLeft)
+            const tot = a + ((b.amount * b.percentage_profit)/timeLeft)
+            return tot
         },0)
         setRefferral(ref_total)
         setWithdrawal(w_total)
@@ -55,7 +56,7 @@ export default function DashboardBalance(){
                 
                   <p className="mg-small-20 mg-font-euclid mg-text-white mg-font-bold">Statistics</p><br />
                   <div><br />
-                  <p className="mg-text-grey mg-font-euclid ">Funds: <span className="mg-text-warning mg-font-euclid">-${all_funds}</span></p>
+                  <p className="mg-text-grey mg-font-euclid ">Funds: <span className="mg-text-warning mg-font-euclid">${all_funds}</span></p>
                   <Progress strokeColor={"#fcd535"} 
                       width={170}
                       trailColor="#0b0e11"

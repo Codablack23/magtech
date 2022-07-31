@@ -39,6 +39,7 @@ export default function DashboardHome(){
             const oneDay = 1000 * 60 * 60 * 24
             return investmentData.investments.filter(i=>{
                  const round = Math.round((new Date(i.expires) - new Date())/oneDay)
+                 console.log(round)
                 return round > 0
             })
         })
