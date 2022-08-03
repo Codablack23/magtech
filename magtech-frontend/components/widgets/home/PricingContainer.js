@@ -19,7 +19,7 @@ export default function PricingContainer(){
       {
         name:"Bot 3",
         price:'15',
-        percent_profit:0.69,
+        percent_profit:0.60,
         minInvestment:400,
         maxInvestment:500,
       },
