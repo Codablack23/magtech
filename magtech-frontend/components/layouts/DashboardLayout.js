@@ -1,4 +1,4 @@
-import { Skeleton, Spin } from "antd"
+import { Skeleton, Spin,Modal } from "antd"
 import Head from "next/head"
 import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
@@ -44,9 +44,9 @@ export default function DashboardLayout({children,title}){
                 </Link>
                 </div>
              </SideMenu>
-             <div className="mg__dashboard-content mg-container-small">
+                <div className="mg__dashboard-content mg-container-small">
                 <header className="mg-text-white mg-bg-dark">
-                    <p className="">{authState.user && authState.user.email}</p>
+                    <p className="mg-small-14">{authState.user && authState.user.email}</p>
                     <div className="mg__dashboard-actions">
                         <Link href={"/dashboard/notifications"}>
                         <a className="mg__notification-link">

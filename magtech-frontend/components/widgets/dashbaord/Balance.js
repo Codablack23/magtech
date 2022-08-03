@@ -31,6 +31,7 @@ export default function DashboardBalance(){
             const expires = new Date(b.expires)
             const timeLeft = (expires - date) /(1000 * 60 * 60 * 24 )
             const tot = a + ((b.amount * b.percentage_profit)/timeLeft)
+            console.log(tot)
             return tot
         },0)
         setRefferral(ref_total)

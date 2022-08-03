@@ -154,11 +154,11 @@ async function logoutHandler(req,res){
      status:"",
      error:""
     }
-     await req.session.destroy()
+     await delete req.session.user
      res.status(200)
      response.status = "Sucess"
      response.message = "Logged Out Successfully"
- 
+
     res.json(response)
 }
 
