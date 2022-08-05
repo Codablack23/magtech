@@ -212,7 +212,7 @@ export default function DashboardBotPage(){
                     <p className="mg-small-20 mg-small-md-14">{bot.name}</p>
                     </header>
                     <div>
-                      <p className="mg-font-euclid">{bot.profit}% profit/90days</p>
+                      <p className="mg-font-euclid">{bot.profit *100}% profit/90days</p>
                       <p className="mg-font-euclid">Price: ${bot.price}</p>
                       <p className="mg-font-euclid">Min Deposit: ${bot.minDeposit}</p>
                       <p className="mg-font-euclid">Max Deposit: ${bot.maxDeposit}</p>

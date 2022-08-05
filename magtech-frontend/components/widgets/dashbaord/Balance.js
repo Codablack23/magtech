@@ -1,6 +1,103 @@
-import { Progress } from "antd"
-import { useState,useEffect } from "react"
-import Payments from "~/utils/Payment"
+import { Progress,notification, Spin} from "antd"
+import { useState,useEffect,useContext } from "react"
+import { Modal } from "~/components/widgets/global/Modal";
+import {getConfig} from '~/utils/flutterwave'
+import Payments from "~/utils/Payment";
+import {useFlutterwave,closePaymentModal} from 'flutterwave-react-v3'
+import { AuthContext } from "~/context/auth/context";
+
+function FundAccountForm({closeModal}){
+    const {authState} = useContext(AuthContext)
+    const [amount,setAmount] = useState(0)
+    const [isLoading,setIsLoading] = useState(false)
+
+    const showPaymentModal = useFlutterwave(getConfig({
+        amount:amount * 650,
+        email:authState.user.email?authState.user.email:"",
+        description:"Payment for investment Bot"
+    }))
+
+
+    async function flutterwaveCallback(res,payment_id){
+        if(res.status === "successful"){
+            const paymentStatus = await Payments.completePayment(payment_id)
+            if(paymentStatus.status === "Success"){
+              notification.success({
+               message:<h2 className="mg-text-white">{paymentStatus.status}</h2>,
+               description:<p className="mg-text-primary">{paymentStatus.message}</p>,
+               className:"mg-bg-dark"
+            })
+            }else {
+                notification.error({
+                    message:<h2 className="mg-text-white">Payment Error</h2>,
+                    description:<p className="mg-text-danger">Payment couldn't be completed please try again</p>,
+                    className:"mg-bg-component"
+                })
+          
+            }
+       }
+       closePaymentModal()
+      }
+    
+    async function fundAccount(e){
+        e.preventDefault()
+        setIsLoading(true)
+        
+        if(amount>=5){
+
+            const payment = await Payments.startPayment({
+                amount:amount,
+                description:"Payment for investment Bot"
+            })
+            setIsLoading(false)
+            closeModal()
+            if(payment.payment_id){
+                closeModal()
+                showPaymentModal({
+                 callback:(res)=>flutterwaveCallback(res,payment.payment_id),
+                 onClose:async ()=>{
+                    await Payments.deletePayment(payment.payment_id)
+                 }
+                })
+            }else{
+                notification.error({
+                  message:<h2 className="mg-text-white">Payment Error</h2>,
+                  description:<p className="mg-text-danger">there might have been an error with server please try again later</p>,
+                  className:"mg-bg-component"
+              })
+            }
+        }
+        else{
+            setIsLoading(false)
+            closeModal()
+            notification.error({
+                message:<h2 className="mg-text-white">Invalid Amount</h2>,
+                description:<p className="mg-text-danger">Amount Must be $5 and above </p>,
+                className:"mg-bg-component"
+            })  
+        }
+       
+    }
+    return(
+    <form style={{padding:"10px"}}>
+    <div className="mg-input-group">
+        <h2 className="mg-text-grey mg-text-center mg-font-euclid">Exchange rate for 1USD is at NGN650 </h2>
+        <label htmlFor="" className="mg-text-grey">Amount</label>
+        <div className="mg-input-field mg-input-field-disabled">
+            <input className="mg-w-100 mg-text-grey"
+            value={amount}
+            onChange={(e)=>setAmount(e.target.value)}
+            type="number"/>
+        </div>
+    </div>
+   {isLoading?
+    <button className="mg-btn-warning mg-w-100"><Spin/></button>
+   :<button className="mg-btn-warning mg-w-100" onClick={fundAccount}>Pay</button>
+   }
+ </form>
+    )
+}
+
 
 
 export default function DashboardBalance(){
@@ -10,6 +107,7 @@ export default function DashboardBalance(){
     const [all_funds,setFunds] = useState(0)
     const [isLoading,setIsLoading] = useState(false)
     const [withdrawalTotal,setWithdrawal] = useState(0)
+    const [isFundingShown,setIsFundingShown] = useState(false)
 
     async function getData(){
         setIsLoading(true)
@@ -47,6 +145,13 @@ export default function DashboardBalance(){
     }, [])
     return(
         <div>
+             <Modal
+            isShown={isFundingShown}
+            setIsShowing={setIsFundingShown}
+            title={<h3 className="mg-text-warning mg-font-bold mg-text-center">Fund Account</h3>}
+            >
+              <FundAccountForm closeModal={()=>setIsFundingShown(false)}/>  
+            </Modal>
              <p 
                  className="mg-small-20 mg-font-euclid 
                  mg-text-white mg-font-bold mg-text-center">
@@ -93,7 +198,13 @@ export default function DashboardBalance(){
                       percent={(withdrawalTotal/balance) * 100}
                       format={percent=><p className="mg-text-warning mg-small-15"></p>}
                       />
+                  </div><br/>
+                  <div>
+                     <button 
+                       onClick={()=>setIsFundingShown(true)}
+                     className="mg-btn-outline-warning">Fund Account</button>
                   </div>
+
         </div>
     )
 }

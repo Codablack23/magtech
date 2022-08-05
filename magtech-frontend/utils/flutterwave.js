@@ -4,8 +4,8 @@ export function getConfig(data){
         const config = {
             public_key:FW_PUBLIC,
             tx_ref:Date.now(),
-            currency:"USD",
-            payment_options: 'card,bank_transfer',
+            currency:"NGN",
+            payment_options: 'card,banktransfer,account,ussd',
             amount:data.amount,
             customer:{
                 email:data.email

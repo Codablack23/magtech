@@ -56,6 +56,17 @@ export default function DashoardWithDrawalPage(){
                  </p><br />
 
                  <form className="mg__withdrawal-form mg-text-grey">
+                    <div>
+                    <h2 className="mg-text-warning mg-font-euclid mg-font-bold" style={{marginBottom:"10px"}}>
+                        Our Withdrawal Exchange Rate
+                    </h2>
+                    <h2 className="mg-text-grey mg-font-euclid mg-font-bold">
+                        1USD = 610NGN 
+                    </h2>
+                    <h2 className="mg-text-grey mg-font-euclid mg-font-bold">
+                         1USD = 1.2EUR 
+                    </h2>
+                    </div><br />
                     <div className="mg-input-group mg-w-100">
                         <label htmlFor="account">Amount</label>
                         <div className="mg-input-field mg-input-field-disabled-light mg-w-100">
