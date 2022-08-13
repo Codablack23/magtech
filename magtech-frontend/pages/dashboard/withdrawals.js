@@ -4,8 +4,9 @@ import DashboardLayout from "~/components/layouts/DashboardLayout";
 import DashboardBalance from "~/components/widgets/dashbaord/Balance";
 import Payments from "~/utils/Payment";
 import {Spin} from "antd"
-import {useState,useEffect} from 'react'
+import {useState,useEffect, useContext} from 'react'
 import { Modal } from "~/components/widgets/global/Modal";
+import { RateContext } from "~/context/payments/rateContext";
 
 function Withdrawals({withdraw}){
     const date = new Date(withdraw.createdAt)
@@ -29,6 +30,8 @@ export default function DashoardWithDrawalPage(){
     const [withdrawals,setWithdrawals] = useState([])
     const [isLoading,setIsLoading] = useState(false)
     const [isShowing,setIsShowing] = useState(false) 
+
+    const {withdrawRates} = useContext(RateContext)
 
     async function getData(){
         
@@ -57,15 +60,15 @@ export default function DashoardWithDrawalPage(){
 
                  <form className="mg__withdrawal-form mg-text-grey">
                     <div>
-                    <h2 className="mg-text-warning mg-font-euclid mg-font-bold" style={{marginBottom:"10px"}}>
+                    <h2 className="mg-text-warning mg-font-euclid mg-font-bold mg-text-center" style={{marginBottom:"10px"}}>
                         Our Withdrawal Exchange Rate
                     </h2>
-                    <h2 className="mg-text-grey mg-font-euclid mg-font-bold">
-                        1USD = 610NGN 
-                    </h2>
-                    <h2 className="mg-text-grey mg-font-euclid mg-font-bold">
-                         1USD = 1.2EUR 
-                    </h2>
+                    <div className="mg-d-flex mg-align-center mg-justify-between mg-bg-dark mg-rounded"
+                    style={{padding:"10px"}}
+                    >
+                        <div className="mg-text-grey mg-font-euclid mg-font-bold">1USD</div>
+                        <p className="mg-text-grey mg-font-euclid mg-font-bold">{withdrawRates.USD_NGN}NGN</p>
+                    </div>
                     </div><br />
                     <div className="mg-input-group mg-w-100">
                         <label htmlFor="account">Amount</label>

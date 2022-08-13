@@ -8,10 +8,10 @@
         @content;
     }
 };
-@mixin  button() {
+@mixin  button($btn_p:$padding,$btn_h:42px) {
     outline: none;
-    height: 42px;
-    padding:0 $padding ;
+    min-height: $btn_h;
+    padding:0 $btn_p ;
     display: grid;
     place-items: center;
     border-radius:$border_radius;

@@ -58,6 +58,7 @@ class Admin {
             }
         })
     }
+    
     async getAdmins(){
         return await axios.post(`${this.api}/admin/all`,{},config)
         .then(res=>res.data)
@@ -70,6 +71,26 @@ class Admin {
     }
     async loginAdmin(data){
         return await axios.post(`${this.api}/admin`,data,config)
+        .then(res=>res.data)
+        .catch(err=>{
+            return {
+                axios_err:err,
+                error:'couldn\'t connect with server please try again later',
+            }
+        })
+    }
+    async getRates(){
+        return await axios.post(`${this.api}/exchanges`,{},config)
+        .then(res=>res.data)
+        .catch(err=>{
+            return {
+                axios_err:err,
+                error:'couldn\'t connect with server please try again later',
+            }
+        })
+    }
+    async changeRate(data){
+        return await axios.post(`${this.api}/update-exchange`,data,config)
         .then(res=>res.data)
         .catch(err=>{
             return {

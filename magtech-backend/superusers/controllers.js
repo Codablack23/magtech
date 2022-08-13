@@ -1,4 +1,4 @@
-const {Admin} = require('./models')
+const {Admin,Exchange} = require('./models')
 const {User} = require("../users/models")
 const {Bot,Payment,Investment} = require("../bots/models")
 const { validateFields } = require('../services/validator')
@@ -26,7 +26,64 @@ async function createAdmin(req,res){
     })
 }
 
-
+async function getExchanges(req,res){
+  const result ={
+    status:"pending",
+    error:"no response yet"
+  }
+  try {
+     const exchanges = await Exchange.findAll()
+     result.error =""
+     result.status ="success"
+     result.exchanges = exchanges
+  } catch (error) {
+    result.status ="Server Error"
+    result.error = "we could not get any result due to an internal error please try again later"
+  }
+  res.json(result)
+}
+async function updateExchange(req,res){
+  const {rate,type,conversion} = req.body
+  const result ={
+    status:"pending",
+    error:"no response yet"
+  }
+  const errors = validateFields([
+    {inputType:"number",inputField:rate,inputName:"Exchange"},
+    {inputType:"username",inputField:type,inputName:"rate_type"},
+    {inputType:"username",inputField:conversion,inputName:"Conversion"}
+  ])
+  if(errors.length > 0){
+    result.error = errors
+    result.status = "field error"
+  }
+  else{
+    
+  try {
+    const exchange = Exchange.update({
+      rate:rate
+    },{
+      where:{
+        rate_type:type,
+        conversion:conversion
+      }
+    })
+    if(exchange){
+      result.status ="success"
+      result.error = ""
+      result.message = "exchange updated successfully"
+    }
+    else{
+      result.status ="failed"
+      result.error = "could not update exchange rate please try again later"
+    }
+  } catch (error) {
+    result.status ="Server Error"
+    result.error = "we could not get any result due to an internal error please try again later"
+  }
+  }
+  res.json(result)
+}
 
 async function loginAdmin(req,res){
     const {username,password} = req.body
@@ -194,5 +251,7 @@ module.exports={
     addAdmin,
     createAdmin,
     getAdmins,
-    getWithdrawals
+    getWithdrawals,
+    updateExchange,
+    getExchanges,
   }

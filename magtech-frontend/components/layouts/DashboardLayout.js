@@ -1,10 +1,10 @@
-import { Skeleton, Spin,Modal } from "antd"
+import {Spin} from "antd"
+import RatesProvider from '~/context/payments/rateContext'
 import Head from "next/head"
 import Link from "next/link"
 import { useContext, useEffect, useState } from "react"
 import SideMenu from "~/components/elements/dashboard/SideMenu"
 import { AuthContext } from "~/context/auth/context"
-import {toggleSideMenu} from '~/helpers'
 import User from "~/utils/User"
 
 export default function DashboardLayout({children,title}){
@@ -31,6 +31,7 @@ export default function DashboardLayout({children,title}){
     }, [])
     
     return(
+        <RatesProvider>
         <div className="mg__dashboard-layout ">
             <Head>
                 <title>Dashboard | {title}</title>
@@ -48,12 +49,12 @@ export default function DashboardLayout({children,title}){
                 <header className="mg-text-white mg-bg-dark">
                     <p className="mg-small-14">{authState.user && authState.user.email}</p>
                     <div className="mg__dashboard-actions">
-                        <Link href={"/dashboard/notifications"}>
+                        {/* <Link href={"/dashboard/notifications"}>
                         <a className="mg__notification-link">
                                 <i className="bi bi-bell mg-small-22"></i>
                                 <sup></sup>
                             </a>
-                        </Link>
+                        </Link> */}
                         <Link href={"/dashboard/settings"} >
                         <p className="mg__open-side-menu" style={{marginTop:"4px"}}>
                           <i className="bi bi-gear mg-small-20"></i>
@@ -70,6 +71,6 @@ export default function DashboardLayout({children,title}){
              </div>
           </div>
         </div>
-      
+        </RatesProvider>
     )
 }

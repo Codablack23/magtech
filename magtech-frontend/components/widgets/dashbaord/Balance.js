@@ -5,14 +5,17 @@ import {getConfig} from '~/utils/flutterwave'
 import Payments from "~/utils/Payment";
 import {useFlutterwave,closePaymentModal} from 'flutterwave-react-v3'
 import { AuthContext } from "~/context/auth/context";
+import { RateContext } from "~/context/payments/rateContext";
 
 function FundAccountForm({closeModal}){
     const {authState} = useContext(AuthContext)
+    const {paymentRates} = useContext(RateContext)
+
     const [amount,setAmount] = useState(0)
     const [isLoading,setIsLoading] = useState(false)
 
     const showPaymentModal = useFlutterwave(getConfig({
-        amount:amount * 650,
+        amount:amount * paymentRates.USD_NGN,
         email:authState.user.email?authState.user.email:"",
         description:"Payment for investment Bot"
     }))
@@ -81,7 +84,7 @@ function FundAccountForm({closeModal}){
     return(
     <form style={{padding:"10px"}}>
     <div className="mg-input-group">
-        <h2 className="mg-text-grey mg-text-center mg-font-euclid">Exchange rate for 1USD is at NGN650 </h2>
+        <h2 className="mg-text-grey mg-text-center mg-font-euclid">Exchange rate for 1USD is at NGN{paymentRates.USD_NGN} </h2>
         <label htmlFor="" className="mg-text-grey">Amount</label>
         <div className="mg-input-field mg-input-field-disabled">
             <input className="mg-w-100 mg-text-grey"

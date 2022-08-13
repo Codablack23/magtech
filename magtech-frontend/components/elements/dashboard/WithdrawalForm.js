@@ -158,8 +158,8 @@ export default function WithdrawalForm({amount}){
                 />
                 <select value={currency} onChange={(e)=>setCurrency(e.target.value)} className="mg-w-25 mg-bg-component">
                    <option value="NGN">NGN</option>
-                   <option value="USD">USD</option>
-                   <option value="EUR">EUR</option>
+                   {/* <option value="USD">USD</option>
+                   <option value="EUR">EUR</option> */}
                 </select>
             </div>
             <p className="mg-small-12 mg-text-danger">{errors.account_number}</p>
@@ -172,9 +172,9 @@ export default function WithdrawalForm({amount}){
             onChange={handleChangeBankType}
             className="mg-w-100 mg-text-grey mg-bg-component">
                 <option value="NGN">Naira Account</option>
-                <option value="NGN_USD">NGN Dom Account</option>
+                {/* <option value="NGN_USD">NGN Dom Account</option>
                 <option value="USD">US Account</option>
-                <option value="EUR">EUR and GBP account</option>
+                <option value="EUR">EUR and GBP account</option> */}
             </select>
             </div>
             <p className="mg-small-12 mg-text-danger">{errors.account_type}</p>
@@ -225,7 +225,7 @@ export default function WithdrawalForm({amount}){
             </div>
             <p className="mg-small-12 mg-text-danger">{errors.country}</p>
         </div>
-       {bankType === "NGN_USD"?
+       {/* {bankType === "NGN_USD"?
        <>
         <div className="mg-input-group">
             <label htmlFor="account">First Name</label>
@@ -333,7 +333,7 @@ export default function WithdrawalForm({amount}){
       </div>
       )}      
      </>
-       :null}
+       :null} */}
         <br />
         {!isLoading
          ?<button type="button" className="mg-btn-warning mg-w-100 mg-font-weight" onClick={handleWithdraw}>Continue</button>

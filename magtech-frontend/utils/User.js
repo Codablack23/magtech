@@ -72,6 +72,64 @@ class User {
            return err
         })
     }
+    async startPasswordChange(){
+        return await axios.post(`${this.api}/change-password`,{},this.config)
+        .then((res)=>{
+          return {
+              message:res.data.message,
+              err:res.data.err,
+              status:res.data.status,
+              url:res.data.url
+          }
+        })
+        .catch(err=>{
+           return err
+        })
+    }
+    async changePassword(details){
+     
+        return await axios.post(`${this.api}/change-password/${details.reset_code}`,{
+            new_password:details.new_password
+        },this.config)
+        .then((res)=>{
+          return {
+              status:res.data.status,
+              message:res.data.message,
+              err:res.data.error?res.data.error:""
+          }
+        })
+        .catch(err=>{
+           return err
+        })
+    }
+    async forgotPassword({email}){
+        return await axios.post(`${this.api}/forgot-password/`,{email},this.config)
+        .then(({data})=>{
+          return {
+            status:data.status,
+            message:data.message,
+            err:data.error,
+            url:data.url
+          }
+        })
+        .catch(err=>{
+           return err
+        })
+    }
+    async resetPassword(details){
+        return await axios.post(`${this.api}/reset-password/`,details,this.config)
+        .then(({data})=>{
+          return {
+              status:data.status,
+              message:data.message,
+              err:data.err,
+            
+          }
+        })
+        .catch(err=>{
+           return err
+        })
+    }
 }
 
 export default new User()

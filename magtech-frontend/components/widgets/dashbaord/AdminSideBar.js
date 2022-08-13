@@ -26,13 +26,9 @@ const addAdminIdToLinks =(id)=>{
           url:`${url}/admins`,
         },      
         {
-          name:"Support Team",
-          url:`${url}/support`,
-        },
-        {
-            name:"Messages",
-            url:`${url}/`,
-          },
+          name:"Exchange",
+          url:`${url}/exchange`,
+        }
     ]
 
     return links

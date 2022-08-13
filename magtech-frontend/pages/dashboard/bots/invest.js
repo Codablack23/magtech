@@ -7,10 +7,11 @@ import { notification, Spin } from "antd";
 import Payments from "~/utils/Payment";
 import { AuthContext } from "~/context/auth/context";
 import { bots,getBalance } from "~/utils/getBalance";
-
+import { RateContext } from "~/context/payments/rateContext";
 
 export default function InvestPage(){
     const {authState} = useContext(AuthContext)
+    const {paymentRates} = useContext(RateContext)
     const [bot_id,setBotID] = useState("buy-bot")
     const [bot_name,setBotName] = useState("")
     const [paidBots,setPaidBots] = useState([])
@@ -20,7 +21,11 @@ export default function InvestPage(){
     const [paymentMethod,setPaymentMethod] = useState("checkout")
         
     const currentUser = authState.user?authState.user:{}
-    const showPaymentModal = useFlutterwave(getConfig({amount,email:currentUser.email,description:"Hello world"}))
+    const showPaymentModal = useFlutterwave(getConfig({
+        amount:amount * paymentRates.USD_NGN,
+        email:currentUser.email,
+        description:"Hello world"
+    }))
 
     async function getBots(){
         const allbots = await Payments.getBots()
@@ -154,6 +159,9 @@ export default function InvestPage(){
                 <p className="mg-font-euclid mg-small-22 mg-font-bold mg-small-md-18 mg-text-center mg-text-warning">Make Investment</p><br />
 
                 <div className="mg-input-group">
+                 <h2 className="mg-text-grey mg-text-center mg-font-euclid">
+                     Exchange rate for 1USD is at NGN{paymentRates.USD_NGN} 
+                  </h2> 
                     <label htmlFor="">Amount</label>
                     <div className="mg-input-field mg-input-field-disabled">
                         <input value={amount}

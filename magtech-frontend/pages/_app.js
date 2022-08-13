@@ -3,6 +3,7 @@ import 'antd/dist/antd.css'
 import '../styles/style.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import AuthContextProvider from '~/context/auth/context';
+import RatesProvider  from '~/context/payments/rateContext';
 
 function MyApp({ Component, pageProps }) {
   //  new TradingView.widget(
@@ -24,12 +25,14 @@ function MyApp({ Component, pageProps }) {
   //   )
   return (
     <AuthContextProvider>
+    <RatesProvider>
     <div className='mg-bg-dark'>
       <Head>
         <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
       </Head>
       <Component {...pageProps} />
      </div>
+     </RatesProvider>
     </AuthContextProvider>
   
   )

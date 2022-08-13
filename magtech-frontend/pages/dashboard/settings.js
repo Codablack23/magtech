@@ -7,41 +7,123 @@ import { notification, Spin } from "antd";
 import Payments from "~/utils/Payment";
 import {useFlutterwave,closePaymentModal} from 'flutterwave-react-v3'
 import { AuthContext } from "~/context/auth/context";
+import User from "~/utils/User";
+import validateFields from "~/utils/validate";
+import { RateContext } from "~/context/payments/rateContext";
 
-function ChangePasswordForm(){
+function ChangePasswordForm(closeModal){
+    const [reset_code,setResetCode] = useState("")
+    const [newPassword,setNewPassword] = useState("")
+    const [confirmNewPassword,setConfirmPassword] = useState("")
+    const [errors,setErrors] = useState({})
+    const [isLoading,setIsLoading] = useState(false)
+    async function handleSubmit(e){
+        e.preventDefault()
+        const field_errors = validateFields([
+            {inputField:reset_code,inputType:"username",inputName:"reset_code"},
+            {inputField:newPassword,inputType:"password",inputName:"Password"},
+            {inputField:confirmNewPassword,inputType:"password",inputName:"Confirm_Password"}
+
+        ])
+      
+        const errObj = {}
+        field_errors.forEach(err=>{
+            errObj[err.field] = err.error
+        })
+        setErrors(errObj)
+        if(field_errors.length === 0){
+          if(newPassword === confirmNewPassword){
+            setIsLoading(true)
+            const response = await User.changePassword({
+                reset_code,
+                new_password:newPassword
+            })
+            setIsLoading(false)
+            if(response.status==="success"){
+                notification.success({
+                    message:<h3 className="mg-text-white">Success</h3>,
+                    description:<p className="mg-small-14 mg-text-primary">{response.message}</p>,
+                    className:"mg-bg-component"
+                  })
+            }
+            else{
+                notification.error({
+                    message:<h3 className="mg-text-white">{response.status}</h3>,
+                    description:<p className="mg-small-14 mg-text-danger">invalid reset code </p>,
+                    className:"mg-bg-component"
+                  })
+            }
+          }else{
+            notification.error({
+              message:<h3 className="mg-text-white">Password Error</h3>,
+              description:<p className="mg-small-14 mg-text-danger">New Password and Confirm Password do not match</p>,
+              className:"mg-bg-component"
+            })
+          }
+        }
+    }
     return(
         <form style={{padding:"10px"}}>
-        <p className="mg-small-12 mg-text-disabled mg-text-center">A 6 digit code have been sent to your mail for reseting your password, do not share with anyone</p>
+        <p className="mg-small-12 mg-text-grey mg-text-center">A 6 digit code have been sent to your mail for reseting your password, do not share with anyone</p>
         <br />
         <div className="mg-input-group">
-            <label htmlFor="" className="mg-text-grey">OTP</label>
+            <label htmlFor="" className="mg-text-grey">Reset Code</label>
             <div className="mg-input-field mg-input-field-disabled">
-                <input className="mg-w-100 mg-text-grey" type="text" maxLength={6} max={3} name="" id="" />
+                <input 
+                className="mg-w-100 mg-text-grey" 
+                type="text"
+                value={reset_code}
+                onChange={(e)=>setResetCode(e.target.value)}
+                maxLength={6} 
+                max={3}
+                name="" id="" />
             </div>
         </div>
+        <p className="mg-text-danger mg-small-13">{errors.reset_code}</p>
         <div className="mg-input-group">
             <label htmlFor="" className="mg-text-grey">New Password</label>
             <div className="mg-input-field mg-input-field-disabled">
-                <input className="mg-w-100  mg-text-grey" type="password" name="" id="" />
+                <input 
+                className="mg-w-100  mg-text-grey" 
+                type="password"
+                name=""
+                value={newPassword} 
+                onChange={(e)=>setNewPassword(e.target.value)}
+                id="" />
             </div>
         </div>
-        <div className="mg-input-group">                    <label htmlFor="" className="mg-text-grey">Confirm New Password</label>
+        <p className="mg-text-danger mg-small-13">{errors.password}</p>
+        <div className="mg-input-group">
+        <label htmlFor="" className="mg-text-grey">Confirm New Password</label>
             <div className="mg-input-field mg-input-field-disabled">
-                <input className="mg-w-100  mg-text-grey" type="password" name="" id="" />
+                <input 
+                className="mg-w-100  mg-text-grey"
+                type="password"
+                name="" 
+                id=""
+                value={confirmNewPassword} 
+                onChange={(e)=>setConfirmPassword(e.target.value)}
+                />
             </div>
-        </div><br />
-        <button className="mg-btn-warning mg-w-100">Change Password</button>
+        </div>
+        <p className="mg-text-danger mg-small-13">{errors.confirm_password}</p>
+        <br />
+       {isLoading?
+        <button className="mg-btn-warning mg-w-100"><Spin/></button>
+       :<button className="mg-btn-warning mg-w-100" onClick={handleSubmit}>Change Password</button>
+       }
      </form>
     )
 }
 
 function FundAccountForm({closeModal}){
     const {authState} = useContext(AuthContext)
+    const {paymentRates} = useContext(RateContext)
     const [amount,setAmount] = useState(0)
     const [isLoading,setIsLoading] = useState(false)
 
     const showPaymentModal = useFlutterwave(getConfig({
-        amount,
+        amount:amount * paymentRates.USD_NGN,
         email:authState.user.email?authState.user.email:"",
         description:"Payment for investment Bot"
     }))
@@ -107,6 +189,9 @@ function FundAccountForm({closeModal}){
     return(
     <form style={{padding:"10px"}}>
     <div className="mg-input-group">
+        <h2 className="mg-text-grey mg-text-center mg-font-euclid">
+            Exchange rate for 1USD is at NGN{paymentRates.USD_NGN} 
+        </h2> 
         <label htmlFor="" className="mg-text-grey">Amount</label>
         <div className="mg-input-field mg-input-field-disabled">
             <input className="mg-w-100 mg-text-grey"
@@ -129,9 +214,18 @@ export default function DashoardSettingsPage(){
     const [isWithdrawalDetailsShown,setIsWithdrawalDetailsShown] = useState(false)
     const [isFundingShown,setIsFundingShown] = useState(false)
 
-    function requestPassChange(){
+   async function requestPassChange(){
       setLoadingPassChange(true)
-      setIsPassChangeModalOpen(true)
+      const send_email = await User.startPasswordChange()
+      console.log(send_email)
+      if(send_email.status === "success"){
+        setIsPassChangeModalOpen(true)
+      }else{
+        notification.error({
+            message:<h2 className="mg-text-white">Failed</h2>,
+            description:<p className="mg-text-danger">{send_email.err}</p>
+        })
+      }
       setLoadingPassChange(false)
 
     }
@@ -169,7 +263,7 @@ export default function DashoardSettingsPage(){
                     }
                 </header>
             </div>
-            <div className="mg-min-vh-10 mg-bg-component mg-rounded" style={{marginTop:"20px",padding:"1em"}}>
+            {/* <div className="mg-min-vh-10 mg-bg-component mg-rounded" style={{marginTop:"20px",padding:"1em"}}>
               <header className="mg-d-flex  mg-w-100 mg-justify-between mg-align-center">
                     <h3 className="mg-text-warning mg-font-bold">Add Withdraw Details</h3>
                     <p className="mg-pointer" onClick={()=>setIsWithdrawalDetailsShown(true)}>
@@ -177,7 +271,7 @@ export default function DashoardSettingsPage(){
                     </p>
               </header> 
               <div></div>
-            </div>
+            </div> */}
             <div className="mg-min-vh-10 mg-bg-component mg-rounded" 
             onClick={()=>setIsFundingShown(true)}
             style={{marginTop:"20px",padding:"1em"}}>

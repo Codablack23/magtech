@@ -1,11 +1,11 @@
-const { User } = require("./models")
+const { User,ResetCode} = require("./models")
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt")
 const uuid = require("uuid")
 const {validateFields,checkEmpty,matchFormat} = require("../services/validator")
 const { Refferals } = require("../bots/models")
 const { sendEmail } = require("../services/sendmail")
-const { response } = require("express")
+const moment = require("moment")
 
 
 async function loginHandler(req,res){
@@ -71,7 +71,6 @@ console.log(req.body)
   try {
     const refUser = checkEmpty(refcode)?"":await User.findOne({where:{ref_code:refcode}})
     const existingUser = await User.findOne({where:{Email:email}})
-    console.log(refUser)
     if(refUser !== null || refUser === "" ){
        if(existingUser !== null){
         result.status = "failed"
@@ -115,36 +114,113 @@ console.log(req.body)
  res.json(result)
 
 }
+async function changePassword(req,res){
+
+   const code = req.params.id
+   const {new_password} = req.body
+   const email = req.session.user.email
+   const errors = validateFields([
+    {inputName:'reset_code',inputType:"username",inputField:code},
+    {inputType:"password",inputField:new_password}
+   ])
+   const current_date = new Date()
+   const result ={
+    status:"pending",
+    err:"no activity"
+   }
+   if(errors.length < 1){
+    try {
+      const reset_code = await ResetCode.findOne({where:{
+        code:code,
+        email:email,
+        type:"change"
+      }})
+      if(reset_code){
+        const time_left = (reset_code.expires - current_date)/60000
+        if(time_left <= 30 && time_left > 0){
+            const salt = await bcrypt.genSalt()
+            const password = await bcrypt.hash(new_password,salt)
+            const user_update = await User.update({
+              password:password
+            },{
+              where:{
+                email:email
+              }
+            })
+            if(user_update){
+              await ResetCode.destroy({
+                where:{
+                  email:email,
+                  code:code
+                }
+              })
+              result.err = ""
+              result.status = "success"
+              result.message = "password changed successfully"
+            }else{
+              result.err = 'could not change your password try again later'
+              result.status = "Password Change Failed"
+            }
+        }else{
+          result.err = 'reset code is not longer valid'
+          result.status = "Expired Code"
+        }
+      }else{
+        result.err = 'reset code is not valid'
+        result.status = "Code Error"
+      }
+     } catch (error) {
+      result.err = 'an error occured in our server check your internet connection and try again'
+      result.status = "Internal Server Error"
+     }
+   }else{
+     result.status = "field error"
+     result.err = errors
+   }
+   res.json(result)
+}
 async function sendResetPasswordToken(req,res){
   const {email} = req.session.user
   const genCode = uuid.v4().toString().slice(0,6)
-
   const result = {
     status:"pending",
     error:""
   }
-  const {url} = await sendEmail({
-    reciever:email,
-    message_body:{
-      html:`
-        <h1 style="font-family:sans-serif;font-size:24px;">
-           <b>Your password reset code is ${genCode} it expires in 30mins please do not share with anyone</b>
-        </h1>
-       <a>
-       <button style="background:blue;color:white;width:140px;height:40px;font-size:18px;border:none;">Visit Page</button>
-       </a>
-        `
+  try {
+     await ResetCode.create({
+      code:genCode,
+      email:email,
+      type:"change",
+      expires:moment(new Date()).add(30,"m").toDate()
+    })
+    const {url} = await sendEmail({
+      reciever:email,
+      message_body:{
+        html:`
+          <h1 style="font-family:sans-serif;font-size:24px;">
+             <b>Your password reset code is ${genCode} it expires in 30mins please do not share with anyone</b>
+          </h1>
+         <a>
+         <button style="background:blue;color:white;width:140px;height:40px;font-size:18px;border:none;">Visit Page</button>
+         </a>
+          `
+      }
+    })
+    if(url){
+      result.status = "success",
+      result.message = "Message sent to your email successfully"
+      result.error = ""
+      result.url = url
     }
-  })
-  if(url){
-    result.status = "success",
-    result.message = "Message sent to your email successfully"
-    result.error = ""
-    result.url = url
-  }
-  else{
-    result.status = "Failed",
-    result.error = "Message could sent to your email successfully"
+    else{
+      result.status = "Failed",
+      result.error = "Message could not be sent to your email"
+    }
+  
+  } catch (error) {
+    console.log(error)
+    result.status ="Internal server error"
+    result.err = "server error please try again later"
   }
   res.json(result)
 }
@@ -161,10 +237,133 @@ async function logoutHandler(req,res){
 
     res.json(response)
 }
-
+async function forgotPassword(req,res){
+  const {email} = req.body
+  const genCode = uuid.v4().toString().slice(0,6)
+  const result = {
+    status:"pending",
+    error:""
+  }
+  try {
+     const userExists = await User.findOne({
+      where:{email:email}
+     })
+     if(userExists){
+      await ResetCode.create({
+        code:genCode,
+        email:email,
+        type:"change",
+        expires:moment(new Date()).add(30,"m").toDate()
+      })
+      const {url} = await sendEmail({
+        reciever:email,
+        message_body:{
+          html:`
+            <div style="margin:10px auto;max-width:500px;text-align:center">
+            <h1>Magtech</h1>
+            <h1 style="font-family:sans-serif;font-size:24px;">
+               <b>Your password reset code is ${genCode} it expires in 30mins please do not share with anyone</b>
+            </h1>
+           <a>
+           <button style="background:blue;color:white;width:140px;height:40px;font-size:18px;border:none;">Visit Page</button>
+           </a>
+            </div>
+            `
+        }
+      })
+      if(url){
+        result.status = "success",
+        result.message = "Message sent to your email successfully"
+        result.error = ""
+        result.url = url
+      }
+      else{
+        result.status = "Failed",
+        result.error = "Message could sent to your email successfully"
+      }
+     }
+    else{
+      result.status = "Failed",
+      result.error = "User does not exist"
+    }
+  
+  } catch (error) {
+    console.log(error)
+    result.status ="Internal server error"
+    result.err = "server error please try again later"
+  }
+  res.json(result)
+}
+async function resetPassword(req,res){
+  const {code,new_password,email} = req.body
+  const errors = validateFields([
+   {inputName:'reset_code',inputType:"username",inputField:code},
+   {inputType:"password",inputField:new_password},
+   {inputType:"email",inputField:email}
+  ])
+  const current_date = new Date()
+  const result ={
+   status:"pending",
+   err:"no activity"
+  }
+  if(errors.length === 0){
+   try {
+     const reset_code = await ResetCode.findOne({where:{
+       code:code,
+       email:email,
+       type:"change"
+     }})
+     if(reset_code){
+       const time_left = (reset_code.expires - current_date)/60000
+       if(time_left <= 30 && time_left > 0){
+           const salt = await bcrypt.genSalt()
+           const password = await bcrypt.hash(new_password,salt)
+           const user_update = await User.update({
+             password:password
+           },{
+             where:{
+               email:reset_code.email
+             }
+           })
+           if(user_update){
+             await ResetCode.destroy({
+               where:{
+                 email:email,
+                 code:code
+               }
+             })
+             result.err = ""
+             result.status = "success"
+             result.message = "password changed successfully"
+           }else{
+             result.err = 'could not change your password try again later'
+             result.status = "Password Change Failed"
+           }
+       }else{
+         result.err = 'reset code is not longer valid'
+         result.status = "Expired Code"
+       }
+     }else{
+       result.err = 'reset code is not valid'
+       result.status = "Code Error"
+     }
+    } catch (error) {
+      console.log(error)
+     result.err = 'an error occured in our server check your internet connection and try again'
+     result.status = "Internal Server Error"
+    }
+  }else{
+    result.status = "field error"
+    result.err = errors
+  }
+  res.json(result)
+}
 module.exports = {
     loginHandler,
     registerHandler,
     logoutHandler,
     sendResetPasswordToken,
+    changePassword,
+    forgotPassword,
+    resetPassword
 }

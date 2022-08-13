@@ -6,12 +6,14 @@ import { FullChart, Snaps, TickerTapeWidget } from '~/components/widgets/charts/
 import Steps from '~/components/widgets/home/Steps'
 import Services from '~/components/widgets/home/Services'
 import Features from '~/components/widgets/home/Features'
+import ChatBot from '~/components/widgets/home/chatBot'
 
 export default function Home() {
   const Router = useRouter()
   const goTo=(route)=>{
     Router.push(route)
   }
+
   return (
   <LayoutDefault title={"Home"} pageType={"home"}>
     <div className=''>
@@ -39,6 +41,7 @@ export default function Home() {
      <Services/><br />
      <Features/>
       <Steps/><br />
+      <ChatBot/>
       <PricingContainer/><br />
       <div className="mg-container mg-text-white mg-text-center mg-min-vh-90 mg__about" id='about'>
         <div>

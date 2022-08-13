@@ -1,10 +1,23 @@
 const express = require("express")
 const {authenticateAdmin} = require("../services/auth")
-const {getBots,getUsers,getInvestments,getPayments,addAdmin,loginAdmin, UpdateAdmin, createAdmin, getWithdrawals, getAdmins} = require("./controllers")
+const {
+getBots,
+getUsers,
+getInvestments,
+getPayments,
+addAdmin,
+loginAdmin,
+updateExchange,
+getExchanges,
+createAdmin, 
+getWithdrawals, 
+getAdmins
+} = require("./controllers")
 
 const authRouter = express.Router()
 
-
+authRouter.post("/update-exchange",authenticateAdmin,updateExchange);
+authRouter.post("/exchanges",getExchanges)
 authRouter.post("/create-admin",createAdmin)
 authRouter.post("/",authenticateAdmin,(req,res)=>{
     console.log(req.session.admin)

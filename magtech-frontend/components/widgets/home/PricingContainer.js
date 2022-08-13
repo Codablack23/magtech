@@ -55,7 +55,7 @@ export default function PricingContainer(){
            
             <div className="row align-center w-100">
              {bots.map(bot=>(
-               <PriceBot bot={bot}/>
+               <PriceBot key={bot.name} bot={bot}/>
              ))}
             </div>
            </div>

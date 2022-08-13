@@ -48,7 +48,18 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
+.mg__support-chat{
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  min-width: 320px;
+  height: 75%;
+  iframe{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+}
 .mg-rounded{
   border-radius:$border_radius;
 }
@@ -182,7 +193,18 @@ a {
   margin-bottom: 0.5em;
  }
 
-
+.mg-exchange-list{
+  li{
+    width: 90%;
+    padding:10px;
+    margin:10px auto;
+    input{
+      border-radius: 7px;
+      outline: none;
+    }
+    
+  }
+}
  .mg-input-field{
   display: flex;
   border-radius: 7px;
