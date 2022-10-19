@@ -124,7 +124,7 @@ function FundAccountForm({closeModal}){
 
     const showPaymentModal = useFlutterwave(getConfig({
         amount:amount * paymentRates.USD_NGN,
-        email:authState.user.email?authState.user.email:"",
+        email:"codablack24@gmail.com",
         description:"Payment for investment Bot"
     }))
 
