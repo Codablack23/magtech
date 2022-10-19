@@ -139,6 +139,7 @@ export default function DashboardBotPage(){
   async function getBots(){
     setIsBotLoading(true)
     const allbots = await Payments.getBots()
+    console.log(allbots)
     if(allbots.bots.length !==0 ){
       setPaidBots(allbots.bots)
     }

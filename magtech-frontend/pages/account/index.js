@@ -10,7 +10,7 @@ import validateFields from "~/utils/validate";
 export default function LoginPage(){
     const {dispatch} = useContext(AuthContext)
 
-    const [email,setEmail] = useState("")
+    const [phone,setPhone] = useState("")
     const [password,setPassword] = useState("")
     const [errors,setErrors] = useState({})
     const [isLoading,setIsLoading] = useState(false)
@@ -24,7 +24,7 @@ export default function LoginPage(){
     async function handleLogin(e){
         e.preventDefault()
      const fieldErrors = validateFields([
-        {inputField:email,inputType:"email"},
+        {inputField:phone,inputType:"phone",inputName:"phone"},
         {inputField:password,inputType:"password"}
       ])
      const errObj = {}
@@ -34,7 +34,8 @@ export default function LoginPage(){
      setErrors(errObj)
      if(fieldErrors.length === 0){
         setIsLoading(true)
-        const response = await User.login({email,password})
+        const response = await User.login({phone,password})
+        console.log(response)
         if(response.user){
             dispatch({type:"LOGIN_USER",payload:{user:response.user}})
             window.location.assign("/dashboard")
@@ -56,16 +57,16 @@ export default function LoginPage(){
            <AccountContainer Page={"Login"}>
                <form action="" className="mg-account-form" >
                    <div className="mg-input-container">
-                    <label htmlFor="" className="mg-input-label mg-text-grey">Email</label>
+                    <label htmlFor="" className="mg-input-label mg-text-grey">Phone</label>
                       <div className="mg-input-field">
-                          <input type="email"
-                          value={email}
-                          onChange={(e)=>setEmail(e.target.value)} 
+                          <input type="number"
+                          value={phone}
+                          onChange={(e)=>setPhone(e.target.value)} 
                           className="mg-text-warning"
                           />
                       </div>
                    </div>
-                   <p className="mg-text-danger mg-small-12">{errors.email}</p>
+                   <p className="mg-text-danger mg-small-12">{errors.phone}</p>
 
                    <div className="mg-input-container">
                     <label htmlFor="" className="mg-input-label mg-text-grey">Password</label>

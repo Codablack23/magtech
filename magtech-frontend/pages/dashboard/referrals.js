@@ -10,7 +10,8 @@ const Referrals =({refree})=>{
     return(
     <li>
         <div className="">
-            <p className="mg-text-warning">{refree.first_gen}</p>
+            <p className="mg-text-warning">{refree.first_gen} (1st gen)</p>
+            {refree.second_gen?<p className="mg-text-grey">{refree.second_gen} (2nd gen)</p>:null}
         </div>
         <div>
         <p className="mg-text-grey">{date.toDateString()}</p>
@@ -28,6 +29,7 @@ export default function DashboardReferralsPage(){
     async function getInit(){
         setIsLoading(true)
         const response = await Payment.getRefs()
+        console.log(response)
         if(response.refs){
             setRefs(response.refs)
 

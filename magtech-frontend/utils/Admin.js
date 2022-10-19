@@ -81,7 +81,10 @@ class Admin {
     }
     async getRates(){
         return await axios.post(`${this.api}/exchanges`,{},config)
-        .then(res=>res.data)
+        .then(res=>{
+            console.log(res.data)
+           return res.data
+        })
         .catch(err=>{
             return {
                 axios_err:err,

@@ -17,7 +17,7 @@ export default function RegisterPage(){
     const [isPassShowing,setIsPassShowing] = useState(false)
     const [isConfirmPassShowing,setIsConfirmPassShowing] = useState(false)
     const [name,setName] = useState("")
-    const [email,setEmail] = useState("")
+    const [username,setUsername] = useState("")
     const [password,setPassword] = useState("")
     const [refcode,setRefcode] = useState("")
     const [phone,setPhone] = useState("")
@@ -50,7 +50,7 @@ export default function RegisterPage(){
         const fieldErrors = validateFields([
             {inputField:name,inputType:"text",inputName:"Name"},
             {inputField:password,inputType:"password"},
-            {inputField:email,inputType:"email"},
+            {inputField:username,inputType:"username"},
             {inputField:phone,inputType:"phone"},
             {inputField:confirmPassword,inputType:"username",inputName:"Confirm Password"}
         ])
@@ -73,18 +73,28 @@ export default function RegisterPage(){
                 description:<p className="mg-text-danger">password and confirm password do not match </p>
             })
            }else{
-            const response = await User.signUp({refcode:ref_code?ref_code:refcode,
-                email,password,phone,name
-            })
-            if(response.user){
+            const response = await User.signUp(ref_code?
+                ({refcode:ref_code,username,password,phone,name})
+                :({username,password,phone,name})
+            )
+            if(response.status === "success"){
                 dispatch({type:"SIGNUP_USER",payload:{user:response.user}})
                 window.location.assign('/dashboard')
             } else{
-                notification.error({
-                    className:"mg-bg-component",
-                    message:<h2 className="mg-text-white">Login Error</h2>,
-                    description:<p className="mg-text-danger">{response.err}</p>
-                })
+                if(response.status === "field-error"){
+                    notification.error({
+                        className:"mg-bg-component",
+                        message:<h2 className="mg-text-white">Login Error</h2>,
+                        description:response.err.map(err=><p className="mg-text-danger">{err.field} {err.error}</p>)
+                    })
+                }
+                else{
+                    notification.error({
+                        className:"mg-bg-component",
+                        message:<h2 className="mg-text-white">Login Error</h2>,
+                        description:<p className="mg-text-danger">{response.err}</p>
+                    })
+                }
             }
            }
            setIsLoading(false)
@@ -107,16 +117,16 @@ export default function RegisterPage(){
                   <p className="mg-text-danger mg-small-12">{errors.name}</p>
 
                    <div className="mg-input-container">
-                    <label htmlFor="" className="mg-input-label mg-text-grey">Email</label>
+                    <label htmlFor="" className="mg-input-label mg-text-grey">Username</label>
                       <div className="mg-input-field">
-                          <input type="email" 
-                          value={email}
-                          onChange={(e)=>setEmail(e.target.value)}
+                          <input type="username" 
+                          value={username}
+                          onChange={(e)=>setUsername(e.target.value)}
                           className="mg-text-warning" 
                           />
                       </div>
                    </div>
-                   <p className="mg-text-danger mg-small-12">{errors.email}</p>
+                   <p className="mg-text-danger mg-small-12">{errors.username}</p>
 
                    <div className="mg-input-container">
                     <label htmlFor="" className="mg-input-label mg-text-grey">Phone No</label>

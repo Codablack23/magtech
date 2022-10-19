@@ -3,7 +3,6 @@ import {actionTypes} from "./actions"
 export default function AuthReducer(state,action){
   switch (action.type) {
     case actionTypes.login:
-      console.log(action.payload)
       return {
         isAuthenticated:true,
         user:action.payload.user

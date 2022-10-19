@@ -8,7 +8,7 @@ import { AuthContext } from "~/context/auth/context";
 import { RateContext } from "~/context/payments/rateContext";
 
 function FundAccountForm({closeModal}){
-    const {authState} = useContext(AuthContext)
+
     const {paymentRates} = useContext(RateContext)
 
     const [amount,setAmount] = useState(0)
@@ -16,7 +16,7 @@ function FundAccountForm({closeModal}){
 
     const showPaymentModal = useFlutterwave(getConfig({
         amount:amount * paymentRates.USD_NGN,
-        email:authState.user.email?authState.user.email:"",
+        email:"goodluckedih@gmail.com",
         description:"Payment for investment Bot"
     }))
 
@@ -59,7 +59,7 @@ function FundAccountForm({closeModal}){
                 showPaymentModal({
                  callback:(res)=>flutterwaveCallback(res,payment.payment_id),
                  onClose:async ()=>{
-                    await Payments.deletePayment(payment.payment_id)
+                    await Payments.deletePayment(payment.id)
                  }
                 })
             }else{

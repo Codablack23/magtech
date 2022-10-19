@@ -34,9 +34,9 @@ export default function validateFields(validator){
            else if(field.length < 8){
             addErrors(errors,"must be atleast 8 characters long",fieldName)
            }
-           else if(matchFormat(field,/[@|#]+/g) || (matchFormat(field,/\d+/g))){
-            addErrors(errors,"must contain atleast a number and special characters like(@, _, #) ","Password")
-           }
+          //  else if(matchFormat(field,/[@|#]+/g) || (matchFormat(field,/\d+/g))){
+          //   addErrors(errors,"must contain atleast a number and special characters like(@, _, #) ","Password")
+          //  }
          }
        },
        username:{

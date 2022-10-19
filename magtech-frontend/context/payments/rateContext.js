@@ -4,12 +4,12 @@ export const RateContext = createContext({})
 
 export default function RatesProvider({children}){
     const [paymentRates,setPaymentRates] = useState({
-     USD_NGN:0.00,
-     USD_EUR:0.00
+     USD_NGN:650.00,
+     USD_EUR:0.90
     })
     const [withdrawRates,setWithdrawRates] = useState({
-      USD_NGN:0.00,
-      USD_EUR:0.00
+      USD_NGN:600.00,
+      USD_EUR:1.00
     })
     async function getRates(){
       const {exchanges} = await Admin.getRates()

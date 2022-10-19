@@ -18,6 +18,7 @@ class User {
       .then((res)=>{
         console.log(res.data)
         return {
+            status:res.data.status,
             user:res.data.user,
             err:res.data.error
         }
@@ -33,8 +34,9 @@ class User {
         return await axios.post(`${this.api}/signup`,user,this.config)
         .then((res)=>{
           return {
+              status:res.data.status,
               user:res.data.user,
-              err:res.data.err
+              err:res.data.error
           }
         })
         .catch(err=>{
@@ -48,8 +50,10 @@ class User {
         return await axios.post(`${this.api}`,{},this.config)
   
         .then(res=>{
+          console.log(res)
             return {
-                user:{email:res.data.email,refcode:res.data.ref_code},
+                status:res.data.status,
+                user:res.data.user,
                 err:res.data.err
             }
         })
@@ -64,6 +68,7 @@ class User {
         return await axios.post(`${this.api}/logout`,{},this.config)
         .then((res)=>{
           return {
+              status:res.data.status,
               message:res.data.message,
               err:res.data.error
           }

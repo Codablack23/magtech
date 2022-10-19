@@ -24,11 +24,13 @@ function Rates({exchange,setExchange,isEditable,setIsEditable,onSend,currency,up
          onSend()
       }
       else{
-        const error_message = <p className="mg-text-danger">{response.error}</p>
-        if(response.status === "field error"){
+        let error_message;
+        if(response.status === "field error" || response.status === "field-error" ){
              error_message = <div>{response.error.map(err=><p className="mg-text-danger">{err.error}</p>)}</div>
+        }else{
+          error_message = <p className="mg-text-danger">{response.error}</p>
         }
-        notification.success({
+        notification.error({
             message:<h3 className="mg-text-white">Failed</h3>,
             className:"mg-bg-dark",
             description:error_message

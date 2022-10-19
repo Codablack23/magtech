@@ -14,7 +14,7 @@ export default function PriceBot({bot}){
         <span className="mg-text-warning mg-small-45 mg-font-bold mg-font-euclid">${bot.price}</span>
     </p>
     <Link href={"/account/"}>
-    <p className="mg-bot-btn mg-bg-warning mg-rounded mg-w-80">Get Started</p>
+    <p className="mg-bot-btn mg-bg-warning mg-rounded mg-w-80" style={{cursor:"pointer"}}>Get Started</p>
    </Link>
     <div className="mg-container-small">
      <p className="mg-text-white mg-small-18"><i className="bi bi-check-lg mg-text-warning"></i>   Usage time of {duration} day(s)</p>
