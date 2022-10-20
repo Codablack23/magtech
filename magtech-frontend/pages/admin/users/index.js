@@ -61,7 +61,10 @@ async function getPayments(){
   setIsLoading(true)
   try {
   const apiData = await Admin.getUsers()
-  setUsers(apiData.users)
+  const sortedUsers = apiData.users.sort((a,b)=>{
+    return (new Date(b.createdAt) - new Date(b.createdAt))
+  })
+  setUsers(sortedUsers)
   setRefs(apiData.refs)
   setIsLoading(false)
   } catch (error) {
