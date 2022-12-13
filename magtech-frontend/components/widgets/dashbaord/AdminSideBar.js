@@ -20,21 +20,28 @@ const addAdminIdToLinks =(id)=>{
         {
           name:"Users",
           url:`${url}/users`,
+
         },
         {
           name:"Admins",
           url:`${url}/admins`,
+          superUser:true
         },      
         {
           name:"Exchange",
           url:`${url}/exchange`,
+          superUser:true
+        },
+        {
+          name:"Change Password",
+          url:`${url}/change-password`,
         }
     ]
 
     return links
 }
 
-export default function AdminSideBar({title,isMobile}){
+export default function AdminSideBar({title,isMobile,admin}){
    const links = addAdminIdToLinks(1)
     return(
         <nav className="mg__admin-sidebar mg-bg-component" id={isMobile?"admin-sidebar-mobile":""}>
@@ -47,11 +54,16 @@ export default function AdminSideBar({title,isMobile}){
             </p>
           </header>
           <aside className="mg-admin-links">
-            {links.map(link=>(
+            {links.filter(link=>!link.superUser).map(link=>(
                 <Link href={link.url}>
                  <a className={`mg-admin-link ${link.name===title?"active":""}`}>{link.name}</a>
                 </Link>
             ))}
+             {admin.isSuperUser?links.filter(link=>(link.superUser)).map(link=>(
+                <Link href={link.url}>
+                 <a className={`mg-admin-link ${link.name===title?"active":""}`}>{link.name}</a>
+                </Link>
+            )):null}
           </aside>
         </nav>
     )

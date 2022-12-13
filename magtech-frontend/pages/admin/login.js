@@ -47,7 +47,7 @@ export default function AdminLoginPage(){
         <title>Admin</title>
        </Head>
         
-        <form action="" className="mg__admin-form mg-bg-component">
+        <form action="" className="mg__admin-form mg-bg-component" style={{top:"10em"}}>
             <h1 className="mg-text-center mg-text-primary">Administrator</h1><br /><br />
 
             <div className="input-group">

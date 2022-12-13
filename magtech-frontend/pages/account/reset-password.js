@@ -1,4 +1,4 @@
-import { notification, Spin } from "antd";
+import { message, notification, Spin } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState,useEffect } from "react";
@@ -11,7 +11,6 @@ export default function RegisterPage(){
     const router = useRouter()
     const emailParams = router.query.email
     const [isPassShowing,setIsPassShowing] = useState(false)
-    const [email,setEmail] = useState()
     const [isConfirmPassShowing,setIsConfirmPassShowing] = useState(false)
     const [resetCode,setResetCode] = useState("")
     const [password,setPassword] = useState("")
@@ -20,15 +19,18 @@ export default function RegisterPage(){
     const [isLoading,setIsLoading] = useState(false)
  
     useEffect(() => {
-        const user = router.asPath.slice(router.asPath.indexOf("=") + 1)
+        const code = router.asPath.slice(router.asPath.indexOf("=") + 1)
         const key = router.asPath.slice(
             router.asPath.indexOf("?") + 1,
             router.asPath.indexOf("=")
         )
-        console.log(key)
-        if(!(user && key === "email")){
+        if(!(code && key === "reset-code")){
           window.location.assign("/account")
         }
+        else{
+            setResetCode(code)
+        }
+        message.info("This Link Expires After an Hour",5)
     }, [])
     const handleShowPassword=(e,field)=>{
         if(field==='confirm'){
@@ -46,7 +48,6 @@ export default function RegisterPage(){
     async function handleSubmit(e){
         e.preventDefault();
         const fieldErrors = validateFields([
-            {inputField:resetCode,inputType:"refcode",inputName:"Reset_Code"},
             {inputField:password,inputType:"password"},
             {inputField:confirmPassword,inputType:"password",inputName:"Confirm_Password"}
         ])
@@ -59,22 +60,24 @@ export default function RegisterPage(){
           if(password === confirmPassword){
             setIsLoading(true)
             const response = await User.resetPassword({
-                code:resetCode,
+                reset_code:resetCode,
                 new_password:password,
-                email:emailParams
             })
             setIsLoading(false)
             console.log(response)
             if(response.status === "success"){
                 notification.success({
                     message:<h3 className="mg-text-white">Success</h3>,
-                    description:<p className="mg-text-white"><small>{response.message}</small></p>,
+                    description:<p className="mg-text-white"><small>{response.message}, you will be redirected to the Login page shortly</small></p>,
                     className:"mg-bg-component"
                 })    
+                setTimeout(()=>{
+                    window.location.assign("/account")
+                },7000)
             }else{
                 notification.error({
                     message:<h3 className="mg-text-white">Failed</h3>,
-                    description:<p className="mg-text-danger"><small>{response.err}</small></p>,
+                    description:<p className="mg-text-danger"><small>{response.error}</small></p>,
                     className:"mg-bg-component"
                 })  
             }
@@ -92,19 +95,6 @@ export default function RegisterPage(){
         <AccountLayout title={"Reset Password"} pageType={"account"}>
           <AccountContainer Page={'Reset Password'}>
           <form action="" className="mg-account-form">
-                  <div className="mg-input-container">
-                    <label htmlFor="" className="mg-input-label mg-text-grey">Reset Code</label>
-                      <div className="mg-input-field">
-                          <input 
-                          className="mg-text-warning"
-                          type="text"
-                          value={resetCode}
-                          onChange={(e)=>setResetCode(e.target.value)}
-                          min="6"
-                          />
-                      </div>
-                      <p><small className="mg-text-danger">{errors.reset_code}</small></p>
-                   </div>
                    <div className="mg-input-container">
                     <label htmlFor="" className="mg-input-label mg-text-grey">New Password</label>
                       <div className="mg-input-field">

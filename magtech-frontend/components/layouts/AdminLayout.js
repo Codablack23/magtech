@@ -8,7 +8,8 @@ export default  function AdminLayout({title,children}){
   const [admin,setAdmin] = useState({})
   async function getAdmin(){
     const response = await Admin.authenticate()
-    if(!response.admin || response.admin.username === undefined){
+
+    if(response.status.toLowerCase() !== "authorized"){
         window.location.assign("/admin/login")
     }else{
        setAdmin(response.admin)
@@ -22,8 +23,8 @@ useEffect(() => {
     <Head>
        <title>Admin | {title}</title>
     </Head>
-    <AdminSideBar title={title}/>
-    <AdminSideBar isMobile={true} title={title}/>
+    <AdminSideBar title={title} admin={admin}/>
+    <AdminSideBar isMobile={true} title={title} admin={admin}/>
       <div className="mg__admin-content"
       >
         <div className="mg__admin-header mg-bg-dark">

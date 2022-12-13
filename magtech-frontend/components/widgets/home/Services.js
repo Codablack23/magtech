@@ -14,9 +14,9 @@ export default function Services(){
                 </p>
                <p>Our AI leverages with arbitrage to provide the following services</p>
                <ul className="mg__service-list">
-                 <li><span className="index">01</span> Forex Trading</li>
-                 <li><span className="index">02</span> Crypto Trading</li>
-                 <li><span className="index">03</span> Daily Profits</li>
+                 <li><span className="index"><i className="bi bi-circle-fill mg-small-12"></i></span> Forex Trading</li>
+                 <li><span className="index"><i className="bi bi-circle-fill mg-small-12"></i></span> Crypto Trading</li>
+                 <li><span className="index"><i className="bi bi-circle-fill mg-small-12"></i></span> Daily Profits</li>
                </ul>
               </div>
             </div>

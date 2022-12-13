@@ -35,7 +35,6 @@ export default function DashboardLayout({children,title}){
         <div className="mg__dashboard-layout ">
             <Head>
                 <title>Dashboard | {title}</title>
-                <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
             </Head>
           <div className="mg-contain">
              <SideMenu title={title}>

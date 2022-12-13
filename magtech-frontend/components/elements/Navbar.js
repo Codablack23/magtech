@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import {Image} from 'antd'
 export default function NavBar({pageType}){
     const openNav=()=>{
         const navbar = document.querySelector('#navbar')
@@ -22,7 +23,9 @@ export default function NavBar({pageType}){
         <nav className="mg-nav mg-container mg-bg-component">
             <div className="mg-navbrand-container mg-w-md-100 mg-d-flex mg-align-center mg-justify-between">
             <Link href={'/'}>
-            <a className="mg-nav-brand mg-text-primary">MAGTECH</a>
+            <a className="mg-nav-brand mg-text-primary">
+                <Image src='/images/logo.png' alt="logo"/>
+            </a>
             </Link>
             <p className='mg-open-nav' onClick={openNav}>
                 <i className="bi bi-justify mg-font-25 mg-text-primary"></i>

@@ -12,12 +12,12 @@ export default function Features(){
                </p>
                <p>Some Important feature that should make join Magtech</p>
                <ul className="mg__service-list">
-                 <li><span className="index">01</span> Refer and Earn</li>
-                 <li><span className="index">02</span> Anytime Profits Withdrawal</li>
-                 <li><span className="index">03</span> Daily Profits</li>
-                 <li><span className="index">04</span> Capital Withdrawal after 90 days</li>
-                 <li><span className="index">05</span> Funding</li>
-                 <li><span className="index">05</span> Investment Bots</li>
+                 <li><span className="index"><i className="bi bi-circle-fill"></i></span> Refer and Earn</li>
+                 <li><span className="index"><i className="bi bi-circle-fill"></i></span> Anytime Profits Withdrawal</li>
+                 <li><span className="index"><i className="bi bi-circle-fill"></i></span> Daily Profits</li>
+                 <li><span className="index"><i className="bi bi-circle-fill"></i></span> Capital Withdrawal after 90 days</li>
+                 <li><span className="index"><i className="bi bi-circle-fill"></i></span> Funding</li>
+                 <li><span className="index"><i className="bi bi-circle-fill"></i></span> Investment Bots</li>
                </ul>
               </div>
               <div className="col-6 col-md-12">

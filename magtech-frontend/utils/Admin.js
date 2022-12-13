@@ -15,11 +15,7 @@ class Admin {
         return await axios.post(`${this.api}`,{},config)
   
         .then(res=>{
-            console.log(res.data)
-            return {
-                admin:{username:res.data.username,admin_id:res.data.admin_id},
-                err:res.data.err
-            }
+            return res.data
         })
         .catch(err=>{
             return {
@@ -94,6 +90,36 @@ class Admin {
     }
     async changeRate(data){
         return await axios.post(`${this.api}/update-exchange`,data,config)
+        .then(res=>res.data)
+        .catch(err=>{
+            return {
+                axios_err:err,
+                error:'couldn\'t connect with server please try again later',
+            }
+        })
+    }
+    async addAdmin(data){
+        return await axios.post(`${this.api}/admin/add`,data,config)
+        .then(res=>res.data)
+        .catch(err=>{
+            return {
+                axios_err:err,
+                error:'couldn\'t connect with server please try again later',
+            }
+        })
+    }
+    async deleteAdmin(id){
+        return await axios.post(`${this.api}/admin/delete/${id}`,{},config)
+        .then(res=>res.data)
+        .catch(err=>{
+            return {
+                axios_err:err,
+                error:'couldn\'t connect with server please try again later',
+            }
+        })
+    }
+    async changePassword(data){
+        return await axios.post(`${this.api}/change-password`,data,config)
         .then(res=>res.data)
         .catch(err=>{
             return {

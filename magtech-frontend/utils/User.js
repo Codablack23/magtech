@@ -107,14 +107,11 @@ class User {
            return err
         })
     }
-    async forgotPassword({email}){
-        return await axios.post(`${this.api}/forgot-password/`,{email},this.config)
+    async forgotPassword({username}){
+        return await axios.post(`${this.api}/forgot-password/`,{username},this.config)
         .then(({data})=>{
           return {
-            status:data.status,
-            message:data.message,
-            err:data.error,
-            url:data.url
+            ...data
           }
         })
         .catch(err=>{
@@ -124,12 +121,7 @@ class User {
     async resetPassword(details){
         return await axios.post(`${this.api}/reset-password/`,details,this.config)
         .then(({data})=>{
-          return {
-              status:data.status,
-              message:data.message,
-              err:data.err,
-            
-          }
+          return data
         })
         .catch(err=>{
            return err

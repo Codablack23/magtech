@@ -6,9 +6,12 @@ import Payments from "~/utils/Payment";
 import {useFlutterwave,closePaymentModal} from 'flutterwave-react-v3'
 import { AuthContext } from "~/context/auth/context";
 import { RateContext } from "~/context/payments/rateContext";
+import CryptoCharge from "~/utils/CryptoCharge";
+import { useRouter } from "next/router";
 
 function FundAccountForm({closeModal}){
 
+    const router = useRouter()
     const {paymentRates} = useContext(RateContext)
 
     const [amount,setAmount] = useState(0)
@@ -20,6 +23,34 @@ function FundAccountForm({closeModal}){
         description:"Payment for investment Bot"
     }))
 
+     const payWithCrypto = async()=>{
+    // console.log(window.location.pathname)
+    const origin = window.location.origin
+    const page = window.location.pathname
+
+       const response = await CryptoCharge.charge({
+        local_price: {
+            amount: amount,
+            currency: 'USD'
+        },
+        name: 'Bot Payment',
+        description: 'Bot Payment',
+        metadata: {
+            customer_id: 'id_1005',
+            customer_name: 'Satoshi Nakamoto',
+        },
+        pricing_type:"fixed_price",
+        redirect_url: `${origin}/${page}`,
+        cancel_url: `${window.location.origin}/dashboard/failed`,
+        })
+        if(response.data){
+          const wid = window.open(response.data.hosted_url,"_blank")
+          closeModal()
+        }
+        else{
+            console.log(response)
+        }
+     }
 
     async function flutterwaveCallback(res,payment_id){
         if(res.status === "successful"){
@@ -95,7 +126,12 @@ function FundAccountForm({closeModal}){
     </div>
    {isLoading?
     <button className="mg-btn-warning mg-w-100"><Spin/></button>
-   :<button className="mg-btn-warning mg-w-100" onClick={fundAccount}>Pay</button>
+   :<button className="mg-btn-warning mg-w-100" onClick={fundAccount}>Pay With Flutterwave</button>
+   }
+   <br />
+     {isLoading?
+    <button className="mg-btn-warning mg-w-100"><Spin/></button>
+   :<button className="mg-btn-outline-warning mg-w-100" type="button" onClick={payWithCrypto}>Pay With Crypto</button>
    }
  </form>
     )

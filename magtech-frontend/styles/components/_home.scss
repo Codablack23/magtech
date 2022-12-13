@@ -7,8 +7,10 @@
     flex-wrap:wrap;
     transition: all ease-in 0.7s;
     .mg-nav-brand{
-        font-size: $font_size * 1.5;
-        font-weight: 600;
+      max-width: 150px;
+      img{
+        width: 100%;
+      }
     }
     .mg-open-nav{
         display: none;
@@ -293,6 +295,9 @@
         font-weight: 600;
         display: inline-block;
         margin-right: 10px;
+        i{
+            font-size: 6px;
+        }
     }
     
  }
