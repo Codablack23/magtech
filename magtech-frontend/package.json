@@ -6,7 +6,8 @@
     "dev": "next dev -p 3005",
     "build": "next build",
     "start": "next start",
-    "d_install":"npm install --legacy-peer-deps"
+    "d_install":"npm install --legacy-peer-deps",
+    "lz_install":"npm install lazerpay-react --legacy-peer-deps"
   },
   "dependencies": {
     "@coinbase/cbpay-js": "^1.6.0",
