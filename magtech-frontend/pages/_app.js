@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import Script from 'next/script';
 import 'antd/dist/antd.css'
 import '../styles/style.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -22,14 +22,15 @@ function MyApp({ Component, pageProps }) {
   //       "details": true,
   //       "container_id": "tradingview_796e4"
   //     }
+//   Start of HubSpot Embed Code -->
+//   <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/26734662.js"></script>
+// <!-- End of HubSpot Embed Code 
   //   )
   return (
     <AuthContextProvider>
     <RatesProvider>
     <div className='mg-bg-dark'>
-      <Head>
-        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-      </Head>
+      <Script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/26734662.js"/>
       <Component {...pageProps} />
      </div>
      </RatesProvider>

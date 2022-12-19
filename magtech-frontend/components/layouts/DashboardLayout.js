@@ -2,6 +2,7 @@ import {Spin} from "antd"
 import RatesProvider from '~/context/payments/rateContext'
 import Head from "next/head"
 import Link from "next/link"
+import Script from "next/script"
 import { useContext, useEffect, useState } from "react"
 import SideMenu from "~/components/elements/dashboard/SideMenu"
 import { AuthContext } from "~/context/auth/context"
@@ -36,10 +37,11 @@ export default function DashboardLayout({children,title}){
             <Head>
                 <title>Dashboard | {title}</title>
             </Head>
+           
           <div className="mg-contain">
              <SideMenu title={title}>
                <div className="mg__link-text">
-                <Link href={"/"}>
+                <Link href={"/"} legacyBehavior>
                 <a className="mg-small-22 mg-text-white">Magtech <span className="mg-text-grey mg-small-18">Dashboard</span></a>
                 </Link>
                 </div>

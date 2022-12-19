@@ -1,5 +1,5 @@
 {
-  "name": "ninjalist",
+  "name": "magtech_frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,9 +16,10 @@
     "coinbase-commerce-node": "^1.0.4",
     "flutterwave": "^2.2.8",
     "flutterwave-react-v3": "^1.2.1",
-    "next": "10.0.4",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "lazerpay-react": "^1.2.5",
+    "next": "13.0.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-loading-skeleton": "^3.1.0",
     "sass": "^1.52.1",
     "yarn": "^1.22.18"

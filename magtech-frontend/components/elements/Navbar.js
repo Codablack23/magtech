@@ -22,7 +22,7 @@ export default function NavBar({pageType}){
     return(
         <nav className="mg-nav mg-container mg-bg-component">
             <div className="mg-navbrand-container mg-w-md-100 mg-d-flex mg-align-center mg-justify-between">
-            <Link href={'/'}>
+            <Link href={'/'} legacyBehavior>
             <a className="mg-nav-brand mg-text-primary">
                 <Image src='/images/logo.png' alt="logo"/>
             </a>
@@ -65,10 +65,10 @@ export default function NavBar({pageType}){
 
             } */}
             
-             <Link href={"/account/"}>
+             <Link href={"/account/"} legacyBehavior>
               <a className="mg-nav-links mg-text-primary">Login</a>
              </Link>
-             <Link href={"/account/register"}>
+             <Link href={"/account/register"} legacyBehavior>
               <a className="mg-nav-links mg-text-white mg-bg-primary mg-rounded-pill"> Register</a>
              </Link>
             </div>

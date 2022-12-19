@@ -1,4 +1,4 @@
-import { Progress,notification, Spin} from "antd"
+import { Progress,notification, Spin, message} from "antd"
 import { useState,useEffect,useContext } from "react"
 import { Modal } from "~/components/widgets/global/Modal";
 import {getConfig} from '~/utils/flutterwave'
@@ -6,12 +6,13 @@ import Payments from "~/utils/Payment";
 import {useFlutterwave,closePaymentModal} from 'flutterwave-react-v3'
 import { AuthContext } from "~/context/auth/context";
 import { RateContext } from "~/context/payments/rateContext";
-import CryptoCharge from "~/utils/CryptoCharge";
-import { useRouter } from "next/router";
+import { useCrypto } from "~/utils/customhooks/useCrypo";
 
 function FundAccountForm({closeModal}){
 
-    const router = useRouter()
+    const {authState} = useContext(AuthContext)
+    const [pID,setPID] = useState(null)
+    const {user} = authState
     const {paymentRates} = useContext(RateContext)
 
     const [amount,setAmount] = useState(0)
@@ -23,33 +24,63 @@ function FundAccountForm({closeModal}){
         description:"Payment for investment Bot"
     }))
 
-     const payWithCrypto = async()=>{
-    // console.log(window.location.pathname)
-    const origin = window.location.origin
-    const page = window.location.pathname
-
-       const response = await CryptoCharge.charge({
-        local_price: {
-            amount: amount,
-            currency: 'USD'
+    const startPayment = useCrypto({
+        onClose:async()=>{
+            await Payments.deletePayment(pID)
+            closeModal()
+            message.info("Payment Was Cancelled")
         },
-        name: 'Bot Payment',
-        description: 'Bot Payment',
-        metadata: {
-            customer_id: 'id_1005',
-            customer_name: 'Satoshi Nakamoto',
+        async onSuccess(response){
+            const paymentStatus = await Payments.completePayment(payment_id)
+            closeModal()
+            if(paymentStatus.status === "Success"){
+              notification.success({
+               message:<h2 className="mg-text-white">{paymentStatus.status}</h2>,
+               description:<p className="mg-text-primary">{paymentStatus.message}</p>,
+               className:"mg-bg-dark"
+            })
+           }else {
+            notification.error({
+                message:<h2 className="mg-text-white">Payment Error</h2>,
+                description:<p className="mg-text-danger">Payment couldn't be completed please try again</p>,
+                className:"mg-bg-component"
+            })
+           }
         },
-        pricing_type:"fixed_price",
-        redirect_url: `${origin}/${page}`,
-        cancel_url: `${window.location.origin}/dashboard/failed`,
-        })
-        if(response.data){
-          const wid = window.open(response.data.hosted_url,"_blank")
-          closeModal()
+        async onError(response){
+            await Payments.deletePayment(pID)
+            console.log(response)
+            closeModal()
+        },
+        amount:parseFloat(amount) + 1,
+        name:user.name,
+        product_name:"Funding"
+    })
+     const payWithCrypto =async()=>{
+        if(amount > 10){
+            const payment = await Payments.startPayment({
+                amount:amount,
+                description:"Payment for investment Bot"
+            })
+            if(payment.payment_id){
+                setPID(payment.payment_id)
+                startPayment()
+            }else{
+                notification.error({
+                    message:<h2 className="mg-text-white">Payment Error</h2>,
+                    description:<p className="mg-text-danger">there might have been an error with server please try again later</p>,
+                    className:"mg-bg-component"
+                })
+            }
         }
         else{
-            console.log(response)
+            notification.error({
+                message:<h2 className="mg-text-white">Invalid</h2>,
+                description:<p className="mg-text-danger">Please your amount should atleast be 10USD</p>,
+                className:"mg-bg-component"
+            })
         }
+       
      }
 
     async function flutterwaveCallback(res,payment_id){

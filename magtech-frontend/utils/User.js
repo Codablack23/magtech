@@ -77,25 +77,9 @@ class User {
            return err
         })
     }
-    async startPasswordChange(){
-        return await axios.post(`${this.api}/change-password`,{},this.config)
-        .then((res)=>{
-          return {
-              message:res.data.message,
-              err:res.data.err,
-              status:res.data.status,
-              url:res.data.url
-          }
-        })
-        .catch(err=>{
-           return err
-        })
-    }
     async changePassword(details){
      
-        return await axios.post(`${this.api}/change-password/${details.reset_code}`,{
-            new_password:details.new_password
-        },this.config)
+        return await axios.post(`${this.api}/change-password`,details,this.config)
         .then((res)=>{
           return {
               status:res.data.status,

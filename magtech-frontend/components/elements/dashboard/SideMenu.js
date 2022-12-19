@@ -68,7 +68,7 @@ export default function SideMenu({isMobile,title,children}){
             </div>
            <div className="mg__dashboard-links">
             {links.map(link=>(
-                <Link href={link.url} key={link.name}>
+                <Link href={link.url} key={link.name} legacyBehavior>
                 <a className={`mg__dashboard-link ${title===link.name?"active":null}`}>
                 <i className={link.icon}></i>
                 <span className="mg__link-text">{link.name}</span>
@@ -83,7 +83,7 @@ export default function SideMenu({isMobile,title,children}){
                 </a>
            </div>
            <div>
-           <Link href={"/dashboard/settings"} >
+           <Link href={"/dashboard/settings"} legacyBehavior>
                <a className="mg__dashboard-settings-link mg__link-text">
                 <i className="bi bi-gear"></i>
                 <span>Settings</span>
@@ -92,7 +92,7 @@ export default function SideMenu({isMobile,title,children}){
            </div>
            <Modal 
             onCancel={()=>setIsShowing(false)}
-            visible={isShowing}
+            open={isShowing}
             bodyStyle={{background:"#181a20"}}
             footer={null}
            >

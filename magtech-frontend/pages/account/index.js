@@ -87,7 +87,7 @@ export default function LoginPage(){
                    </div>
                    <p className="mg-text-danger mg-small-12">{errors.password}</p>
 
-                   <Link href={"/account/forgot-password"}>
+                   <Link href={"/account/forgot-password"} legacyBehavior>
                        <a className="mg-text-grey"><small>Forgot Password?</small></a>
                    </Link>
                    <br /><br />
