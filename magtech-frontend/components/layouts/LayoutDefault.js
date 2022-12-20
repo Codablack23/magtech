@@ -6,6 +6,7 @@ export default function LayoutDefault({children,title,pageType}){
         <div className="mg-layout mg-bg-dark">
             <Head>
                <title>{title}</title>
+               <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
             </Head>
             <NavBar pageType={pageType}/>
             <div>

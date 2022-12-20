@@ -36,6 +36,7 @@ export default function DashboardLayout({children,title}){
         <div className="mg__dashboard-layout ">
             <Head>
                 <title>Dashboard | {title}</title>
+                <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
             </Head>
            
           <div className="mg-contain">

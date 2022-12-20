@@ -24,7 +24,7 @@ export default function NavBar({pageType}){
             <div className="mg-navbrand-container mg-w-md-100 mg-d-flex mg-align-center mg-justify-between">
             <Link href={'/'} legacyBehavior>
             <a className="mg-nav-brand mg-text-primary">
-                <Image src='/images/logo.png' alt="logo"/>
+                <Image src='/images/logo.png' alt="logo" preview={false}/>
             </a>
             </Link>
             <p className='mg-open-nav' onClick={openNav}>

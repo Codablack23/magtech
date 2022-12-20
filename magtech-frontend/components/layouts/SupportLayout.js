@@ -9,6 +9,7 @@ export default function SupportDashboard({children,title}){
             <title>
                 Support | {title}
             </title>
+            <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
         </Head>
         <SupportSideBar title={title}/>
         <SupportSideBar title={title} isMobile={true}/>

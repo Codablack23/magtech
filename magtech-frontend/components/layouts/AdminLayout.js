@@ -22,6 +22,7 @@ useEffect(() => {
     <main className="mg-layout-default mg-bg-dark">
     <Head>
        <title>Admin | {title}</title>
+       <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
     </Head>
     <AdminSideBar title={title} admin={admin}/>
     <AdminSideBar isMobile={true} title={title} admin={admin}/>

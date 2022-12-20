@@ -10,7 +10,7 @@ export default function Features(){
                >
                 Features
                </p>
-               <p>Some Important feature that should make join Magtech</p>
+               <p>Some Important features that should make you join Magtech</p>
                <ul className="mg__service-list">
                  <li><span className="index"><i className="bi bi-circle-fill"></i></span> Refer and Earn</li>
                  <li><span className="index"><i className="bi bi-circle-fill"></i></span> Anytime Profits Withdrawal</li>
