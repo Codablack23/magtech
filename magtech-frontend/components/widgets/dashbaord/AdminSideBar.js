@@ -55,12 +55,12 @@ export default function AdminSideBar({title,isMobile,admin}){
           </header>
           <aside className="mg-admin-links">
             {links.filter(link=>!link.superUser).map(link=>(
-                <Link href={link.url}>
+                <Link href={link.url} legacyBehavior>
                  <a className={`mg-admin-link ${link.name===title?"active":""}`}>{link.name}</a>
                 </Link>
             ))}
              {admin.isSuperUser?links.filter(link=>(link.superUser)).map(link=>(
-                <Link href={link.url}>
+                <Link href={link.url} legacyBehavior>
                  <a className={`mg-admin-link ${link.name===title?"active":""}`}>{link.name}</a>
                 </Link>
             )):null}

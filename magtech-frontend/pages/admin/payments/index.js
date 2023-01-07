@@ -37,7 +37,7 @@ export default function AdminPaymentsPage(){
                 </div>
                 <div className="mg-font-euclid">
                    <p className="mg-text-grey mg-small-12">{new Date(p.createdAt).toDateString()}</p>
-                   <p className="mg-text-grey mg-small-12">{p.email}</p>
+                   <p className="mg-text-grey mg-font-bold mg-small-12">User : {p.username}</p>
                   </div>
                   <div>
                    <p className={`${p.status==="paid"?"mg-text-primary":"mg-text-danger"} mg-small-12`}>{p.status}</p>
