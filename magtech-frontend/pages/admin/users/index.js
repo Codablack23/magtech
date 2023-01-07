@@ -2,7 +2,6 @@ import AdminLayout from "~/components/layouts/AdminLayout";
 import Admin from "~/utils/Admin";
 import {Modal, notification, Spin} from 'antd'
 import {useEffect,useState} from 'react'
-import Link from "next/Link";
 import {AdminInvestment as Investment} from "~/components/widgets/dashbaord/Investment";
 
 
